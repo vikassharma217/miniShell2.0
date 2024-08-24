@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **env)
 		input = init_expander(input, &data);
 		cmd_list = init_parser(input);
 		data.head = cmd_list;
-		//init_execution(cmd_list, &data);
+		init_execution(cmd_list, &data);
 		free_parsed_tokens(&cmd_list, &data);
 	}
 	return (EXIT_SUCCESS);

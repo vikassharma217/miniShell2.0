@@ -98,9 +98,69 @@ typedef struct s_data
 	t_mode						mode;
 }								t_data;
 
-// builtin functions
-int								f_unset(char *name, t_elst **head);
-int								ft_unset(t_cmd *cmd, t_elst **head);
+//builtins
+/*builtin.c*/
+int	builtin(t_cmd *cmd, t_data *data);
+
+/*builtin_utils.c*/
+int	check_unset(t_cmd *cmd, t_data *data);
+bool	is_valid(char *str);
+int	check_cd(t_cmd *cmd, t_data *data);
+
+/*echo.c*/
+int echo(t_cmd *cmd);
+
+/*env.c*/
+int env(t_data *data);
+
+/*exit.c*/
+void	ft_exit(t_cmd *cmd, t_data *data, int status_code);
+
+/*ft_cd.c*/
+int	ft_cd(char *path, t_data *data);
+
+/*ft_export.c*/
+int	ft_export(t_cmd *cmd, t_data *data);
+
+/*pwd.c*/
+int pwd(void);
+
+/*unset.c*/
+int	unset(t_cmd *cmd, t_elst **head);
+int	f_unset(char *name, t_elst **head);
+
+//execution
+/*binaries.c*/
+void	binaries(t_cmd *cmd, t_data *data);
+void	free_all(char **path);
+
+/*binaries_utils.c*/
+char	*concat_and_free(char *str1, char *str2);
+bool	is_path(t_cmd *cmd);
+bool	is_str(const char *str, int c);
+void	msg_error(char *cmd, t_data *data);
+
+/*execute.c*/
+void	init_execution(t_cmd *cmd_list, t_data *data);
+void	handle_parent_process(pid_t pid, t_data *data);
+void	handle_child_process(t_cmd *cmd_list, t_data *data,
+		void (*execute)(t_cmd *, t_data *));
+void	execute_command(t_cmd *node, t_data *data);
+void	execute_util(t_cmd *node, t_data *data);
+
+/*pipe_execution.c*/
+void	pipe_execution(t_cmd *node, t_data *data);
+void	child_pid_fails(t_data *data);
+void	pipe_fails(t_data *data);
+
+/*redirections.c*/
+void	redirections(t_cmd *cmd, t_data *data);
+
+/*redirections1.c*/
+void	r_hd(t_data *data, t_cmd *node);
+
+/*utils_linked_lists.c*/
+size_t	size_of_list(t_cmd *list);
 
 // validation_error_handeling
 void							exit_minishell(int status_code, t_data *data);

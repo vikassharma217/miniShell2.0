@@ -13,8 +13,15 @@
 NAME = minishell
 
 SRC = main.c \
-		builtins/ft_unset.c\
-		parser/parser.c  parser/env_var.c\
+		builtins/builtin.c builtins/builtin_utils.c \
+		builtins/echo.c builtins/env.c builtins/exit.c \
+		builtins/ft_cd.c builtins/ft_export.c builtins/pwd.c \
+		builtins/unset.c \
+		execution/binaries.c execution/binaries_utils.c \
+		execution/execute.c execution/pipe_execution.c \
+		execution/redirections.c execution/redirections1.c \
+		execution/utils_linked_lists.c \
+		parser/parser.c  parser/env_var.c \
 		parser/expander.c parser/handel_quotes.c \
 		signals/signals.c \
 		utils/utils_list.c utils/utils_parser.c \
