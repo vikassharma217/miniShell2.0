@@ -101,11 +101,12 @@ typedef struct s_data
 //builtins
 /*builtin.c*/
 int	builtin(t_cmd *cmd, t_data *data);
+bool	is_valid(char *str);
 
-/*builtin_utils.c*/
+/*builtin_utils.c
 int	check_unset(t_cmd *cmd, t_data *data);
 bool	is_valid(char *str);
-int	check_cd(t_cmd *cmd, t_data *data);
+int	check_cd(t_cmd *cmd, t_data *data); */
 
 /*echo.c*/
 int echo(t_cmd *cmd);

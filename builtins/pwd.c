@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/01 12:54:48 by caslan            #+#    #+#             */
-/*   Updated: 2024/04/04 14:04:55 by vsharma          ###   ########.fr       */
+/*   Created: 2024/08/24 17:53:40 by rscherl           #+#    #+#             */
+/*   Updated: 2024/08/24 17:53:43 by rscherl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 int pwd(void)
 {
-    char cwd[4096]; //PATH_MAX
+    char cwd[PATH_MAX]; //PATH_MAX
 
-    if (getcwd(cwd, 4096) != NULL)
+    if (getcwd(cwd, PATH_MAX) != NULL)
     {
         printf("%s\n", cwd); // ft_putendl_fd(cwd, STDOUT_FILENO); //? 
         return (EXIT_SUCCESS);

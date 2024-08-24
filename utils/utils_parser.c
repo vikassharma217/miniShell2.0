@@ -17,7 +17,7 @@ bool	ft_onstr(const char *str, int ch)
 	size_t	i;
 
 	if (!str)
-		return (NULL);
+		return (false);
 	i = 0;
 	while (str[i])
 	{

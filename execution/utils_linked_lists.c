@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_linked_lists.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 17:29:24 by caslan            #+#    #+#             */
-/*   Updated: 2024/04/04 14:05:16 by vsharma          ###   ########.fr       */
+/*   Created: 2024/08/24 17:55:52 by rscherl           #+#    #+#             */
+/*   Updated: 2024/08/24 17:56:37 by rscherl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

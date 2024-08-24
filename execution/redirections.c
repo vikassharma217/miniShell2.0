@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 13:24:50 by caslan            #+#    #+#             */
-/*   Updated: 2024/05/08 13:24:44 by vsharma          ###   ########.fr       */
+/*   Created: 2024/08/24 17:55:41 by rscherl           #+#    #+#             */
+/*   Updated: 2024/08/24 17:55:42 by rscherl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

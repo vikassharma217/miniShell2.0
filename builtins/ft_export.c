@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/01 11:06:26 by caslan            #+#    #+#             */
-/*   Updated: 2024/05/03 10:49:45 by vsharma          ###   ########.fr       */
+/*   Created: 2024/08/24 17:53:28 by rscherl           #+#    #+#             */
+/*   Updated: 2024/08/24 17:53:30 by rscherl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	ft_exported(char *name, t_data *data)
+static void	set_exported_flag(char *name, t_data *data)
 {
-	t_elst	*temp;
+	t_elst	*current;
 
-	temp = data->env_lst;
-	while (temp != NULL)
+	current = data->env_lst;
+	while (current != NULL)
 	{
-		if (ft_is_str_equal(name, temp->name))
+		if (ft_is_str_equal(name, current->name))
 		{
-			temp->exported = true;
+			current->exported = true;
 			break ;
 		}
-		temp = temp->next;
+		current = current->next;
 	}
 }
 
@@ -36,16 +36,75 @@ static int	export_error_message(char *n)
 	return (EXIT_FAILURE);
 }
 
-static int	for_one(t_data *data)
+static int	print_exported_vars(t_data *data)
 {
-	t_elst	*temp;
+	t_elst	*current;
 
-	temp = data->env_lst;
-	while (temp != NULL)
+	current = data->env_lst;
+	while (current != NULL)
 	{
-		if (temp->exported)
-			printf("declare -x %s=\"%s\"\n", temp->name, temp->value);
-		temp = temp->next;
+		if (current->exported)
+			printf("declare -x %s=\"%s\"\n", current->name, current->value);
+		current = current->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	ft_export(t_cmd *cmd, t_data *data)
+{
+	int		status;
+	size_t	i;
+
+	if (cmd->argc == 1)
+		return (print_exported_vars(data));
+	status = EXIT_SUCCESS;
+	i = 0;
+	while (cmd->argv[++i])
+	{
+		if (!is_valid(cmd->argv[i]))
+			status = export_error_message(cmd->argv[i]);
+		else if (ft_onstr(cmd->argv[i], '='))
+			store_usr_var(cmd->argv[i], &data->env_lst, true);
+		else
+			set_exported_flag(cmd->argv[i], data);
+	}
+	return (status);
+}
+
+/*static void	ft_exported(char *name, t_data *data)
+{
+	t_elst	*current;
+
+	current = data->env_lst;
+	while (current != NULL)
+	{
+		if (ft_is_str_equal(name, current->name))
+		{
+			current->exported = true;
+			break ;
+		}
+		current = current->next;
+	}
+}
+
+static int	export_error_message(char *n)
+{
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(n, STDERR_FILENO);
+	ft_putendl_fd("': not a valid", STDERR_FILENO);
+	return (EXIT_FAILURE);
+}
+
+static int	print_exported_vars(t_data *data)
+{
+	t_elst	*current;
+
+	current = data->env_lst;
+	while (current != NULL)
+	{
+		if (current->exported)
+			printf("declare -x %s=\"%s\"\n", current->name, current->value);
+		current = current->next;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -56,7 +115,7 @@ int	ft_export(t_cmd *cmd, t_data *data)
 	size_t	i;
 
 	if (cmd->argc == 1)
-		return (for_one(data));
+		return (print_exported_vars(data));
 	err = EXIT_SUCCESS;
 	i = 0;
 	while (cmd->argv[++i])
@@ -72,4 +131,4 @@ int	ft_export(t_cmd *cmd, t_data *data)
 			ft_exported(cmd->argv[i], data);
 	}
 	return (err);
-}
+}*/

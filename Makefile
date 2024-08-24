@@ -13,7 +13,7 @@
 NAME = minishell
 
 SRC = main.c \
-		builtins/builtin.c builtins/builtin_utils.c \
+		builtins/builtin.c \
 		builtins/echo.c builtins/env.c builtins/exit.c \
 		builtins/ft_cd.c builtins/ft_export.c builtins/pwd.c \
 		builtins/unset.c \

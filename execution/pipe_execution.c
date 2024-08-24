@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 11:55:24 by caslan            #+#    #+#             */
-/*   Updated: 2024/05/07 10:45:17 by vsharma          ###   ########.fr       */
+/*   Created: 2024/08/24 17:55:03 by rscherl           #+#    #+#             */
+/*   Updated: 2024/08/24 17:55:06 by rscherl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

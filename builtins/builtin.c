@@ -3,14 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 18:07:39 by caslan            #+#    #+#             */
-/*   Updated: 2024/05/10 14:06:33 by vsharma          ###   ########.fr       */
+/*   Created: 2024/08/24 17:51:38 by rscherl           #+#    #+#             */
+/*   Updated: 2024/08/24 17:51:43 by rscherl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	check_cd(t_cmd *cmd, t_data *data)
+{
+	if (cmd->argc > 2)
+	{
+		ft_putstr_fd("cd: too many arguments\n", 2);
+		return (EXIT_FAILURE);
+	}
+	else
+		return (ft_cd(cmd->argv[1], data));
+}
+
+static int	check_unset(t_cmd *cmd, t_data *data)
+{
+	if (cmd->argc == 1)
+		return (EXIT_SUCCESS);
+	return (unset(cmd, &data->env_lst));
+}
+
+bool	is_valid(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (ft_is_str_equal(str, "="))
+		return (false);
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (false);
+		i += 1;
+	}
+	return (i > 0 && !isdigit(str[0]));
+}
 
 int	builtin(t_cmd *cmd, t_data *data)
 {
