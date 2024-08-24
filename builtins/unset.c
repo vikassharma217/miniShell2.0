@@ -33,7 +33,7 @@ int	f_unset(char *name, t_elst **head)
 		error_message_unset(name);
 		return (EXIT_FAILURE);
 	}
-	while (current)
+	while (current) //updated that *head will be changed if unset to the next
 	{
 		if (ft_is_str_equal(name, current->name))
 		{

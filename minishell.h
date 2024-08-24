@@ -215,6 +215,7 @@ void	handel_signals(t_data *data);
 
 // utils
 char							*ft_lltoa(long long n);
+long long						ft_atol(const char *str);
 t_cmd							*newnode_par(int argc);
 char							*get_fromvlst(char *var_name, t_elst **head);
 char							*get_varvalue_fromvlst(char *var_name,

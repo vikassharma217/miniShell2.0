@@ -18,31 +18,6 @@ static void	non_numeric_args(t_data *data)
 	ft_putendl_fd("minishell: exit: numeric argument required", STDERR_FILENO);
 }
 
-static long long	ft_atol(const char *str)
-{
-	long long	res;
-	int			signal;
-	int			i;
-
-	res = 0;
-	signal = 1;
-	i = 0;
-	while (ft_isspace(str[i]))
-		i += 1;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			signal = -1;
-		i += 1;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		res = (res * 10) + (str[i] - '0');
-		i += 1;
-	}
-	return (res * signal);
-}
-
 static bool	check_long(char *str)
 {
 	long long	result;
