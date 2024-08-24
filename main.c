@@ -6,15 +6,54 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:00:09 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/21 12:04:14 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/24 18:03:18 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Validate input and perform expansion
+int	validate_and_expand_input(char **input, t_data *data)
+{
+	if (!*input || **input == '\0')
+	{
+		printf("input is empty\n");
+		return (0);
+	}
+	add_history(*input);
+	if (!input_validation(*input, data))
+		return (0);
+	*input = init_expander(*input, data);
+	if (!*input)
+		return (0);
+	return (1);
+}
+
+int	validate_input(char *input, t_data *data, t_cmd **cmd_list)
+{
+	// Validate and expand the input
+	if (!validate_and_expand_input(&input, data))
+	{
+		free(input);
+		return (1); // Continue the loop
+	}
+	// Parse and execute the command list
+	*cmd_list = init_parser(input);
+	if (!*cmd_list)
+	{
+		free(input);
+		return (1); // Continue the loop
+	}
+	data->head = *cmd_list;
+	init_execution(*cmd_list, data);
+	free_parsed_tokens(cmd_list, data);
+	free(input);
+	return (1); // Continue the loop
+}
+
+// Initialize the shell, environment, and data structures
 int	init_minishell(char **env, t_data *data, t_cmd **cmd_list)
 {
-	//printf("Init minishell\n");
 	if (isatty(STDIN_FILENO))
 		data->mode = INTERACTIVE;
 	else
@@ -22,25 +61,22 @@ int	init_minishell(char **env, t_data *data, t_cmd **cmd_list)
 	data->env = env;
 	if (env)
 	{
-		//printf("env is not null\n");
-        data->env_lst = init_env_lst(env);
-        if (!data->env_lst)
-        {
-            fprintf(stderr, "Failed to initialize environment list\n");
-            return (1);
-        }
-    }
-	else
-	{
-		data->env_lst = NULL;
+		data->env_lst = init_env_lst(env);
+		if (!data->env_lst)
+		{
+			fprintf(stderr, "Failed to initialize environment list\n");
+			return (1);
+		}
 	}
+	else
+		data->env_lst = NULL;
 	data->head = NULL;
 	data->exit_code = 0;
 	*cmd_list = NULL;
-	//handel_signals(data);
 	return (0);
 }
 
+// Handle input cleaning, freeing, and prompt exit (Ctrl+D)
 char	*clean_input(t_data *data)
 {
 	char	*input;
@@ -57,42 +93,31 @@ char	*clean_input(t_data *data)
 	return (trim_whitespace(input));
 }
 
+// Main entry point
 int	main(int argc, char **argv, char **env)
 {
-	char	*input;
 	t_data	data;
 	t_cmd	*cmd_list;
+	char	*input;
 
-	//printf("Start of minishell\n");
 	if (argc != 1 || argv[1])
-		return (write(2, "Error: too many arguments\n", 26));
-    if (!getenv("_"))
-    {
-        fprintf(stderr, "Error: minishell is not running in a valid environment\n");
-        return (1);
-    }
+	{
+		write(2, "Error: too many arguments\n", 26);
+		return (EXIT_FAILURE);
+	}
+	if (!getenv("_"))
+	{
+		fprintf(stderr,
+			"Error: minishell is not running in a valid environment\n");
+		return (EXIT_FAILURE);
+	}
 	if (init_minishell(env, &data, &cmd_list) != 0)
-    {
-        fprintf(stderr, "Failed to initialize minishell\n");
-        return (1);
-    }
+		return (EXIT_FAILURE);
 	while (1)
 	{
 		input = clean_input(&data);
-		if (!input || *input == '\0')
-		{
-			printf("input is empty\n");
-			free(input);
-			continue ;
-		}
-		add_history(input);
-		if (!input_validation(input, &data))
-			continue ;
-		input = init_expander(input, &data);
-		cmd_list = init_parser(input);
-		data.head = cmd_list;
-		init_execution(cmd_list, &data);
-		free_parsed_tokens(&cmd_list, &data);
+		if (!validate_input(input, &data, &cmd_list))
+			break ;
 	}
 	return (EXIT_SUCCESS);
 }
