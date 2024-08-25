@@ -20,7 +20,7 @@ static int	check_cd(t_cmd *cmd, t_data *data)
 		return (EXIT_FAILURE);
 	}
 	else
-		return (ft_cd(cmd->argv[1], data));
+		return (cd(cmd->argv[1], data));
 }
 
 static int	check_unset(t_cmd *cmd, t_data *data)
@@ -41,7 +41,7 @@ bool	is_valid(char *str)
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (false);
-		i += 1;
+		i++;
 	}
 	return (i > 0 && !isdigit(str[0]));
 }
@@ -58,7 +58,7 @@ int	builtin(t_cmd *cmd, t_data *data)
 	else if (ft_is_str_equal(cmd->argv[0], "unset"))
 		data->exit_code = check_unset(cmd, data);
 	else if (ft_is_str_equal(cmd->argv[0], "export"))
-		data->exit_code = ft_export(cmd, data);
+		data->exit_code = export(cmd, data);
 	else if (ft_is_str_equal(cmd->argv[0], "cd"))
 		data->exit_code = check_cd(cmd, data);
 	else if (ft_strchr(cmd->argv[0], '=') && is_valid(cmd->argv[0]))

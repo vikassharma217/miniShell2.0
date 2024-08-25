@@ -29,15 +29,15 @@ static bool	check_long(char *str)
 	if (*str == '-' || *str == '+')
 		str += 1;
 	while (*str)
-    {
-        if (!isdigit(*str))
-            return false;
-        digit = *str - '0';
-        if (result > (LLONG_MAX - digit) / 10)
-            return false;
-        result = result * 10 + digit;
-        str++;
-    }
+	{
+		if (!isdigit(*str))
+			return (false);
+		digit = *str - '0';
+		if (result > (LLONG_MAX - digit) / 10)
+			return (false);
+		result = result * 10 + digit;
+		str++;
+	}
 	return (true);
 }
 
@@ -61,8 +61,8 @@ static bool	process_exit_args(t_cmd *cmd, t_data *data)
 	{
 		data->exit_code = EXIT_FAILURE;
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
-        return false;
-    }
+		return (false);
+	}
 	if (cmd->argc == 2)
 	{
 		if (check_digits(cmd->argv[1]) && check_long(cmd->argv[1]))

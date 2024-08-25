@@ -16,7 +16,7 @@ void	init_oldpwd(t_elst **head)
 {
 	char	*temp;
 
-	f_unset("OLDPWD", head);
+	unset_variable("OLDPWD", head);
 	temp = ft_strjoin("OLDPWD=", getenv("HOME"));
 	store_usr_var(temp, head, true);
 	free(temp);

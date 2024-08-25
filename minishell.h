@@ -36,7 +36,6 @@
 
 // ft_cd
 # define PATH_MAX 4096
-# define OLD_PWD_NOT_SET "minishell: cd: OLDPWD not set"
 
 # define CNTL_C 1
 # define CNTL_D 2
@@ -118,17 +117,17 @@ int env(t_data *data);
 void	ft_exit(t_cmd *cmd, t_data *data, int status_code);
 
 /*ft_cd.c*/
-int	ft_cd(char *path, t_data *data);
+int	cd(char *target_dir, t_data *data);
 
 /*ft_export.c*/
-int	ft_export(t_cmd *cmd, t_data *data);
+int	export(t_cmd *cmd, t_data *data);
 
 /*pwd.c*/
 int pwd(void);
 
 /*unset.c*/
 int	unset(t_cmd *cmd, t_elst **head);
-int	f_unset(char *name, t_elst **head);
+int	unset_variable(char *name, t_elst **head);
 
 //execution
 /*binaries.c*/

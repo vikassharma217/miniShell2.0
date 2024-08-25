@@ -65,7 +65,7 @@ int	store_usr_var(char *cmd, t_elst **head, bool export)
 	line = split_env_var(cmd);
 	if (export_state(line[0], head) && !export)
 		export = true;
-	f_unset(line[0], head);
+	unset_variable(line[0], head);
 	lstadd_back_env(head, newnode_env(line[0], line[1], export));
 	free(line);
 	return (EXIT_SUCCESS);

@@ -14,12 +14,25 @@
 
 static void	error_message_unset(char *name)
 {
-	ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
+	ft_putstr_fd("minishell: unset: `", STDERR_FILENO); //check`or '
 	ft_putstr_fd(name, STDERR_FILENO);
-	ft_putendl_fd("not a valid", STDERR_FILENO);
+	ft_putendl_fd("': not a valid identifier", STDERR_FILENO); // ' before not a valid?
 }
 
-int	f_unset(char *name, t_elst **head)
+static void	remove_current_node(t_elst **head, t_elst *current, t_elst *prev)
+{
+	if (prev == NULL) //updated that *head will be changed if unset to the next
+		*head = current->next;
+	else
+	{
+		prev->next = current->next;
+	}
+	free(current->name);
+	free(current->value);
+	free(current);
+}
+
+int	unset_variable(char *name, t_elst **head)
 {
 	t_elst	*current;
 	t_elst	*prev;
@@ -37,13 +50,7 @@ int	f_unset(char *name, t_elst **head)
 	{
 		if (ft_is_str_equal(name, current->name))
 		{
-			if (prev == NULL)
-				*head = current->next;
-			else
-				prev->next = current->next;
-			free(current->name);
-			free(current->value);
-			free(current);
+			remove_current_node(head, current, prev);
 			return (EXIT_SUCCESS);
 		}
 		prev = current;
@@ -55,19 +62,19 @@ int	f_unset(char *name, t_elst **head)
 int	unset(t_cmd *cmd, t_elst **head)
 {
 	int	i;
+	int	status;
 
+	status = EXIT_SUCCESS;
 	if (!cmd || !cmd->argv || !head)
 		return (EXIT_FAILURE);
 	i = 0;
 	while (++i < cmd->argc)
-		f_unset(cmd->argv[i], head);
-	return (EXIT_SUCCESS);
+	{
+		if (unset_variable(cmd->argv[i], head) == EXIT_FAILURE)
+			status = EXIT_FAILURE;	// if unset Variable fails status will be Failure like orginal but continue with the other cmd
+	}
+	return (status);
 }
-
-
-
-
-
 
 /*static void	error_message_unset(char *name)
 {
@@ -76,7 +83,7 @@ int	unset(t_cmd *cmd, t_elst **head)
 	ft_putendl_fd("not a valid", STDERR_FILENO);
 }
 
-int	f_unset(char *name, t_elst **head)
+int	unset_variable(char *name, t_elst **head)
 {
 	t_elst	*temp;
 	t_elst	*next_node;
@@ -110,7 +117,7 @@ int	unset(t_cmd *cmd, t_elst **head)
 	i = 1;
 	while (i < cmd->argc)
 	{
-		f_unset(cmd->argv[i], head);
+		unset_variable(cmd->argv[i], head);
 		i++;
 	}
 	return (EXIT_SUCCESS);

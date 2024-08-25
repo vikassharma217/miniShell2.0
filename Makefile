@@ -15,7 +15,7 @@ NAME = minishell
 SRC = main.c \
 		builtins/builtin.c \
 		builtins/echo.c builtins/env.c builtins/exit.c \
-		builtins/ft_cd.c builtins/ft_export.c builtins/pwd.c \
+		builtins/cd.c builtins/export.c builtins/pwd.c \
 		builtins/unset.c \
 		execution/binaries.c execution/binaries_utils.c \
 		execution/execute.c execution/pipe_execution.c \

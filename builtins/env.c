@@ -12,21 +12,21 @@
 
 #include "../minishell.h"
 
-int env(t_data *data)
+int	env(t_data *data)
 {
-    t_elst *current;
+	t_elst	*current;
 
 	current = data->env_lst;
-    while (current)
-    {
-        if (current->exported)
-        {
-            if (current->name && current->value)
-                printf("%s=%s\n", current->name, current->value);
-        }
-        current = current->next;
-    }
-    return (EXIT_SUCCESS);
+	while (current)
+	{
+		if (current->exported)
+		{
+			if (current->name && current->value)
+				printf("%s=%s\n", current->name, current->value);
+		}
+		current = current->next;
+	}
+	return (EXIT_SUCCESS);
 }
 
 /*int	ft_env(t_data *data)

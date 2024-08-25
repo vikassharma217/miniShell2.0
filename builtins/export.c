@@ -12,6 +12,14 @@
 
 #include "../minishell.h"
 
+static int	export_error_message(char *n)
+{
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(n, STDERR_FILENO);
+	ft_putendl_fd("': not a valid", STDERR_FILENO);
+	return (EXIT_FAILURE);
+}
+
 static void	set_exported_flag(char *name, t_data *data)
 {
 	t_elst	*current;
@@ -28,14 +36,6 @@ static void	set_exported_flag(char *name, t_data *data)
 	}
 }
 
-static int	export_error_message(char *n)
-{
-	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-	ft_putstr_fd(n, STDERR_FILENO);
-	ft_putendl_fd("': not a valid", STDERR_FILENO);
-	return (EXIT_FAILURE);
-}
-
 static int	print_exported_vars(t_data *data)
 {
 	t_elst	*current;
@@ -50,7 +50,7 @@ static int	print_exported_vars(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_export(t_cmd *cmd, t_data *data)
+int	export(t_cmd *cmd, t_data *data)
 {
 	int		status;
 	size_t	i;
