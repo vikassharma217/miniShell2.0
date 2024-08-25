@@ -25,17 +25,14 @@ SRC = main.c \
 		parser/expander.c parser/handel_quotes.c \
 		signals/signals.c \
 		utils/utils_list.c utils/utils_parser.c \
-		utils_libft/ft_atoi.c utils_libft/ft_putchar_fd.c \
-		utils_libft/ft_putendl_fd.c utils_libft/ft_putstr_fd.c \
-		utils_libft/ft_putchar_fd.c utils_libft/ft_split.c \
-		utils_libft/ft_strchr.c utils_libft/ft_strjoin.c \
-		utils_libft/ft_strtrim.c utils_libft/ft_strncpy.c \
+		utils_libft/ft_putchar_fd.c utils_libft/ft_putendl_fd.c \
+		utils_libft/ft_putstr_fd.c utils_libft/ft_putchar_fd.c \
+		utils_libft/ft_split.c utils_libft/ft_strchr.c \
+		utils_libft/ft_strjoin.c utils_libft/ft_strncpy.c \
 		utils_libft/ft_strdup.c utils_libft/ft_strlen.c \
-		utils_libft/ft_strncmp.c utils_libft/ft_substr.c \
-		utils_libft/ft_strcmp.c utils_libft/ft_putstr_fd.c \
+		utils_libft/ft_substr.c utils_libft/ft_putstr_fd.c \
 		utils_libft/ft_isspace.c signals/signals.c \
-		utils_libft/ft_putnbr_fd.c utils_libft/ft_isalnum.c \
-		utils_libft/ft_isalpha.c utils_libft/ft_isdigit.c \
+		utils_libft/ft_isalnum.c utils_libft/ft_isdigit.c \
 		validation/input_validation.c validation/cleanup.c \
 
 
