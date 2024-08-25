@@ -45,7 +45,7 @@ int	validate_input(char *input, t_data *data, t_cmd **cmd_list)
 		return (1); // Continue the loop
 	}
 	data->head = *cmd_list;
-	init_execution(*cmd_list, data);
+	init_execution(*cmd_list, data); //if fork() fails_Exit Failure?
 	free_parsed_tokens(cmd_list, data);
 	//free(input);
 	return (1); // Continue the loop
