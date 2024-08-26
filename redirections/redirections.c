@@ -76,7 +76,7 @@ void	redirections(t_cmd *cmd, t_data *data)
 	while (cmd->operator != NONE && cmd->operator != PIPE)
 		cmd = cmd->next;
 	if (cmd->operator == NONE)
-		execute_command(temp, data);
+		run_command(temp, data);
 	else
 		pipe_execution(cmd, data);
 }

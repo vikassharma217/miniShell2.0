@@ -26,7 +26,7 @@ static void	p_first(t_cmd *node, t_data *data, int fd[2])
 		return ;
 	}
 	close(fd[1]);
-	execute_command(node, data);
+	run_command(node, data);
 }
 
 static void	p_second(t_cmd *node, t_data *data, int fd[2])
@@ -43,7 +43,7 @@ static void	p_second(t_cmd *node, t_data *data, int fd[2])
 		return ;
 	}
 	close(fd[0]);
-	execute_command(node, data);
+	run_command(node, data);
 }
 
 void	pipe_fails(t_data *data)
@@ -82,6 +82,6 @@ void	pipe_execution(t_cmd *node, t_data *data)
 		waitpid(child_pid, &temp, 0);
 	}
 	else
-		execute_command(node, data);
+		run_command(node, data);
 	data->exit_code = 130;
 }

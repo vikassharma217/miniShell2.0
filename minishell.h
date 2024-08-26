@@ -142,8 +142,7 @@ void	msg_error(char *cmd, t_data *data);
 
 /*execute.c*/
 void	init_execution(t_cmd *cmd_list, t_data *data);
-void	execute_command(t_cmd *node, t_data *data);
-void	execute_util(t_cmd *node, t_data *data);
+void	run_command(t_cmd *node, t_data *data);
 
 /*pipe_execution.c*/
 void	pipe_execution(t_cmd *node, t_data *data);

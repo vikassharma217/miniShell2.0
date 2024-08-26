@@ -12,21 +12,15 @@
 
 #include "../minishell.h"
 
-void	execute_util(t_cmd *node, t_data *data)
+void	run_command(t_cmd *node, t_data *data)
 {
-	if (builtin(node, data))
-		return ;
-	binaries(node, data);
-}
-
-void	execute_command(t_cmd *node, t_data *data)
-{
-	data->mode = CHILD_PROCESS;
-	handel_signals(data);
 	if (node->operator == PIPE)
 		pipe_execution(node, data);
 	else if (node->operator == NONE)
-		execute_util(node, data);
+	{
+		if (!builtin(node, data))
+			binaries(node, data);
+	}
 	else
 		redirections(node, data);
 	if (data)
@@ -34,29 +28,52 @@ void	execute_command(t_cmd *node, t_data *data)
 	exit(data->exit_code);
 }
 
-static void	handle_child_process(t_cmd *cmd_list, t_data *data,
-		void (*execute_or_binaries)(t_cmd *, t_data *))
+static void	run_parent_process(pid_t child_pid, t_data *data)
 {
-	data->mode = CHILD_PROCESS;
-	handel_signals(data);
-	execute_or_binaries(cmd_list, data);
-	exit(data->exit_code);
+	int	status;
+	int	exit_status;
+
+	exit_status = 0;
+	if (waitpid(child_pid, &status, 0) == -1)
+	{
+		perror("waitpid()");
+		data->exit_code = 1;
+		return ;
+	}
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			exit_status = 130;
+		else
+			exit_status = WTERMSIG(status) + 128;
+	}
+	else if (WIFEXITED(status))
+		exit_status =  WEXITSTATUS(status);
+	data->exit_code = exit_status;
 }
 
-static void	handle_parent_process(pid_t pid, t_data *data)
+static void	run_child_process_binaries(t_cmd *cmd_list, t_data *data)
 {
-	int	temp;
+	int	status;
 
-	waitpid(pid, &temp, 0);
-	if (WIFSIGNALED(temp))
-	{
-		if (WTERMSIG(temp) == SIGINT)
-			data->exit_code = 130;
-		else
-			data->exit_code = WTERMSIG(temp) + 128;
-	}
-	else if (WIFEXITED(temp))
-		data->exit_code =  WEXITSTATUS(temp);
+	status = 0;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	binaries(cmd_list, data);
+	status = data->exit_code;
+	exit(status);
+}
+
+static void	run_child_process_execute(t_cmd *cmd_list, t_data *data)
+{
+	int	status;
+
+	status = 0;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	run_command(cmd_list, data);
+	status = data->exit_code;
+	exit(status);
 }
 
 void	init_execution(t_cmd *cmd_list, t_data *data)
@@ -72,11 +89,11 @@ void	init_execution(t_cmd *cmd_list, t_data *data)
 		exit (EXIT_FAILURE);
 	}
 	else if (pid == 0 && size_of_list(cmd_list) == 1)
-		handle_child_process(cmd_list, data, binaries);
+		run_child_process_binaries(cmd_list, data);
 	else if (pid == 0 && size_of_list(cmd_list) != 1)
-		handle_child_process(cmd_list, data, execute_command);
+		run_child_process_execute(cmd_list, data);
 	else
-		handle_parent_process(pid, data);
+		run_parent_process(pid, data);
 }
 
 /*void	execute_util(t_cmd *node, t_data *data)
