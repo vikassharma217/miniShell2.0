@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:00:09 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/24 18:03:18 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/26 16:57:00 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	validate_and_expand_input(char **input, t_data *data)
 {
 	if (!*input || **input == '\0')
 	{
-		printf("input is empty\n");
+		//printf("input is empty\n");
 		return (0);
 	}
 	add_history(*input);
@@ -45,7 +45,7 @@ int	validate_input(char *input, t_data *data, t_cmd **cmd_list)
 		return (1); // Continue the loop
 	}
 	data->head = *cmd_list;
-	init_execution(*cmd_list, data); //if fork() fails_Exit Failure?
+	init_execution(*cmd_list, data);
 	free_parsed_tokens(cmd_list, data);
 	//free(input);
 	return (1); // Continue the loop
@@ -55,16 +55,22 @@ int	validate_input(char *input, t_data *data, t_cmd **cmd_list)
 int	init_minishell(char **env, t_data *data, t_cmd **cmd_list)
 {
 	if (isatty(STDIN_FILENO))
+	{
 		data->mode = INTERACTIVE;
+		//printf("Interactive mode\n");
+	}
 	else
+	{
 		data->mode = NON_INTERACTIVE;
+		//printf("Non-interactive mode\n");
+	}
 	data->env = env;
 	if (env)
 	{
 		data->env_lst = init_env_lst(env);
 		if (!data->env_lst)
 		{
-			fprintf(stderr, "Failed to initialize environment list\n");
+			ft_putstr_fd("Failed to initialize environment list\n", 2);
 			return (1);
 		}
 	}
@@ -102,15 +108,15 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc != 1 || argv[1])
 	{
-		write(2, "Error: too many arguments\n", 26);
-		return (EXIT_FAILURE);
+		 ft_putstr_fd("Error: too many arguments\n", 2);
+        return (EXIT_FAILURE);
 	}
-	if (!getenv("_"))
+	if (!getenv("_")) 
 	{
-		fprintf(stderr,
-			"Error: minishell is not running in a valid environment\n");
-		return (EXIT_FAILURE);
+		ft_putstr_fd("Error: minishell is not running in a valid environment\n", 2);
+        return (EXIT_FAILURE);
 	}
+
 	if (init_minishell(env, &data, &cmd_list) != 0)
 		return (EXIT_FAILURE);
 	while (1)
