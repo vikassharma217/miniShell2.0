@@ -58,7 +58,7 @@ static void	save_old_pwd(char *current_dir, t_data *data)
 	old_pwd[i++] = 'W';
 	old_pwd[i++] = 'D';
 	old_pwd[i++] = '=';
-	while (current_dir[j] != '\0' && i < (PATH_MAX + 7 - 1))
+	while (current_dir[j] != '\0')
 		old_pwd[i++] = current_dir[j++];
 	old_pwd[i] = '\0';
 	store_usr_var(old_pwd, &data->env_lst, true);
