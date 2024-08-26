@@ -60,7 +60,7 @@ static bool	process_exit_args(t_cmd *cmd, t_data *data)
 	if (cmd->argc > 2)
 	{
 		data->exit_code = EXIT_FAILURE;
-		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
+		write(2, "minishell: exit: too many arguments\n", 36);
 		return (false);
 	}
 	if (cmd->argc == 2)
@@ -68,12 +68,12 @@ static bool	process_exit_args(t_cmd *cmd, t_data *data)
 		if (check_digits(cmd->argv[1]) && check_long(cmd->argv[1]))
 			data->exit_code = ft_atol(cmd->argv[1]);
 		else
-			non_numeric_args(data); //true or false return? should exit?
+			non_numeric_args(data); //true or false return? should return? orginal exit with exit a
 	}
 	return (true);
 }
 
-void	ft_exit(t_cmd *cmd, t_data *data, int status_code)
+void	exit_shell(t_cmd *cmd, t_data *data, int status_code)
 {
 	status_code = 0; //?delete .. status code already set in data->exit_code?
 	write(1, "exit\n", 5);

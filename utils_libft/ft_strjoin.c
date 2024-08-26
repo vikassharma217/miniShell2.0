@@ -55,8 +55,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	i = 0;
 	j = 0;
-	if (str == NULL)
-		return (NULL);
 	while (j < len1)
 		str[i++] = s1[j++];
 	j = 0;

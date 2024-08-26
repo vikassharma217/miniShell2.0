@@ -14,15 +14,18 @@
 
 void	run_command(t_cmd *node, t_data *data)
 {
-	if (node->operator == PIPE)
-		pipe_execution(node, data);
-	else if (node->operator == NONE)
+	if (node->operator != NONE)
+	{
+		if (node->operator == PIPE)
+			pipe_execution(node, data);
+		else
+			redirections(node, data);
+	}
+	else
 	{
 		if (!builtin(node, data))
 			binaries(node, data);
 	}
-	else
-		redirections(node, data);
 	if (data)
 		ft_clear_all(data);
 	exit(data->exit_code);
@@ -76,7 +79,7 @@ static void	run_child_process_execute(t_cmd *cmd_list, t_data *data)
 	exit(status);
 }
 
-void	init_execution(t_cmd *cmd_list, t_data *data)
+void	start_execution(t_cmd *cmd_list, t_data *data)
 {
 	pid_t	pid;
 
