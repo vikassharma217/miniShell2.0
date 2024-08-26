@@ -14,10 +14,9 @@
 
 static void	error_message_unset(char *name)
 {
-	ft_putstr_fd("minishell: unset: `", STDERR_FILENO); //check`or '
-	ft_putstr_fd(name, STDERR_FILENO);
-	ft_putendl_fd("': not a valid identifier", STDERR_FILENO); // ' before not a valid?
-}
+	write(2, "minishell: unset: `", 19);
+	write(2, name, ft_strlen(name));
+	write(2, "': not a valid identifier\n", 27);
 
 static void	remove_current_node(t_elst **head, t_elst *current, t_elst *prev)
 {
@@ -64,6 +63,8 @@ int	unset(t_cmd *cmd, t_elst **head)
 	int	i;
 	int	status;
 
+	if (cmd->argc == 1)
+		(EXIT_SUCCESS);
 	status = EXIT_SUCCESS;
 	if (!cmd || !cmd->argv || !head)
 		return (EXIT_FAILURE);

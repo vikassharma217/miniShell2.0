@@ -41,10 +41,12 @@ static int	print_exported_vars(t_data *data)
 	t_elst	*current;
 
 	current = data->env_lst;
-	while (current != NULL)
+	while (current)
 	{
 		if (current->exported)
 			printf("declare -x %s=\"%s\"\n", current->name, current->value);
+		else
+			printf("declare -x %s\n", current->name);
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);
@@ -52,23 +54,29 @@ static int	print_exported_vars(t_data *data)
 
 int	export(t_cmd *cmd, t_data *data)
 {
-	int		status;
+	int		any_error;
+	int		equal_flag;
 	size_t	i;
 
 	if (cmd->argc == 1)
 		return (print_exported_vars(data));
-	status = EXIT_SUCCESS;
+	any_error = EXIT_SUCCESS;
+	equal_flag = 0;
 	i = 0;
 	while (cmd->argv[++i])
 	{
-		if (!is_valid(cmd->argv[i]))
-			status = export_error_message(cmd->argv[i]);
-		else if (ft_onstr(cmd->argv[i], '='))
-			store_usr_var(cmd->argv[i], &data->env_lst, true);
+		if (!is_valid_variable(cmd->argv[i]))
+			any_error = export_error_message(cmd->argv[i]);
 		else
-			set_exported_flag(cmd->argv[i], data);
+		{
+			equal_flag = ft_onstr(cmd->argv[i], '=');
+			if (equal_flag)
+				store_usr_var(cmd->argv[i], &data->env_lst, true);
+			else
+				set_exported_flag(cmd->argv[i], data);
+		}
 	}
-	return (status);
+	return (any_error);
 }
 
 /*static void	ft_exported(char *name, t_data *data)

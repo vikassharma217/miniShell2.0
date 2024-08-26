@@ -12,11 +12,16 @@
 
 #include "../minishell.h"
 
-int	pwd(void)
+int	pwd(t_cmd *cmd)
 {
 	char	cwd[PATH_MAX];
 
-	if (getcwd(cwd, PATH_MAX) != NULL)
+	if (cmd->argc > 1)
+	{
+		write(2, "minishell: pwd: too many arguments\n", 35); // pwd: too many arguments?
+		return (EXIT_FAILURE);
+	}
+	else if (getcwd(cwd, PATH_MAX) != NULL)
 		printf("%s\n", cwd);
 	else
 	{

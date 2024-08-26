@@ -100,12 +100,7 @@ typedef struct s_data
 //builtins
 /*builtin.c*/
 int	builtin(t_cmd *cmd, t_data *data);
-bool	is_valid(char *str);
-
-/*builtin_utils.c
-int	check_unset(t_cmd *cmd, t_data *data);
-bool	is_valid(char *str);
-int	check_cd(t_cmd *cmd, t_data *data); */
+bool	is_valid_variable(char *str);
 
 /*echo.c*/
 int echo(t_cmd *cmd);
@@ -114,16 +109,16 @@ int echo(t_cmd *cmd);
 int env(t_data *data);
 
 /*exit.c*/
-void	ft_exit(t_cmd *cmd, t_data *data, int status_code);
+void	exit_shell(t_cmd *cmd, t_data *data, int status_code);
 
 /*ft_cd.c*/
-int	cd(char *target_dir, t_data *data);
+int	cd(t_cmd *cmd, t_data *data, char *target_dir);
 
 /*ft_export.c*/
 int	export(t_cmd *cmd, t_data *data);
 
 /*pwd.c*/
-int pwd(void);
+int pwd(t_cmd *cmd);
 
 /*unset.c*/
 int	unset(t_cmd *cmd, t_elst **head);
@@ -141,7 +136,7 @@ bool	is_str(const char *str, int c);
 void	msg_error(char *cmd, t_data *data);
 
 /*execute.c*/
-void	init_execution(t_cmd *cmd_list, t_data *data);
+void	start_execution(t_cmd *cmd_list, t_data *data);
 void	run_command(t_cmd *node, t_data *data);
 
 /*pipe_execution.c*/

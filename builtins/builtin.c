@@ -12,25 +12,7 @@
 
 #include "../minishell.h"
 
-static int	check_cd(t_cmd *cmd, t_data *data)
-{
-	if (cmd->argc > 2)
-	{
-		ft_putstr_fd("cd: too many arguments\n", 2);
-		return (EXIT_FAILURE);
-	}
-	else
-		return (cd(cmd->argv[1], data));
-}
-
-static int	check_unset(t_cmd *cmd, t_data *data)
-{
-	if (cmd->argc == 1)
-		return (EXIT_SUCCESS);
-	return (unset(cmd, &data->env_lst));
-}
-
-bool	is_valid(char *str)
+bool	is_valid_variable(char *str)
 {
 	size_t	i;
 
@@ -48,27 +30,24 @@ bool	is_valid(char *str)
 
 int	builtin(t_cmd *cmd, t_data *data)
 {
-	if (cmd->argv == NULL || cmd->argv[0] == NULL || cmd->argv[0][0] == '\0')
-	{
-		ft_putstr_fd(" : command not found\n", 2);
-		return (true);
-	}
-	if (ft_is_str_equal(cmd->argv[0], "exit"))
-		ft_exit(cmd, data, 0);
-	else if (ft_is_str_equal(cmd->argv[0], "unset"))
-		data->exit_code = check_unset(cmd, data);
-	else if (ft_is_str_equal(cmd->argv[0], "export"))
-		data->exit_code = export(cmd, data);
+	if (!cmd || !cmd->argv || !*cmd->argv || **cmd->argv == '\0')
+		return (write(2, " : command not found\n", 21), true);
 	else if (ft_is_str_equal(cmd->argv[0], "cd"))
-		data->exit_code = check_cd(cmd, data);
-	else if (ft_strchr(cmd->argv[0], '=') && is_valid(cmd->argv[0]))
-		data->exit_code = store_usr_var(cmd->argv[0], &data->env_lst, false);
+		data->exit_code = cd(cmd, data, cmd->argv[1]);
 	else if (ft_is_str_equal(cmd->argv[0], "echo"))
 		data->exit_code = echo(cmd);
-	else if (ft_is_str_equal(cmd->argv[0], "pwd"))
-		data->exit_code = pwd();
 	else if (ft_is_str_equal(cmd->argv[0], "env"))
 		data->exit_code = env(data);
+	else if (ft_is_str_equal(cmd->argv[0], "exit"))
+		exit_shell(cmd, data, 0);
+	else if (ft_is_str_equal(cmd->argv[0], "export"))
+		data->exit_code = export(cmd, data);
+	else if (ft_is_str_equal(cmd->argv[0], "pwd"))
+		data->exit_code = pwd(cmd);
+	else if (ft_is_str_equal(cmd->argv[0], "unset"))
+		data->exit_code = unset(cmd, &data->env_lst);
+	else if (ft_strchr(cmd->argv[0], '=') && is_valid_variable(cmd->argv[0]))
+		data->exit_code = store_usr_var(cmd->argv[0], &data->env_lst, false);
 	else
 		return (false);
 	return (true);
