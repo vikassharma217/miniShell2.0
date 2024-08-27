@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   execute_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -39,7 +39,7 @@ void	run_command(t_cmd *node, t_data *data)
 	else
 	{
 		if (!builtin(node, data))
-			binaries(node, data);
+			system_commands(node, data);
 	}
 	if (data)
 		ft_clear_all(data);
@@ -70,14 +70,14 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 	data->exit_code = exit_status;
 }
 
-static void	run_child_process_binaries(t_cmd *cmd_list, t_data *data)
+static void	run_child_process_system_commands(t_cmd *cmd_list, t_data *data)
 {
 	int	status;
 
 	status = 0;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	binaries(cmd_list, data);
+	system_commands(cmd_list, data);
 	status = data->exit_code;
 	exit(status);
 }
@@ -107,7 +107,7 @@ void	start_execution(t_cmd *cmd_list, t_data *data)
 		exit (EXIT_FAILURE);
 	}
 	else if (pid == 0 && size_of_list(cmd_list) == 1)
-		run_child_process_binaries(cmd_list, data);
+		run_child_process_system_commands(cmd_list, data);
 	else if (pid == 0 && size_of_list(cmd_list) != 1)
 		run_child_process_execute(cmd_list, data);
 	else

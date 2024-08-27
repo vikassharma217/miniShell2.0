@@ -21,7 +21,7 @@ static void	error_message_unset(char *name)
 
 static void	remove_current_node(t_elst **head, t_elst *current, t_elst *prev)
 {
-	if (prev == NULL) //updated that *head will be changed if unset to the next
+	if (prev == NULL) // updated that *head will be changed if unset to the next
 		*head = current->next;
 	else
 	{

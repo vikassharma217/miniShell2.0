@@ -126,15 +126,9 @@ int								unset(t_cmd *cmd, t_elst **head);
 int								unset_variable(char *name, t_elst **head);
 
 // execution
-/*binaries.c*/
-void							binaries(t_cmd *cmd, t_data *data);
+/*system_commands.c*/
+void							system_commands(t_cmd *cmd, t_data *data);
 void							free_all(char **path);
-
-/*binaries_utils.c*/
-char							*concat_and_free(char *str1, char *str2);
-bool							is_path(t_cmd *cmd);
-bool							is_str(const char *str, int c);
-void							msg_error(char *cmd, t_data *data);
 
 /*execute.c*/
 void							start_execution(t_cmd *cmd_list, t_data *data);
