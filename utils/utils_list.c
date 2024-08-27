@@ -6,13 +6,13 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:47:03 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/21 12:21:37 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/27 13:03:29 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*creat new node for parsed token linked list*/
+//creat new node for parsed token linked list
 t_cmd	*newnode_par(int argc)
 {
 	t_cmd	*new_node;
@@ -24,7 +24,7 @@ t_cmd	*newnode_par(int argc)
 	new_node->argv = malloc((argc + 1) * sizeof(char *));
 	if (!new_node->argv)
 		return (NULL);
-	new_node->operator = NONE;
+	new_node->operator= NONE;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -161,6 +161,8 @@ char	*ft_lltoa(long long n)
 	}
 	return (result);
 }
+
+// Creates a new node for an environment variable linked list.
 
 t_elst	*newnode_env(char *var_name, char *var_value, bool is_exported)
 {

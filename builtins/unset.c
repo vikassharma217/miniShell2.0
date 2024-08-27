@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:56 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/24 17:53:58 by rscherl          ###   ########.fr       */
+/*   Updated: 2024/08/27 13:06:00 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	error_message_unset(char *name)
 	write(2, "minishell: unset: `", 19);
 	write(2, name, ft_strlen(name));
 	write(2, "': not a valid identifier\n", 27);
+}
 
 static void	remove_current_node(t_elst **head, t_elst *current, t_elst *prev)
 {

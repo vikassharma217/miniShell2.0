@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 12:18:20 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/21 13:19:44 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:26:46 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	free_line(char **str)
 	free(str);
 }
 
-/*split env variable string into name and value */
+// Splits an environment variable string into a name and value pair.
 char	**split_env_var(char *env)
 {
 	char	**output;
@@ -54,6 +54,7 @@ char	**split_env_var(char *env)
 	output[1] = ft_substr(env, i + 1, ft_strlen(&env[i]));
 	if (!output[1])
 	{
+		free(output[0]);
 		free(output);
 		return (NULL);
 	}
@@ -61,7 +62,7 @@ char	**split_env_var(char *env)
 	return (output);
 }
 
-/*function to create a linked list for enviroment variable.*/
+// Initializes a linked list for the environment variables.
 t_elst	*init_env_lst(char **env)
 {
 	t_elst	*head;

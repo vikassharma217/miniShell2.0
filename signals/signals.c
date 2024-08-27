@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:52:53 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/21 13:38:34 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:01:20 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	init_signal(t_data *data)
 	}
 }
 
-void	handel_signals(t_data *data)
+void	handle_signals(t_data *data)
 {
 	init_signal(data);
 }
