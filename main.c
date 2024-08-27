@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:00:09 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/27 18:49:36 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/27 18:57:16 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	minishell_loop(t_data *data, t_cmd **cmd_list)
 		data->head = *cmd_list;
 		start_execution(*cmd_list, data);
 		free_parsed_tokens(cmd_list, data);
-		free(input);
+		//free(input);
 	}
 }
 
