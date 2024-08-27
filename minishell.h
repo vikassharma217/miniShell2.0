@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/27 18:19:54 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/27 18:23:11 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void							child_pid_fails(t_data *data);
 void							pipe_fails(t_data *data);
 
 /*utils_linked_lists.c*/
-size_t							size_of_list(t_cmd *list);
+//size_t							size_of_list(t_cmd *list);
 
 // redirections
 /*redirections.c*/

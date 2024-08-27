@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:31:01 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/27 15:51:24 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/27 18:49:59 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ bool	input_validation(char *input, t_data *data)
 	else if (mismatched_quotes(input))
 	{
 		ft_putendl_fd("minishell: syntax error", 2);
-		free(input);
+		//free(input);
 		data->exit_code = 2;
 		return (false);
 	}
@@ -147,7 +147,7 @@ bool	input_validation(char *input, t_data *data)
 		|| invalid_operator(input))
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
-		free(input);
+		//free(input);
 		data->exit_code = 2;
 		return (false);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binaries_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:54:34 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/24 17:54:35 by rscherl          ###   ########.fr       */
+/*   Updated: 2024/08/27 18:39:58 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
