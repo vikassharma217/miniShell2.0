@@ -17,6 +17,7 @@ static void	error_message_unset(char *name)
 	write(2, "minishell: unset: `", 19);
 	write(2, name, ft_strlen(name));
 	write(2, "': not a valid identifier\n", 27);
+}
 
 static void	remove_current_node(t_elst **head, t_elst *current, t_elst *prev)
 {

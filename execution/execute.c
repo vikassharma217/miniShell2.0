@@ -46,9 +46,9 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 	if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGINT)
-			exit_status = 130;
+			exit_status = 128 + SIGINT;
 		else
-			exit_status = WTERMSIG(status) + 128;
+			exit_status = 128 + WTERMSIG(status);
 	}
 	else if (WIFEXITED(status))
 		exit_status =  WEXITSTATUS(status);
