@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:27 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/24 17:55:29 by rscherl          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:02:17 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	r_hd(t_data *data, t_cmd *node)
 	head = NULL;
 	is_cat_command = ft_is_str_equal(node->argv[0], "cat");
 	data->mode = HEREDOCS;
-	handel_signals(data);
+	handle_signals(data);
 	fd = read_heredoc_lines(node, &head);
 	close(fd[1]);
 	if (dup2(fd[0], STDIN_FILENO) == -1)

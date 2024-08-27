@@ -6,7 +6,7 @@
 #    By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 11:43:39 by vsharma           #+#    #+#              #
-#    Updated: 2024/08/21 13:36:59 by vsharma          ###   ########.fr        #
+#    Updated: 2024/08/27 17:37:06 by vsharma          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC = main.c \
 		execution/binaries.c execution/binaries_utils.c \
 		execution/execute.c execution/execute_pipeline.c \
 		redirections/redirections.c redirections/redirections1.c \
-		parser/parser.c  parser/env_var.c \
+		parser/parser.c  parser/tokenizer.c parser/env_var.c \
 		parser/expander.c parser/handel_quotes.c \
 		signals/signals.c \
 		utils/utils_list.c utils/utils_parser.c \

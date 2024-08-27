@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:49:43 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/20 16:24:09 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/27 17:27:08 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ char	*expand_token(char *str, t_data *data, char *token)
 			token[j++] = str[i++];
 	}
 	token[j] = '\0';
-	if (str)
-		free(str);
 	return (token);
 }
 
@@ -173,7 +171,6 @@ char	*init_expander(char *str, t_data *data)
 	expanded_token = expand_token(str, data, token);
 	if (!expanded_token)
 	{
-		free(token);
 		return (NULL);
 	}
 	return (expanded_token);

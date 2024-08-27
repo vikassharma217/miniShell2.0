@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/21 13:37:37 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/27 18:19:54 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,57 +97,64 @@ typedef struct s_data
 	t_mode						mode;
 }								t_data;
 
-//builtins
+// builtins
 /*builtin.c*/
-int	builtin(t_cmd *cmd, t_data *data);
-bool	is_valid_variable(char *str);
+int								builtin(t_cmd *cmd, t_data *data);
+bool							is_valid_variable(char *str);
 
 /*echo.c*/
-int echo(t_cmd *cmd);
+int								echo(t_cmd *cmd);
 
 /*env.c*/
-int env(t_data *data);
+int								env(t_data *data);
 
 /*exit.c*/
-void	exit_shell(t_cmd *cmd, t_data *data, int status_code);
+void							exit_shell(t_cmd *cmd, t_data *data,
+									int status_code);
 
 /*ft_cd.c*/
-int	cd(t_cmd *cmd, t_data *data, char *target_dir);
+int								cd(t_cmd *cmd, t_data *data, char *target_dir);
 
 /*ft_export.c*/
-int	export(t_cmd *cmd, t_data *data);
+int								export(t_cmd *cmd, t_data *data);
 
 /*pwd.c*/
-int pwd(t_cmd *cmd);
+int								pwd(t_cmd *cmd);
 
 /*unset.c*/
-int	unset(t_cmd *cmd, t_elst **head);
-int	unset_variable(char *name, t_elst **head);
+int								unset(t_cmd *cmd, t_elst **head);
+int								unset_variable(char *name, t_elst **head);
 
-//execution
+// execution
 /*binaries.c*/
-void	binaries(t_cmd *cmd, t_data *data);
-void	free_all(char **path);
+void							binaries(t_cmd *cmd, t_data *data);
+void							free_all(char **path);
 
 /*binaries_utils.c*/
-char	*concat_and_free(char *str1, char *str2);
-bool	is_path(t_cmd *cmd);
-bool	is_str(const char *str, int c);
-void	msg_error(char *cmd, t_data *data);
+char							*concat_and_free(char *str1, char *str2);
+bool							is_path(t_cmd *cmd);
+bool							is_str(const char *str, int c);
+void							msg_error(char *cmd, t_data *data);
 
 /*execute.c*/
-void	start_execution(t_cmd *cmd_list, t_data *data);
-void	run_command(t_cmd *node, t_data *data);
+void							start_execution(t_cmd *cmd_list, t_data *data);
+void							run_command(t_cmd *node, t_data *data);
 
 /*pipe_execution.c*/
 void	pipe_execution(t_cmd *node, t_data *data);
+void							pipe_execution(t_cmd *node, t_data *data);
+void							child_pid_fails(t_data *data);
+void							pipe_fails(t_data *data);
 
-//redirections
+/*utils_linked_lists.c*/
+size_t							size_of_list(t_cmd *list);
+
+// redirections
 /*redirections.c*/
-void	redirections(t_cmd *cmd, t_data *data);
+void							redirections(t_cmd *cmd, t_data *data);
 
 /*redirections1.c*/
-void	r_hd(t_data *data, t_cmd *node);
+void							r_hd(t_data *data, t_cmd *node);
 
 // validation_error_handeling
 void							exit_minishell(int status_code, t_data *data);
@@ -198,9 +205,11 @@ t_cmd							*create_cmd_node(char **parsed, int *i);
 t_cmd							*init_parser(char *input);
 
 // Signals
-void	handel_signals(t_data *data);
+void							handel_signals(t_data *data);
 
 // utils
+void							*safe_malloc(size_t size);
+void							safe_free(void **ptr);
 char							*ft_lltoa(long long n);
 long long						ft_atol(const char *str);
 t_cmd							*newnode_par(int argc);
@@ -237,5 +246,6 @@ char							*ft_strncpy(char *dest, const char *src,
 									size_t n);
 
 // signals
+void	handle_signals(t_data *data);
 
 #endif
