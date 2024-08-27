@@ -12,6 +12,21 @@
 
 #include "../minishell.h"
 
+static size_t	size_of_list(t_cmd *list)
+{
+	t_cmd	*temp;
+	size_t	len;
+
+	temp = list;
+	len = 0;
+	while (temp != NULL)
+	{
+		temp = temp->next;
+		len++;
+	}
+	return (len);
+}
+
 void	run_command(t_cmd *node, t_data *data)
 {
 	if (node->operator != NONE)

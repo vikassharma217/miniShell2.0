@@ -18,8 +18,7 @@ SRC = main.c \
 		builtins/cd.c builtins/export.c builtins/pwd.c \
 		builtins/unset.c \
 		execution/binaries.c execution/binaries_utils.c \
-		execution/execute.c execution/pipe_execution.c \
-		execution/utils_linked_lists.c \
+		execution/execute.c execution/execute_pipeline.c \
 		redirections/redirections.c redirections/redirections1.c \
 		parser/parser.c  parser/env_var.c \
 		parser/expander.c parser/handel_quotes.c \
