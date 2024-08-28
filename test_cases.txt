@@ -1,0 +1,2 @@
+pwd | wc -l  - pwd takes only one argumenr
+  

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:52:38 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/24 17:52:42 by rscherl          ###   ########.fr       */
+/*   Updated: 2024/08/28 19:08:22 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	check_and_print(const char *str)
 {
+	if (str == NULL)
+		return ;
 	while (*str)
 	{
 		if (*str != '\\')
