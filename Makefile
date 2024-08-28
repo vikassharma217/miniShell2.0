@@ -19,7 +19,7 @@ SRC = main.c \
 		builtins/unset.c \
 		execution/system_commands.c \
 		execution/execute_handler.c execution/execute_pipeline.c \
-		redirections/redirections.c redirections/redirections1.c \
+		redirections/redirections_handler.c redirections/heredoc_handler.c \
 		parser/env_list.c  parser/expander_utils.c parser/expander.c \
 		parser/handel_quotes.c parser/parser.c  parser/tokenizer.c \
 		signals/signals.c \

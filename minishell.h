@@ -140,11 +140,11 @@ void							pipe_execution(t_cmd *node, t_data *data);
 // size_t							size_of_list(t_cmd *list);
 
 // redirections
-/*redirections.c*/
+/*redirections_handler.c*/
 void 							handle_redirections(t_cmd *cmd, t_data *data);
 
-/*redirections1.c*/
-void							r_hd(t_data *data, t_cmd *node);
+/*heredoc_handler.c*/
+void	heredoc_handler(t_data *data, t_cmd *node);
 
 
 // validation

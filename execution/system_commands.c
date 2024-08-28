@@ -12,7 +12,6 @@
 
 #include "../minishell.h"
 
-// Fehlerbehandlung und Speichermanagement zusammengefasst
 static void	exit_with_cleanup(char *cmd, t_data *data, char **paths,
 		int exit_code)
 {
