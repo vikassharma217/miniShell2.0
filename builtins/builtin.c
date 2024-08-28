@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:51:38 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 14:22:29 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	builtin(t_cmd *cmd, t_data *data)
 	else if (str_equals(cmd->argv[0], "unset"))
 		data->exit_code = unset(cmd, &data->env_lst);
 	else if (ft_strchr(cmd->argv[0], '=') && is_valid_variable(cmd->argv[0]))
-		data->exit_code = store_usr_var(cmd->argv[0], &data->env_lst, false);
+		data->exit_code = store_env_var(cmd->argv[0], &data->env_lst, false);
 	else
 		return (false);
 	return (true);

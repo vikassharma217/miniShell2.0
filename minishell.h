@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 13:23:26 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 14:43:55 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,43 +167,36 @@ void							free_parsed_tokens(t_cmd **cmd_list,
 void							ft_clear_all(t_data *data);
 
 // Parser
-void							init_oldpwd(t_elst **head);
-void							free_line(char **str);
-char							**split_env_var(char *env);
+/*env_list*/
 t_elst							*init_env_lst(char **env);
-int								exit_status_size(t_data *data);
+char							**split_env_var(char *env);
+/*expander*/
+char							*init_expander(char *str, t_data *data);
+int								get_variable(char *str, char *input, int *i,
+									t_data *data);
+/*parser*/
+t_cmd							*init_parser(char *input);
+/*expander_utils*/
 void							init_varaible(int *i, int *j, bool *quotes,
 									bool *d_quotes);
 int								get_exit_status(t_data *data, char *str,
 									int *i);
-char							*expand_token(char *str, t_data *data,
-									char *token);
-int								get_variable(char *str, char *input, int *i,
-									t_data *data);
-int								token_size(char *str, int *i, t_data *data);
 int								input_size(char *str, t_data *data);
-char							*init_expander(char *str, t_data *data);
-int								quotes_size(char *str);
-char							*allocate_memory(char *str);
-char							*process_string(char *str, char *out);
-char							*handel_quotes(char *str);
-int								get_argc(char **str);
-int								token_num(char *str);
-int								token_len(char *str);
+/*tokenizer*/
 char							**allocate_token(char *str);
-void							allocate_tokens_memory(char **token, char *str);
 void							fill_tokens(char **token, char *str);
-t_op							get_operator(char *str);
-char							**process_input(char *str);
-t_cmd							*create_cmd_node(char **parsed, int *i);
-t_cmd							*init_parser(char *input);
+void							allocate_tokens_memory(char **token, char *str);
+/*handel_quotes*/
+char							*handel_quotes(char *str);
+
 
 // Signals
 void							handel_signals(t_data *data);
 
 // utils
-void							*safe_malloc(size_t size);
-void							safe_free(void **ptr);
+/*var_utils*/
+int								store_env_var(char *cmd, t_elst **head,
+									bool export);
 char							*ft_lltoa(long long n);
 long long						ft_atol(const char *str);
 t_cmd							*newnode_par(int argc);
@@ -215,8 +208,6 @@ void							lstadd_back_env(t_elst **head, t_elst *new);
 bool							char_in_str(const char *str, int ch);
 bool							str_equals(char *str1, char *str2);
 bool							is_var_exported(char *name, t_elst **head);
-int								store_usr_var(char *cmd, t_elst **head,
-									bool export);
 t_elst							*newnode_env(char *var_name, char *var_value,
 									bool is_exported);
 char							*strip_whitespace(char *str);

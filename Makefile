@@ -6,7 +6,7 @@
 #    By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 11:43:39 by vsharma           #+#    #+#              #
-#    Updated: 2024/08/28 12:01:38 by vsharma          ###   ########.fr        #
+#    Updated: 2024/08/28 14:18:08 by vsharma          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,12 @@ SRC = main.c \
 		execution/system_commands.c \
 		execution/execute_handler.c execution/execute_pipeline.c \
 		redirections/redirections.c redirections/redirections1.c \
-		parser/parser.c  parser/tokenizer.c parser/env_var.c \
-		parser/expander.c parser/handel_quotes.c \
+		parser/env_list.c  parser/expander_utils.c parser/expander.c \
+		parser/handel_quotes.c parser/parser.c  parser/tokenizer.c \
 		signals/signals.c \
-		utils/utils_list.c utils/utils_parser.c \
+		utils/cmd_list_utils.c utils/list_utils.c \
+		utils/num_utils.c utils/string_utils.c \
+		utils/var_utils.c \
 		utils_libft/ft_putchar_fd.c utils_libft/ft_putendl_fd.c \
 		utils_libft/ft_putstr_fd.c utils_libft/ft_putchar_fd.c \
 		utils_libft/ft_split.c utils_libft/ft_strchr.c \

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:18 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 14:22:02 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	update_pwd(t_data *data)
 		while (cwd[j] != '\0')
 			updated_old_pwd[i++] = cwd[j++];
 		updated_old_pwd[i] = '\0';
-		store_usr_var(updated_old_pwd, &data->env_lst, true);
+		store_env_var(updated_old_pwd, &data->env_lst, true);
 	}
 }
 
@@ -61,7 +61,7 @@ static void	save_old_pwd(char *current_dir, t_data *data)
 	while (current_dir[j] != '\0')
 		old_pwd[i++] = current_dir[j++];
 	old_pwd[i] = '\0';
-	store_usr_var(old_pwd, &data->env_lst, true);
+	store_env_var(old_pwd, &data->env_lst, true);
 }
 
 static int	change_to_old_pwd(char *current_dir, t_data *data)

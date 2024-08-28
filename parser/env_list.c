@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 12:18:20 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 12:28:07 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 14:23:03 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_oldpwd(t_elst **head)
 
 	unset_variable("OLDPWD", head);
 	temp = ft_strjoin("OLDPWD=", getenv("HOME"));
-	store_usr_var(temp, head, true);
+	store_env_var(temp, head, true);
 	free(temp);
 }
 

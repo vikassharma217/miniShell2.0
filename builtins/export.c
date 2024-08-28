@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:28 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 14:22:44 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	export(t_cmd *cmd, t_data *data)
 		{
 			equal_flag = char_in_str(cmd->argv[i], '=');
 			if (equal_flag)
-				store_usr_var(cmd->argv[i], &data->env_lst, true);
+				store_env_var(cmd->argv[i], &data->env_lst, true);
 			else
 				set_exported_flag(cmd->argv[i], data);
 		}

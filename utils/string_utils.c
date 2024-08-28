@@ -6,11 +6,11 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:44:58 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 13:23:36 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 14:18:29 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 bool	char_in_str(const char *str, int ch)
 {
