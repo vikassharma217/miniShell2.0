@@ -136,15 +136,12 @@ void							run_command(t_cmd *node, t_data *data);
 /*pipe_execution.c*/
 void							pipe_execution(t_cmd *node, t_data *data);
 
-/*utils_linked_lists.c*/
-// size_t							size_of_list(t_cmd *list);
-
 // redirections
 /*redirections_handler.c*/
 void 							handle_redirections(t_cmd *cmd, t_data *data);
 
 /*heredoc_handler.c*/
-void	heredoc_handler(t_data *data, t_cmd *node);
+void 							heredoc_handler(t_cmd *node);
 
 
 // validation

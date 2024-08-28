@@ -97,7 +97,7 @@ static void	execute_redirection(t_cmd *cmd, t_data *data)
 		perform_input_redirection(cmd, data);
 	else if (cmd->operator == RD_HD)
 	{
-		heredoc_handler(data, cmd);
+		heredoc_handler(cmd);
 		ft_clear_all(data);
 		exit(0);
 	}
