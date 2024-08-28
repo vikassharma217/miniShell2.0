@@ -34,7 +34,7 @@ void	run_command(t_cmd *node, t_data *data)
 		if (node->operator == PIPE)
 			pipe_execution(node, data);
 		else
-			redirections(node, data);
+			handle_redirections(node, data);
 	}
 	else
 	{

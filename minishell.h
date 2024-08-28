@@ -128,24 +128,20 @@ int								unset_variable(char *name, t_elst **head);
 // execution
 /*system_commands.c*/
 void							system_commands(t_cmd *cmd, t_data *data);
-void							free_all(char **path);
 
-/*execute.c*/
+/*execute_handler.c*/
 void							start_execution(t_cmd *cmd_list, t_data *data);
 void							run_command(t_cmd *node, t_data *data);
 
 /*pipe_execution.c*/
 void							pipe_execution(t_cmd *node, t_data *data);
-void							pipe_execution(t_cmd *node, t_data *data);
-void							child_pid_fails(t_data *data);
-void							pipe_fails(t_data *data);
 
 /*utils_linked_lists.c*/
 // size_t							size_of_list(t_cmd *list);
 
 // redirections
 /*redirections.c*/
-void							redirections(t_cmd *cmd, t_data *data);
+void 							handle_redirections(t_cmd *cmd, t_data *data);
 
 /*redirections1.c*/
 void							r_hd(t_data *data, t_cmd *node);

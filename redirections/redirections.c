@@ -12,7 +12,124 @@
 
 #include "../minishell.h"
 
-static void	r_in(t_data *data, t_cmd *node)
+static void perform_input_redirection(t_cmd *cmd, t_data *data)
+{
+	t_cmd *iterator;
+	int input_fd;
+	char	*error_message;
+
+	iterator = cmd->next;
+	while (iterator && iterator->operator == RD_IN)
+		iterator = iterator->next;
+	if (iterator && iterator->argv[0])
+	{
+		if (access(iterator->argv[0], F_OK) != 0)
+		{
+			err_message = ft_strjoin("minishell: ", iterator->argv[0]);
+			perror(err_message);
+			free(err_message);
+			data->exit_code = 1;
+			exit(EXIT_FAILURE);
+		}
+		input_fd = open(iterator->argv[0], O_RDONLY);
+		if (input_fd < 0)
+		{
+			data->exit_code = 1;
+			exit(EXIT_FAILURE);
+		}
+		dup2(input_fd, STDIN_FILENO);
+		close(input_fd);
+	}
+}
+
+static void perform_output_append(t_cmd *cmd)
+{
+	t_cmd *iterator;
+	int output_fd;
+	char *filename;
+
+	iterator = cmd;
+	// Suche nach dem RD_APND Operator
+	while (iterator && iterator->operator != RD_APND)
+		iterator = iterator->next;
+	if (iterator && iterator->next && iterator->next->argv[0])
+	{
+		filename = iterator->next->argv[0];
+		// Öffne die Datei im Anhänge-Modus
+		output_fd = open(filename, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		if (output_fd < 0)
+		{
+			perror("minishell");
+			exit(EXIT_FAILURE);
+		}
+		// Leite die Ausgabe in die Datei um
+		dup2(output_fd, STDOUT_FILENO);
+		close(output_fd);
+	}
+}
+
+static void perform_output_redirection(t_cmd *cmd)
+{
+	t_cmd *iterator;
+	int output_fd;
+	char *filename;
+
+	iterator = cmd;
+	// Suche nach dem RD_OUT Operator
+	while (iterator && iterator->operator != RD_OUT)
+		iterator = iterator->next;
+	// Wenn eine Datei für die Ausgabe angegeben ist, öffne sie
+	if (iterator && iterator->next && iterator->next->argv[0])
+	{
+		filename = iterator->next->argv[0];
+		// Öffne die Datei im Überschreibmodus
+		output_fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		if (output_fd < 0)
+		{
+			perror("minishell");
+			exit(EXIT_FAILURE);
+		}
+		// Leite die Ausgabe in die Datei um
+		dup2(output_fd, STDOUT_FILENO);
+		close(output_fd);
+	}
+}
+
+
+static void execute_redirection(t_cmd *cmd, t_data *data)
+{
+	if (cmd->operator == RD_IN)
+		perform_input_redirection(cmd, data);
+	else if (cmd->operator == RD_HD)
+	{
+		r_hd(data, cmd);
+		ft_clear_all(data);
+		exit(0);
+	}
+	else if (cmd->operator == RD_OUT)
+		perform_output_redirection(cmd);
+	else if (cmd->operator == RD_APND)
+		perform_output_append(cmd);
+	else	
+		write(2, "Error: unsupported redirection operator\n", 40)
+}
+
+void handle_redirections(t_cmd *cmd, t_data *data)
+{
+	t_cmd *start_cmd;
+
+	start_cmd = cmd;
+	execute_redirection(cmd, data);
+	start_cmd->operator = NONE;
+	while (cmd && cmd->operator != NONE && cmd->operator != PIPE)
+		cmd = cmd->next;
+	if (!cmd || cmd->operator == NONE)
+		run_command(start_cmd, data);
+	else
+		pipe_execution(cmd, data);
+}
+
+/*static void	r_in(t_data *data, t_cmd *node)
 {
 	int		in;
 	char	*error_message;
@@ -79,4 +196,4 @@ void	redirections(t_cmd *cmd, t_data *data)
 		run_command(temp, data);
 	else
 		pipe_execution(cmd, data);
-}
+}*/
