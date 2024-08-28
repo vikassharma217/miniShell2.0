@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 11:32:59 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 11:53:27 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ t_op	get_operator(char *str)
 
 	if (!str)
 		operator= NONE;
-	else if (ft_is_str_equal(str, ">"))
+	else if (str_equals(str, ">"))
 		operator= RD_OUT;
-	else if (ft_is_str_equal(str, ">>"))
+	else if (str_equals(str, ">>"))
 		operator= RD_APND;
-	else if (ft_is_str_equal(str, "<"))
+	else if (str_equals(str, "<"))
 		operator= RD_IN;
-	else if (ft_is_str_equal(str, "<<"))
+	else if (str_equals(str, "<<"))
 		operator= RD_HD;
-	else if (ft_is_str_equal(str, "|"))
+	else if (str_equals(str, "|"))
 		operator= PIPE;
 	else
 		operator= NONE;
@@ -64,7 +64,7 @@ t_cmd	*create_cmd_node(char **parsed, int *i)
 
 	temp = newnode_par(get_argc(parsed));
 	j = 0;
-	while (parsed[*i] && !ft_onstr(OPERATORS, parsed[*i][0]))
+	while (parsed[*i] && !char_in_str(OPERATORS, parsed[*i][0]))
 	{
 		temp->argv[j++] = handel_quotes(parsed[(*i)++]);
 	}

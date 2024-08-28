@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:56 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/27 13:06:00 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	unset_variable(char *name, t_elst **head)
 	}
 	while (current) //updated that *head will be changed if unset to the next
 	{
-		if (ft_is_str_equal(name, current->name))
+		if (str_equals(name, current->name))
 		{
 			remove_current_node(head, current, prev);
 			return (EXIT_SUCCESS);
@@ -98,7 +98,7 @@ int	unset_variable(char *name, t_elst **head)
 	}
 	while (temp && temp->next != NULL)
 	{
-		if (ft_is_str_equal(name, temp->next->name))
+		if (str_equals(name, temp->next->name))
 		{
 			next_node = temp->next->next;
 			free(temp->next->name);

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:57:35 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 12:03:26 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:08 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	invalid_sequence(char *str)
 	quotes = false;
 	while (str[i])
 	{
-		if (ft_onstr(QUOTES, str[i]))
+		if (char_in_str(QUOTES, str[i]))
 			quotes = !quotes;
 		if (((str[i] == '>' && str[i + 1] == '<') || (str[i] == '<' && str[i
 						+ 1] == '>') || (str[i] == '|' && str[i + 1] == '|'))
@@ -71,9 +71,9 @@ bool	invalid_operator_helper(char *input)
 
 	i = 0;
 	quotes = false;
-	if (ft_onstr(QUOTES, input[i]))
+	if (char_in_str(QUOTES, input[i]))
 		quotes = !quotes;
-	if (ft_onstr(OPERATORS, input[i]) && !quotes)
+	if (char_in_str(OPERATORS, input[i]) && !quotes)
 	{
 		if (input[i] == input[i + 1])
 			i = i + 2;
@@ -83,10 +83,10 @@ bool	invalid_operator_helper(char *input)
 		{
 			while (input[i] && input[i] == ' ')
 				i++;
-			if (ft_onstr(OPERATORS, input[i]))
+			if (char_in_str(OPERATORS, input[i]))
 				return (true);
 		}
-		if (ft_onstr(OPERATORS, input[i]))
+		if (char_in_str(OPERATORS, input[i]))
 			return (true);
 	}
 	return (false);

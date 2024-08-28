@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:02 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/24 17:53:07 by rscherl          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	check_long(char *str)
 	long long	result;
 	int			digit;
 
-	if (ft_is_str_equal("-9223372036854775808", str))
+	if (str_equals("-9223372036854775808", str))
 		return (true);
 	result = 0;
 	if (*str == '-' || *str == '+')
@@ -133,7 +133,7 @@ bool	check_long(char *str)
 
 	if (ft_strlen(str) > 20)
 		return (false);
-	if (ft_is_str_equal("-9223372036854775808", str))
+	if (str_equals("-9223372036854775808", str))
 		return (true);
 	out = 0;
 	if (*str == '-' || *str == '+')

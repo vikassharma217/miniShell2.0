@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:27 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/27 17:02:17 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	*read_heredoc_lines(t_cmd *node, t_heredoc **head)
 	while (1)
 	{
 		buffer = readline("> ");
-		if (ft_is_str_equal(buffer, node->next->argv[0]))
+		if (str_equals(buffer, node->next->argv[0]))
 		{
 			free(buffer);
 			break ;
@@ -93,7 +93,7 @@ void	r_hd(t_data *data, t_cmd *node)
 	int			*fd;
 
 	head = NULL;
-	is_cat_command = ft_is_str_equal(node->argv[0], "cat");
+	is_cat_command = str_equals(node->argv[0], "cat");
 	data->mode = HEREDOCS;
 	handle_signals(data);
 	fd = read_heredoc_lines(node, &head);

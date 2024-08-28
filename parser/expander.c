@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:49:43 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/27 17:27:08 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:08 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	get_variable(char *str, char *input, int *i, t_data *data)
 		return (1);
 	}
 	while (input[*i + size] && input[*i + size] != ' ' && input[*i
-			+ size] != '\"' && !ft_onstr(QUOTES, input[*i + size]) && input[*i
+			+ size] != '\"' && !char_in_str(QUOTES, input[*i + size]) && input[*i
 			+ size] != '$')
 		size++;
 	value = get_varvalue_fromvlst(ft_substr(input, *i, size), data);
@@ -115,7 +115,7 @@ int	token_size(char *str, int *i, t_data *data)
 	if ((*str + 1) == ' ' || (*str + 1) == '\"')
 		return (1);
 	size = 0;
-	while (str[size + 1] && str[size + 1] != ' ' && !ft_onstr(QUOTES, str[size
+	while (str[size + 1] && str[size + 1] != ' ' && !char_in_str(QUOTES, str[size
 				+ 1]) && str[size + 1] != '$')
 		size++;
 	if (size == 0)

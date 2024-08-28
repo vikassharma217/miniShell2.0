@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:29:55 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 11:53:35 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:08 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,18 @@ int	token_num(char *str)
 	quotes = false;
 	while (*str)
 	{
-		if (ft_onstr(OPERATORS, *str))
+		if (char_in_str(OPERATORS, *str))
 			i++;
-		if (ft_onstr(QUOTES, *str) && *str == *(str + 1))
+		if (char_in_str(QUOTES, *str) && *str == *(str + 1))
 			str++;
-		else if (ft_onstr(QUOTES, *str))
+		else if (char_in_str(QUOTES, *str))
 			quotes = !quotes;
-		if (*str != ' ' && !ft_onstr(OPERATORS, *str) && !flag && !quotes)
+		if (*str != ' ' && !char_in_str(OPERATORS, *str) && !flag && !quotes)
 		{
 			flag = true;
 			i++;
 		}
-		else if (*str == ' ' || ft_onstr(OPERATORS, *str))
+		else if (*str == ' ' || char_in_str(OPERATORS, *str))
 			flag = false;
 		str++;
 	}
@@ -49,15 +49,15 @@ int	token_len(char *str)
 	char	quotes;
 
 	len = 0;
-	if (ft_onstr(OPERATORS, str[len]))
+	if (char_in_str(OPERATORS, str[len]))
 	{
 		if (str[len] == str[len + 1])
 			return (2);
 		return (1);
 	}
-	while (str[len] && !ft_isspace(str[len]) && !ft_onstr(OPERATORS, str[len]))
+	while (str[len] && !ft_isspace(str[len]) && !char_in_str(OPERATORS, str[len]))
 	{
-		if (ft_onstr(QUOTES, str[len]))
+		if (char_in_str(QUOTES, str[len]))
 		{
 			quotes = str[len++];
 			while (str[len] && str[len] != quotes)

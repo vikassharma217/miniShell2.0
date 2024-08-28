@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 11:52:57 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:23:26 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,14 +212,14 @@ char							*get_varvalue_fromvlst(char *var_name,
 									t_data *data);
 t_elst							*lstlast_env(t_elst *node);
 void							lstadd_back_env(t_elst **head, t_elst *new);
-bool							ft_onstr(const char *str, int ch);
-bool							ft_is_str_equal(char *str1, char *str2);
-bool							export_state(char *name, t_elst **head);
+bool							char_in_str(const char *str, int ch);
+bool							str_equals(char *str1, char *str2);
+bool							is_var_exported(char *name, t_elst **head);
 int								store_usr_var(char *cmd, t_elst **head,
 									bool export);
 t_elst							*newnode_env(char *var_name, char *var_value,
 									bool is_exported);
-char							*trim_whitespace(char *str);
+char							*strip_whitespace(char *str);
 
 // libft utils
 void							ft_putchar_fd(char c, int fd);

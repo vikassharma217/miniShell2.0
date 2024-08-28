@@ -6,12 +6,13 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:00:09 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/27 18:57:16 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:23:26 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// function to initialize minishell
 int	init_minishell(char **env, t_data *data, t_cmd **cmd_list)
 {
 	if (isatty(STDIN_FILENO))
@@ -27,7 +28,8 @@ int	init_minishell(char **env, t_data *data, t_cmd **cmd_list)
 	return (0);
 }
 
-char	*clean_input(t_data *data)
+// function to clean input from user
+char	*get_cleaned_input(t_data *data)
 {
 	char	*input;
 
@@ -40,16 +42,17 @@ char	*clean_input(t_data *data)
 	}
 	if (g_signal != 0)
 		data->exit_code = 130;
-	return (trim_whitespace(input));
+	return (strip_whitespace(input));
 }
 
+// main loop of minishell
 void	minishell_loop(t_data *data, t_cmd **cmd_list)
 {
 	char	*input;
 
 	while (1)
 	{
-		input = clean_input(data);
+		input = get_cleaned_input(data);
 		if (!input || *input == '\0')
 		{
 			free(input);
@@ -66,7 +69,7 @@ void	minishell_loop(t_data *data, t_cmd **cmd_list)
 		data->head = *cmd_list;
 		start_execution(*cmd_list, data);
 		free_parsed_tokens(cmd_list, data);
-		//free(input);
+		// free(input);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:54:20 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/28 11:54:24 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*get_env_variable(t_elst *env_lst, char *name)
 {
 	while (env_lst)
 	{
-		if (ft_is_str_equal(name, env_lst->name))
+		if (str_equals(name, env_lst->name))
 			return (ft_strdup(env_lst->value));
 		env_lst = env_lst->next;
 	}
@@ -158,7 +158,7 @@ static char	**get_paths(t_elst *env_lst)
 	t_elst	*temp;
 
 	temp = env_lst;
-	while (!ft_is_str_equal("PATH", temp->name))
+	while (!str_equals("PATH", temp->name))
 	{
 		temp = temp->next;
 		if (temp == NULL)

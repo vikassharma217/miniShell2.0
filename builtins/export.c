@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:28 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/24 17:53:30 by rscherl          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	set_exported_flag(char *name, t_data *data)
 	current = data->env_lst;
 	while (current != NULL)
 	{
-		if (ft_is_str_equal(name, current->name))
+		if (str_equals(name, current->name))
 		{
 			current->exported = true;
 			break ;
@@ -69,7 +69,7 @@ int	export(t_cmd *cmd, t_data *data)
 			any_error = export_error_message(cmd->argv[i]);
 		else
 		{
-			equal_flag = ft_onstr(cmd->argv[i], '=');
+			equal_flag = char_in_str(cmd->argv[i], '=');
 			if (equal_flag)
 				store_usr_var(cmd->argv[i], &data->env_lst, true);
 			else
@@ -86,7 +86,7 @@ int	export(t_cmd *cmd, t_data *data)
 	current = data->env_lst;
 	while (current != NULL)
 	{
-		if (ft_is_str_equal(name, current->name))
+		if (str_equals(name, current->name))
 		{
 			current->exported = true;
 			break ;
@@ -130,7 +130,7 @@ int	ft_export(t_cmd *cmd, t_data *data)
 	{
 		if (!is_valid(cmd->argv[i]))
 			err = export_error_message(cmd->argv[i]);
-		else if (ft_onstr(cmd->argv[i], '='))
+		else if (char_in_str(cmd->argv[i], '='))
 		{
 			store_usr_var(cmd->argv[i], &data->env_lst, true);
 			continue ;

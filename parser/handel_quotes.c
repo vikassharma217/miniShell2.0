@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 11:38:25 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/21 11:38:27 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:08 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	quotes_size(char *str)
 	size = 0;
 	while (str[i])
 	{
-		while (str[i] && !ft_onstr(QUOTES, str[i]))
+		while (str[i] && !char_in_str(QUOTES, str[i]))
 		{
 			i++;
 			size++;
@@ -65,7 +65,7 @@ char	*process_string(char *str, char *out)
 	quotes = '\0';
 	while (str[i])
 	{
-		while (str[i] && !ft_onstr(QUOTES, str[i]))
+		while (str[i] && !char_in_str(QUOTES, str[i]))
 			out[j++] = str[i++];
 		if (!str[i])
 			break ;

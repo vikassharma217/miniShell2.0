@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_parser.c                                     :+:      :+:    :+:   */
+/*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/20 12:55:19 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/27 15:52:54 by vsharma          ###   ########.fr       */
+/*   Created: 2024/08/28 12:44:58 by vsharma           #+#    #+#             */
+/*   Updated: 2024/08/28 13:23:36 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "minishell.h"
 
-bool	ft_onstr(const char *str, int ch)
+bool	char_in_str(const char *str, int ch)
 {
 	size_t	i;
 
@@ -28,7 +28,7 @@ bool	ft_onstr(const char *str, int ch)
 	return (false);
 }
 
-bool	ft_is_str_equal(char *str1, char *str2)
+bool	str_equals(char *str1, char *str2)
 {
 	size_t	i;
 
@@ -44,39 +44,12 @@ bool	ft_is_str_equal(char *str1, char *str2)
 	return (true);
 }
 
-bool	export_state(char *name, t_elst **head)
+char	*strip_whitespace(char *str)
 {
-	t_elst	*temp;
-
-	temp = *head;
-	while (temp != NULL)
-	{
-		if (ft_is_str_equal(name, temp->name))
-			return (temp->exported);
-		temp = temp->next;
-	}
-	return (false);
-}
-
-int	store_usr_var(char *cmd, t_elst **head, bool export)
-{
-	char	**line;
-
-	line = split_env_var(cmd);
-	if (export_state(line[0], head) && !export)
-		export = true;
-	unset_variable(line[0], head);
-	lstadd_back_env(head, newnode_env(line[0], line[1], export));
-	free(line);
-	return (EXIT_SUCCESS);
-}
-
-char	*trim_whitespace(char *str)
-{
-	const char	*start;
-	const char	*end;
-	size_t		len;
-	char		*trimmed_str;
+	const char *start;
+	const char *end;
+	size_t len;
+	char *trimmed_str;
 
 	start = str;
 	end = str + ft_strlen(str) - 1;

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:31:01 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 12:00:27 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:08 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ bool	check_operator(char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (ft_onstr(OPERATORS, input[i]))
+		if (char_in_str(OPERATORS, input[i]))
 			return (true);
 		i++;
 	}

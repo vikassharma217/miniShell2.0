@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:18 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/24 17:53:20 by rscherl          ###   ########.fr       */
+/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 		return (write(2, "cd: too many arguments\n", 23), EXIT_FAILURE);
 	if (!getcwd(current_dir, PATH_MAX))
 		return (write(2, "minishell: cd: getcwd()\n", 31), EXIT_FAILURE);
-	if (!target_dir || ft_is_str_equal(target_dir, "~"))
+	if (!target_dir || str_equals(target_dir, "~"))
 	{
 		save_old_pwd(current_dir, data);
 		if (chdir(getenv("HOME")) != 0)
@@ -98,7 +98,7 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 		update_pwd(data);
 		return (EXIT_SUCCESS);
 	}
-	if (ft_is_str_equal(target_dir, "-"))
+	if (str_equals(target_dir, "-"))
 		return (change_to_old_pwd(current_dir, data));
 	if (chdir(target_dir) != 0)
 		return (print_cd_error(target_dir));
@@ -114,14 +114,14 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 	if (cmd->argc > 2)
 		return (write(2, "cd: too many arguments\n", 23), EXIT_FAILURE);
 	getcwd(current_dir, PATH_MAX);
-	if (target_dir == NULL || ft_is_str_equal(target_dir, "~"))
+	if (target_dir == NULL || str_equals(target_dir, "~"))
 	{
 		save_oldpwd(current_dir, data);
 		chdir(getenv("HOME"));
 		update_pwd(data);
 		return (EXIT_SUCCESS);
 	}
-	if (ft_is_str_equal(target_dir, "-"))
+	if (str_equals(target_dir, "-"))
 		return (cd_oldpwd(current_dir, data));
 	if (chdir(target_dir) == SUCCESS)
 	{
@@ -188,14 +188,14 @@ int	ft_cd(char *target_dir, t_data *data)
 	char	current_dir[PATH_MAX];
 
 	getcwd(current_dir, PATH_MAX);
-	if (target_dir == NULL || ft_is_str_equal(target_dir, "~"))
+	if (target_dir == NULL || str_equals(target_dir, "~"))
 	{
 		update_oldpwd(current_dir, data);
 		chdir(getenv("HOME"));
 		update_pwd(data);
 		return (EXIT_SUCCESS);
 	}
-	if (ft_is_str_equal(target_dir, "-"))
+	if (str_equals(target_dir, "-"))
 		return (cd_oldpwd(current_dir, data));
 	if (chdir(target_dir) == SUCCESS)
 	{
