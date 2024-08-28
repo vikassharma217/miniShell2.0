@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:00:09 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 13:23:26 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 16:02:49 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	*get_cleaned_input(t_data *data)
 void	minishell_loop(t_data *data, t_cmd **cmd_list)
 {
 	char	*input;
+	char	*expanded_input;
 
 	while (1)
 	{
@@ -64,12 +65,13 @@ void	minishell_loop(t_data *data, t_cmd **cmd_list)
 			free(input);
 			continue ;
 		}
-		input = init_expander(input, data);
+		expanded_input = init_expander(input, data);
+		free(input);
+		input = expanded_input;
 		*cmd_list = init_parser(input);
 		data->head = *cmd_list;
 		start_execution(*cmd_list, data);
 		free_parsed_tokens(cmd_list, data);
-		// free(input);
 	}
 }
 

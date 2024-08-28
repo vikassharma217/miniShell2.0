@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:31:01 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:08 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 15:02:41 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,21 @@ void	exit_minishell(int status_code, t_data *data)
 	if (data)
 		ft_clear_all(data);
 	exit(data->exit_code);
+}
+
+
+bool	check_operator(char *input)
+{
+	size_t	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (char_in_str(OPERATORS, input[i]))
+			return (true);
+		i++;
+	}
+	return (false);
 }
 
 bool	input_validation(char *input, t_data *data)
@@ -47,16 +62,3 @@ bool	input_validation(char *input, t_data *data)
 	return (true);
 }
 
-bool	check_operator(char *input)
-{
-	size_t	i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (char_in_str(OPERATORS, input[i]))
-			return (true);
-		i++;
-	}
-	return (false);
-}

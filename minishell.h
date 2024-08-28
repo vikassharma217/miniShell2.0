@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 14:43:55 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 15:06:19 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,21 +150,20 @@ void							redirections(t_cmd *cmd, t_data *data);
 /*redirections1.c*/
 void							r_hd(t_data *data, t_cmd *node);
 
-// validation_error_handeling
-void							exit_minishell(int status_code, t_data *data);
+
+// validation
+/*cleaup*/
+void	free_parsed_tokens(t_cmd **cmd_list, t_data *data);
+void	ft_clear_all(t_data *data);
+/*input_handeling*/
+bool	input_validation(char *input, t_data *data);
+bool							check_operator(char *input);
+/*validation_syntax*/
 bool							mismatched_quotes(const char *str);
 bool							invalid_sequence(char *str);
-bool							invalid_syntax(char *str);
-bool							check_operator(char *input);
-bool							invalid_operator_helper(char *input);
 bool							invalid_operator(char *input);
-bool							input_validation(char *input, t_data *data);
-void							lstclear_env(t_elst **head);
-void							free_all_data(char **arr);
-void							lstclear_par(t_cmd **head);
-void							free_parsed_tokens(t_cmd **cmd_list,
-									t_data *data);
-void							ft_clear_all(t_data *data);
+bool							invalid_syntax(char *str);
+
 
 // Parser
 /*env_list*/

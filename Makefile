@@ -6,7 +6,7 @@
 #    By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 11:43:39 by vsharma           #+#    #+#              #
-#    Updated: 2024/08/28 14:18:08 by vsharma          ###   ########.fr        #
+#    Updated: 2024/08/28 15:13:22 by vsharma          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAG)
-	@echo "$(BLUE) excutable ./$(NAME) is created $(RESET)"
+	@echo "$(BLUE) ./$(NAME) ready !! $(RESET)"
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
