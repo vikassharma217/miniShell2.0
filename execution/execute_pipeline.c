@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:03 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/24 17:55:06 by rscherl          ###   ########.fr       */
+/*   Updated: 2024/08/28 12:02:37 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,27 @@ static void	handle_pipe_error(const char *error_message, t_data *data)
 	exit(EXIT_FAILURE);
 }
 
-static void pipe_child_process(t_cmd *node, int fd[2], t_data *data)
+static void	pipe_child_process(t_cmd *node, int fd[2], t_data *data)
 {
 	close(fd[0]); // CLose read End of pipe
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
 		handle_pipe_error("dup2 failed in child process", data);
-	close(fd[1]); //close write End of pipe 
+	close(fd[1]); // close write End of pipe
 	run_command(node, data);
 	exit(EXIT_SUCCESS);
 }
 
-
-static void pipe_parent_process(t_cmd *node, int fd[2], t_data *data, pid_t child_pid)
+static void	pipe_parent_process(t_cmd *node, int fd[2], t_data *data,
+		pid_t child_pid)
 {
-	int status;
+	int	status;
 
-	close(fd[1]);  // close write end of pipe
+	close(fd[1]); // close write end of pipe
 	if (dup2(fd[0], STDIN_FILENO) == -1)
 		handle_pipe_error("dup2 failed in parent process", data);
-	close(fd[0]);  // close read end of pipe
+	close(fd[0]); // close read end of pipe
 	run_command(node->next, data);
-	waitpid(child_pid, &status, 0);  // wait for child process
+	waitpid(child_pid, &status, 0); // wait for child process
 	data->exit_code = WEXITSTATUS(status);
 }
 
@@ -49,7 +49,7 @@ void	pipe_execution(t_cmd *node, t_data *data)
 	int		status;
 	pid_t	child_pid;
 
-	node->operator = NONE;
+	node->operator= NONE;
 	if (!node->next)
 	{
 		run_command(node, data);
@@ -104,7 +104,6 @@ void	pipe_execution(t_cmd *node, t_data *data)
 	}
 	data->exit_code = WEXITSTATUS(status);
 }*/
-
 /*static void	p_first(t_cmd *node, t_data *data, int fd[2])
 {
 	close(fd[0]);

@@ -6,7 +6,7 @@
 #    By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 11:43:39 by vsharma           #+#    #+#              #
-#    Updated: 2024/08/27 17:37:06 by vsharma          ###   ########.fr        #
+#    Updated: 2024/08/28 12:01:38 by vsharma          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ SRC = main.c \
 		utils_libft/ft_substr.c utils_libft/ft_putstr_fd.c \
 		utils_libft/ft_isspace.c signals/signals.c \
 		utils_libft/ft_isalnum.c utils_libft/ft_isdigit.c \
-		validation/input_validation.c validation/cleanup.c \
+		validation/input_handeling.c validation/cleanup.c \
+		validation/validation_syntax.c 
 
 
 OBJ = $(SRC:.c=.o)

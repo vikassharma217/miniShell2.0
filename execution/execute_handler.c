@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:54:47 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/24 17:54:49 by rscherl          ###   ########.fr       */
+/*   Updated: 2024/08/28 12:04:09 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 			exit_status = 128 + WTERMSIG(status);
 	}
 	else if (WIFEXITED(status))
-		exit_status =  WEXITSTATUS(status);
+		exit_status = WEXITSTATUS(status);
 	data->exit_code = exit_status;
 }
 
@@ -104,7 +104,7 @@ void	start_execution(t_cmd *cmd_list, t_data *data)
 	if (pid == -1)
 	{
 		perror("Error in fork()");
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0 && size_of_list(cmd_list) == 1)
 		run_child_process_system_commands(cmd_list, data);

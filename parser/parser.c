@@ -6,11 +6,11 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 11:32:59 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/27 18:49:07 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 11:53:27 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
 
 int	get_argc(char **str)
 {
@@ -22,26 +22,25 @@ int	get_argc(char **str)
 	return (i);
 }
 
-
 /*assign the correct operator to parsed linked list*/
 t_op	get_operator(char *str)
 {
 	t_op	operator;
 
 	if (!str)
-		operator = NONE;
+		operator= NONE;
 	else if (ft_is_str_equal(str, ">"))
-		operator = RD_OUT;
+		operator= RD_OUT;
 	else if (ft_is_str_equal(str, ">>"))
-		operator = RD_APND;
+		operator= RD_APND;
 	else if (ft_is_str_equal(str, "<"))
-		operator = RD_IN;
+		operator= RD_IN;
 	else if (ft_is_str_equal(str, "<<"))
-		operator = RD_HD;
+		operator= RD_HD;
 	else if (ft_is_str_equal(str, "|"))
-		operator = PIPE;
+		operator= PIPE;
 	else
-		operator = NONE;
+		operator= NONE;
 	free(str);
 	return (operator);
 }
@@ -71,10 +70,9 @@ t_cmd	*create_cmd_node(char **parsed, int *i)
 	}
 	temp->argv[j] = NULL;
 	if (parsed[*i])
-		temp->operator = get_operator(parsed[(*i)++]);
+		temp->operator= get_operator(parsed[(*i)++]);
 	return (temp);
 }
-
 
 t_cmd	*init_parser(char *input)
 {

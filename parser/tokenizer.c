@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:29:55 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/27 17:34:22 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 11:53:35 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	token_num(char *str)
 	}
 	return (i);
 }
-
 
 int	token_len(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/27 18:23:11 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/28 11:52:57 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,13 +135,13 @@ void							start_execution(t_cmd *cmd_list, t_data *data);
 void							run_command(t_cmd *node, t_data *data);
 
 /*pipe_execution.c*/
-void	pipe_execution(t_cmd *node, t_data *data);
+void							pipe_execution(t_cmd *node, t_data *data);
 void							pipe_execution(t_cmd *node, t_data *data);
 void							child_pid_fails(t_data *data);
 void							pipe_fails(t_data *data);
 
 /*utils_linked_lists.c*/
-//size_t							size_of_list(t_cmd *list);
+// size_t							size_of_list(t_cmd *list);
 
 // redirections
 /*redirections.c*/
@@ -240,6 +240,6 @@ char							*ft_strncpy(char *dest, const char *src,
 									size_t n);
 
 // signals
-void	handle_signals(t_data *data);
+void							handle_signals(t_data *data);
 
 #endif
