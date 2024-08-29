@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:27 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:39:59 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	create_tempfile(t_data *data, char **template)
 	char	*temp_path;
 	int		temp_fd;
 
-	temp_path = ft_strjoin(data->execute_dir, "/temp/heredoc");
+	temp_path = ft_strjoin(data->execute_dir, "/.heredoc");
 	*template = ft_strdup(temp_path);
 	free(temp_path);
 	temp_fd = open(*template, O_RDWR | O_CREAT | O_EXCL, 0600);
@@ -34,14 +34,19 @@ static int	create_tempfile(t_data *data, char **template)
 	return (temp_fd);
 }
 
-static void	process_heredoc_input(char *delimiter, int temp_fd)
+static void	process_heredoc_input(char *delimiter, int temp_fd, t_cmd *current_cmd)
 {
 	char	*line;
 
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || strcmp(line, delimiter) == 0)
+		if (!line)
+		{
+			handle_eof_in_heredoc(current_cmd);
+			break ;
+		}
+		if (strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break ;
@@ -51,6 +56,25 @@ static void	process_heredoc_input(char *delimiter, int temp_fd)
 		free(line);
 	}
 }
+
+
+/*static void	process_heredoc_input(char *delimiter, int temp_fd)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || strcmp(line, delimiter) == 0) // check function
+		{
+			free(line);
+			break ;
+		}
+		write(temp_fd, line, strlen(line)); // cheke here also
+		write(temp_fd, "\n", 1);
+		free(line);
+	}
+}*/
 
 void	heredoc_handler(t_data *data, t_cmd *command)
 {
@@ -65,7 +89,7 @@ void	heredoc_handler(t_data *data, t_cmd *command)
 	temp_fd = create_tempfile(data, &template);
 	while (current_cmd && current_cmd->operator == RD_HD)
 	{
-		process_heredoc_input(current_cmd->next->argv[0], temp_fd);
+		process_heredoc_input(current_cmd->next->argv[0], temp_fd, current_cmd);
 		current_cmd = current_cmd->next;
 	}
 	close(temp_fd);
@@ -83,6 +107,7 @@ void	heredoc_handler(t_data *data, t_cmd *command)
 	}
 	close(temp_fd);
 	unlink(template);
+	free(template);
 }
 
 /*static t_heredoc	*create_and_append_node(t_heredoc **head, char *buffer)
