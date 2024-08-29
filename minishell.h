@@ -64,12 +64,6 @@ typedef enum e_mode
 	HEREDOCS,
 }								t_mode;
 
-typedef struct s_heredoc
-{
-	char						*input;
-	struct s_heredoc			*next;
-}								t_heredoc;
-
 // linked list to store the tokens created after parsing
 typedef struct s_cmd
 {
