@@ -51,9 +51,12 @@ static void	process_heredoc_input(char *delimiter, int temp_fd, t_cmd *current_c
 			free(line);
 			break ;
 		}
-		write(temp_fd, line, strlen(line));
-		write(temp_fd, "\n", 1);
-		free(line);
+		if (*line)
+		{
+			write(temp_fd, line, strlen(line));
+			write(temp_fd, "\n", 1);
+			free(line);
+		}
 	}
 }
 
