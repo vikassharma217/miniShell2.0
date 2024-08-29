@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_handler.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:41 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/24 17:55:42 by rscherl          ###   ########.fr       */
+/*   Updated: 2024/08/29 13:14:57 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 			write(2, "minishell: ", 11);
 			perror(current_cmd->argv[0]);
 			data->exit_code = 1;
+			ft_clear_all(data);
 			exit(EXIT_FAILURE);
 		}
 		dup2(input_fd, STDIN_FILENO);
