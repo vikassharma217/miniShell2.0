@@ -11,108 +11,152 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+//with cmd "tail -f /tmp/.minishell_heredoc" in a seperate terminal...
+//...you can see what you are writing inside in live 
 
-//Check PATH_MAX in create_tempfile
-//Check if heredoc file will be deleted after something fails
-//Check all free commands
-
-static int	create_tempfile(t_data *data, char **template)
+static void	handle_error(char *message, char *heredoc_file)
 {
-	char	*temp_path;
-	int		temp_fd;
-
-	temp_path = ft_strjoin(data->execute_dir, "/.heredoc");
-	*template = ft_strdup(temp_path);
-	free(temp_path);
-	temp_fd = open(*template, O_RDWR | O_CREAT | O_EXCL, 0600);
-	if (temp_fd == -1)
-	{
-		free(*template);
-		perror("open");
-		exit(EXIT_FAILURE);
-	}
-	return (temp_fd);
+	perror(message);
+	if (heredoc_file != NULL)
+		unlink(heredoc_file);
+	exit(EXIT_FAILURE);
 }
 
-static void	process_heredoc_input(char *delimiter, int temp_fd, t_cmd *current_cmd)
+static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd)
 {
 	char	*line;
+	char	*delimiter;
 
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-		{
-			handle_eof_in_heredoc(current_cmd);
-			break ;
-		}
-		if (strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		if (*line)
-		{
-			write(temp_fd, line, strlen(line));
-			write(temp_fd, "\n", 1);
-			free(line);
-		}
-	}
-}
-
-
-/*static void	process_heredoc_input(char *delimiter, int temp_fd)
-{
-	char	*line;
-
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || strcmp(line, delimiter) == 0) // check function
-		{
-			free(line);
-			break ;
-		}
-		write(temp_fd, line, strlen(line)); // cheke here also
-		write(temp_fd, "\n", 1);
-		free(line);
-	}
-}*/
-
-void	heredoc_handler(t_data *data, t_cmd *command)
-{
-	t_cmd	*current_cmd;
-	char	*template;
-	char	buffer[1024];
-	int		temp_fd;
-	ssize_t	bytes_read;
-
-	current_cmd = command;
-	template = NULL;
-	temp_fd = create_tempfile(data, &template);
 	while (current_cmd && current_cmd->operator == RD_HD)
 	{
-		process_heredoc_input(current_cmd->next->argv[0], temp_fd, current_cmd);
+		delimiter = current_cmd->next->argv[0];
+		while (1)
+		{
+			line = readline("> ");
+			if (str_equals(line, delimiter) == 1)
+			{
+				free(line);
+				break ;
+			}
+			if (*line)
+			{
+				write(heredoc_fd, line, ft_strlen(line));
+				write(heredoc_fd, "\n", 1);
+			}
+			free(line);
+		}
 		current_cmd = current_cmd->next;
 	}
-	close(temp_fd);
-	temp_fd = open(template, O_RDONLY);
-	if (temp_fd == -1)
-	{
-		perror("Error reopening temporary file");
-		exit(EXIT_FAILURE);
-	}
-	bytes_read = read(temp_fd, buffer, sizeof(buffer));
+}
+
+void	heredoc_handler(t_cmd *cmd)
+{
+	char	*heredoc_file;
+	int		heredoc_fd;
+
+	heredoc_file = "/tmp/.minishell_heredoc";
+	heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
+	if (heredoc_fd < 0)
+		handle_error("Failed to create or open temporary file", heredoc_file);
+	process_heredoc_input(heredoc_fd, cmd);
+	close(heredoc_fd);
+	unlink(heredoc_file);
+}
+
+//Think we dont need it do it to print it with cat just <<1 <<2 <<3 thats it
+//even with cat it just prints whats in the last <<?
+/*
+static void	handle_error(char *message, char *heredoc_file)
+{
+	perror(message);
+	if (heredoc_file != NULL)
+		unlink(heredoc_file);
+	exit(EXIT_FAILURE);
+}
+
+static void	output_file_content(int fd, char *heredoc_file)
+{
+	char	buffer[1024];
+	ssize_t	bytes_read;
+
+	bytes_read = read(fd, buffer, sizeof(buffer));
 	while (bytes_read > 0)
 	{
 		write(STDOUT_FILENO, buffer, bytes_read);
-		bytes_read = read(temp_fd, buffer, sizeof(buffer));
+		bytes_read = read(fd, buffer, sizeof(buffer));
 	}
-	close(temp_fd);
-	unlink(template);
-	free(template);
+	if (bytes_read < 0)
+		handle_error("Error reading file", heredoc_file);
 }
 
+static int	check_for_cat_command(t_data *data, t_cmd *cmd_list)
+{
+	(void) data;
+	while (cmd_list)
+	{
+		if (cmd_list->argv[0] && str_equals(cmd_list->argv[0], "cat") == 1)
+			return (1);
+		cmd_list = cmd_list->next;
+	}
+	return (0);
+}
+
+static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd)
+{
+	char	*line;
+	char	*delimiter;
+
+	while (current_cmd && current_cmd->operator == RD_HD)
+	{
+		delimiter = current_cmd->next->argv[0];
+		while (1)
+		{
+			line = readline("> ");
+			//Think we dont need it anymore
+			if (!line)
+				handle_eof_in_heredoc(current_cmd);
+			if (str_equals(line, delimiter) == 1)
+			{
+				free(line);
+				break ;
+			}
+			if (*line)
+			{
+				write(heredoc_fd, line, ft_strlen(line));
+				write(heredoc_fd, "\n", 1);
+			}
+			free(line);
+		}
+		current_cmd = current_cmd->next;
+	}
+}
+void	heredoc_handler(t_data *data, t_cmd *cmd)
+{
+	int		heredoc_fd;
+	char	*heredoc_file;
+	int		print_flag;
+
+	print_flag = check_for_cat_command(data, cmd);
+	heredoc_file = "/tmp/.minishell_heredoc";
+	heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
+	if (heredoc_fd < 0)
+	{
+		handle_error("Failed to create or open temporary file", heredoc_file);
+	}
+	process_heredoc_input(heredoc_fd, cmd);
+	close(heredoc_fd);
+	if (print_flag)
+	{
+		heredoc_fd = open(heredoc_file, O_RDONLY);
+		if (heredoc_fd < 0)
+			handle_error("Failed to open temp file for reading", heredoc_file);
+		output_file_content(heredoc_fd, heredoc_file);
+		close(heredoc_fd);
+	}
+	unlink(heredoc_file);
+}*/
+
+//org
 /*static t_heredoc	*create_and_append_node(t_heredoc **head, char *buffer)
 {
 	t_heredoc	*new_node;

@@ -90,7 +90,6 @@ typedef struct s_data
 	t_cmd						*head;
 	int							exit_code;
 	t_mode						mode;
-	char						execute_dir[PATH_MAX];
 }								t_data;
 
 // builtins
@@ -137,8 +136,7 @@ void							pipe_execution(t_cmd *node, t_data *data);
 void							handle_redirections(t_cmd *cmd, t_data *data);
 
 /*heredoc_handler.c*/
-void							heredoc_handler(t_data *data, t_cmd *command);
-
+void							heredoc_handler(t_cmd *command);
 
 // validation
 /*cleaup*/

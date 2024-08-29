@@ -34,22 +34,25 @@ void	sigquit_handler(int signum)
 	}
 }
 
-void	handle_eof_in_heredoc(t_cmd *current_cmd)
+//Think we dont need it anymore, dont find the testcase for it
+/*void	handle_eof_in_heredoc(t_cmd *current_cmd)
 {
 	ft_putstr_fd("bash: warning: here-document at line 0 delimited by end-of-file (wanted `",
 		2);
 	ft_putstr_fd(current_cmd->next->argv[0], 2);
 	ft_putstr_fd("')\n", 2);
-}
+}*/
 
-void	herdocs_handler(int signum)
+//Same here, dont think we need it 
+/*void	herdocs_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
 		g_signal = CNTL_C;
 		exit(130);
 	}
-}
+}*/
+
 void	init_signal(t_data *data)
 {
 	if (data->mode == INTERACTIVE)
@@ -63,11 +66,13 @@ void	init_signal(t_data *data)
 		signal(SIGQUIT, SIG_IGN);
 	}
 	// deleted data->mode CHILD_PROCESS implemented in other function
-	else if (data->mode == HEREDOCS)
+
+	//Dont think we need this anymore, but not sure
+	/*else if (data->mode == HEREDOCS)
 	{
 		signal(SIGINT, &herdocs_handler);
 		signal(SIGQUIT, SIG_IGN);
-	}
+	}*/
 	else
 	{
 		signal(SIGINT, SIG_IGN);
