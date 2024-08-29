@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 15:06:19 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/29 17:42:33 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,25 +138,24 @@ void							pipe_execution(t_cmd *node, t_data *data);
 
 // redirections
 /*redirections_handler.c*/
-void 							handle_redirections(t_cmd *cmd, t_data *data);
+void							handle_redirections(t_cmd *cmd, t_data *data);
 
 /*heredoc_handler.c*/
-void 							heredoc_handler(t_cmd *node);
-
+void							heredoc_handler(t_cmd *node);
 
 // validation
 /*cleaup*/
-void	free_parsed_tokens(t_cmd **cmd_list, t_data *data);
-void	ft_clear_all(t_data *data);
+void							free_parsed_tokens(t_cmd **cmd_list,
+									t_data *data);
+void							ft_clear_all(t_data *data);
 /*input_handeling*/
-bool	input_validation(char *input, t_data *data);
+bool							input_validation(char *input, t_data *data);
 bool							check_operator(char *input);
 /*validation_syntax*/
 bool							mismatched_quotes(const char *str);
 bool							invalid_sequence(char *str);
 bool							invalid_operator(char *input);
 bool							invalid_syntax(char *str);
-
 
 // Parser
 /*env_list*/
@@ -180,7 +179,6 @@ void							fill_tokens(char **token, char *str);
 void							allocate_tokens_memory(char **token, char *str);
 /*handel_quotes*/
 char							*handel_quotes(char *str);
-
 
 // Signals
 void							handel_signals(t_data *data);
@@ -223,6 +221,7 @@ char							*ft_strncpy(char *dest, const char *src,
 									size_t n);
 
 // signals
+void							handle_eof_in_heredoc(t_cmd *current_cmd);
 void							handle_signals(t_data *data);
 
 #endif

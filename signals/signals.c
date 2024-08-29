@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:52:53 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/27 17:01:20 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/29 17:42:40 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ void	sigquit_handler(int signum)
 	}
 }
 
+void	handle_eof_in_heredoc(t_cmd *current_cmd)
+{
+	ft_putstr_fd("bash: warning: here-document at line 0 delimited by end-of-file (wanted `",
+		2);
+	ft_putstr_fd(current_cmd->next->argv[0], 2);
+	ft_putstr_fd("')\n", 2);
+}
+
 void	herdocs_handler(int signum)
 {
 	if (signum == SIGINT)
@@ -54,7 +62,7 @@ void	init_signal(t_data *data)
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	//deleted data->mode CHILD_PROCESS implemented in other function
+	// deleted data->mode CHILD_PROCESS implemented in other function
 	else if (data->mode == HEREDOCS)
 	{
 		signal(SIGINT, &herdocs_handler);
@@ -71,6 +79,7 @@ void	handle_signals(t_data *data)
 {
 	init_signal(data);
 }
+
 /*
 volatile sig_atomic_t	g_signal = 0;
 

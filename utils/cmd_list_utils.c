@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:13:02 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 19:15:18 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/29 17:36:52 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_cmd	*newnode_par(int argc)
 		free(new_node);
 		return (NULL);
 	}
-	new_node->operator= NONE;
+	new_node->operator = NONE;
 	new_node->next = NULL;
 	i = 0;
 	while (i <= argc)

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:44:58 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 15:27:27 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/29 17:36:26 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ bool	str_equals(char *str1, char *str2)
 
 char	*strip_whitespace(char *str)
 {
-	const char *start;
-	const char *end;
-	size_t len;
-	char *trimmed_str;
+	const char	*start;
+	const char	*end;
+	size_t		len;
+	char		*trimmed_str;
 
 	start = str;
 	end = str + ft_strlen(str) - 1;

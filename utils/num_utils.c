@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:50:43 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 12:54:10 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/29 17:36:34 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ static long long	ft_digits(long long n)
 
 char	*ft_lltoa(long long n)
 {
-	long long digits;
-	int signal;
-	char *result;
+	long long	digits;
+	int			signal;
+	char		*result;
 
 	digits = ft_digits(n);
 	signal = 1;

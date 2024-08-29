@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:03 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/28 12:02:37 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/29 17:31:10 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	pipe_execution(t_cmd *node, t_data *data)
 	else
 		pipe_parent_process(node, fd, data, child_pid);
 }
+
 /*void	pipe_execution(t_cmd *node, t_data *data)
 {
 	int		fd[2];

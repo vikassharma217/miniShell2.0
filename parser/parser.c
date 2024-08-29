@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 11:32:59 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/29 17:40:30 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ t_op	get_operator(char *str)
 	t_op	operator;
 
 	if (!str)
-		operator= NONE;
+		operator = NONE;
 	else if (str_equals(str, ">"))
-		operator= RD_OUT;
+		operator = RD_OUT;
 	else if (str_equals(str, ">>"))
-		operator= RD_APND;
+		operator = RD_APND;
 	else if (str_equals(str, "<"))
-		operator= RD_IN;
+		operator = RD_IN;
 	else if (str_equals(str, "<<"))
-		operator= RD_HD;
+		operator = RD_HD;
 	else if (str_equals(str, "|"))
-		operator= PIPE;
+		operator = PIPE;
 	else
-		operator= NONE;
+		operator = NONE;
 	free(str);
 	return (operator);
 }
@@ -70,7 +70,7 @@ t_cmd	*create_cmd_node(char **parsed, int *i)
 	}
 	temp->argv[j] = NULL;
 	if (parsed[*i])
-		temp->operator= get_operator(parsed[(*i)++]);
+		temp->operator = get_operator(parsed[(*i)++]);
 	return (temp);
 }
 
