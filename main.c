@@ -84,6 +84,11 @@ int	main(int argc, char **argv, char **env)
 		return (write(2, "Error: too many arguments\n", 26));
 	if (!getenv("_"))
 		return (write(2, "Error: invalid environment\n", 28));
+	if (getcwd(data.execute_dir, PATH_MAX) == NULL)
+	{
+        perror("getcwd");
+        exit(EXIT_FAILURE);
+    }
 	init_minishell(env, &data, &cmd_list);
 	minishell_loop(&data, &cmd_list);
 	return (EXIT_SUCCESS);

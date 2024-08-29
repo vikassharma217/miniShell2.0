@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_handler.c                                    :+:      :+:    :+:   */
+/*   heredoc_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,74 +12,132 @@
 
 #include "../minishell.h"
 
-static void append_heredoc(t_heredoc **list, const char *input)
-{
-    t_heredoc *new_entry;
-	t_heredoc *tail;
+//Check PATH_MAX in create_tempfile
+//Check if heredoc file will be deleted after something fails
+//Check all free commands
 
-	new_entry = malloc(sizeof(t_heredoc));
-    if (!new_entry)
-    {
-        perror("Memory allocation error");
-        exit(EXIT_FAILURE);
-    }
-    new_entry->input = ft_strdup(input);
-    new_entry->next = NULL;
-    if (*list == NULL)
-        *list = new_entry;
-    else
-    {
-        tail = *list;
-        while (tail->next)
-            tail = tail->next;
-        tail->next = new_entry;
-    }
+static int	create_tempfile(t_data *data, char **template)
+{
+	char	*temp_path;
+	int		temp_fd;
+
+	temp_path = ft_strjoin(data->execute_dir, "/temp/heredoc");
+	*template = ft_strdup(temp_path);
+	free(temp_path);
+	temp_fd = open(*template, O_RDWR | O_CREAT | O_EXCL, 0600);
+	if (temp_fd == -1)
+	{
+		free(*template);
+		perror("open");
+		exit(EXIT_FAILURE);
+	}
+	return (temp_fd);
 }
 
-static int *process_heredocs(t_cmd *command, t_heredoc **list)
+static void	process_heredoc_input(char *delimiter, int temp_fd)
 {
-	t_cmd *current_cmd;
-	int *pipe_fds;
+	char	*line;
 
-    pipe_fds = malloc(2 * sizeof(int));
-    if (!pipe_fds)
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(temp_fd, line, strlen(line));
+		write(temp_fd, "\n", 1);
+		free(line);
+	}
+}
+
+void	heredoc_handler(t_data *data, t_cmd *command)
+{
+	t_cmd	*current_cmd;
+	char	*template;
+	char	buffer[1024];
+	int		temp_fd;
+	ssize_t	bytes_read;
+
+	current_cmd = command;
+	template = NULL;
+	temp_fd = create_tempfile(data, &template);
+	while (current_cmd && current_cmd->operator == RD_HD)
+	{
+		process_heredoc_input(current_cmd->next->argv[0], temp_fd);
+		current_cmd = current_cmd->next;
+	}
+	close(temp_fd);
+	temp_fd = open(template, O_RDONLY);
+	if (temp_fd == -1)
+	{
+		perror("Error reopening temporary file");
+		exit(EXIT_FAILURE);
+	}
+	bytes_read = read(temp_fd, buffer, sizeof(buffer));
+	while (bytes_read > 0)
+	{
+		write(STDOUT_FILENO, buffer, bytes_read);
+		bytes_read = read(temp_fd, buffer, sizeof(buffer));
+	}
+	close(temp_fd);
+	unlink(template);
+}
+
+/*static void add_to_list(t_heredoc **list, char *input)
+{
+    t_heredoc *new_entry = malloc(sizeof(t_heredoc));
+    if (!new_entry)
     {
-        perror("Pipe allocation error");
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+    new_entry->input = input;
+    new_entry->next = *list;
+    *list = new_entry;
+}
+
+static void handle_line(t_heredoc **list, int pipe_fd, char *line)
+{
+    write(pipe_fd, line, strlen(line));
+    write(pipe_fd, "\n", 1);
+    add_to_list(list, strdup(line));
+}
+
+static int *init_and_process_heredocs(t_cmd *command, t_heredoc **list)
+{
+    int *pipe_fds = malloc(2 * sizeof(int));
+    if (!pipe_fds || pipe(pipe_fds) == -1)
+    {
+        perror("pipe");
         exit(EXIT_FAILURE);
     }
 
-    if (pipe(pipe_fds) == -1)
-    {
-        perror("Pipe creation error");
-        exit(EXIT_FAILURE);
-    }
-    current_cmd = command;
-    while (current_cmd && current_cmd->operator == RD_HD)
+    while (command && command->operator == RD_HD)
     {
         char *line;
         while ((line = readline("> ")))
         {
-            if (strcmp(line, current_cmd->next->argv[0]) == 0)
+            if (strcmp(line, command->next->argv[0]) == 0)
             {
                 free(line);
                 break;
             }
-    		write(pipe_fds[1], line, strlen(line));
-            write(pipe_fds[1], "\n", 1);
-            append_heredoc(list, line);
+            handle_line(list, pipe_fds[1], line);
             free(line);
         }
-        current_cmd = current_cmd->next;
+        command = command->next;
     }
-    return (pipe_fds);
+    return pipe_fds;
 }
 
-static void release_heredoc_list(t_heredoc *list, int should_print)
+static void free_heredoc_list(t_heredoc *list, int print)
 {
     while (list)
     {
         t_heredoc *next = list->next;
-        if (should_print)
+        if (print)
             printf("%s\n", list->input);
         free(list->input);
         free(list);
@@ -89,21 +147,20 @@ static void release_heredoc_list(t_heredoc *list, int should_print)
 
 void heredoc_handler(t_cmd *command)
 {
-    t_heredoc *heredoc_entries;
-    int *pipe_fds;
+    t_heredoc *heredoc_entries = NULL;
+    int *pipe_fds = init_and_process_heredocs(command, &heredoc_entries);
 
-	heredoc_entries = NULL;
-	pipe_fds = process_heredocs(command, &heredoc_entries);
     close(pipe_fds[1]);
     if (dup2(pipe_fds[0], STDIN_FILENO) == -1)
     {
-        perror("Duplication error");
+        perror("dup2");
         exit(EXIT_FAILURE);
     }
     close(pipe_fds[0]);
-    release_heredoc_list(heredoc_entries, strcmp(command->argv[0], "cat") == 0);
+    free_heredoc_list(heredoc_entries, strcmp(command->argv[0], "cat") == 0);
     free(pipe_fds);
 }
+*/
 
 /*static t_heredoc	*create_and_append_node(t_heredoc **head, char *buffer)
 {
