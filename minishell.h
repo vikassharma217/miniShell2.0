@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/29 17:42:33 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/30 16:44:17 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,8 @@ void							pipe_execution(t_cmd *node, t_data *data);
 void							handle_redirections(t_cmd *cmd, t_data *data);
 
 /*heredoc_handler.c*/
-void							heredoc_handler(t_cmd *command);
+void							heredoc_handler(t_cmd *cmd, t_data *data);
+//void							heredoc_handler(t_cmd *command);
 
 // validation
 /*cleaup*/

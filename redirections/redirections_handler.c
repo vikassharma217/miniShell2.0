@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:41 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/29 13:14:57 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/30 16:44:54 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	execute_redirection(t_cmd *cmd, t_data *data)
 		perform_input_redirection(cmd, data);
 	else if (cmd->operator == RD_HD)
 	{
-		heredoc_handler(cmd);
+		heredoc_handler(cmd, data);
 		ft_clear_all(data);
 		exit(0);
 	}

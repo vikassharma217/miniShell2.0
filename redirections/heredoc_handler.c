@@ -6,15 +6,16 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:27 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/29 18:39:59 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/08/30 17:10:01 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-//with cmd "tail -f /tmp/.minishell_heredoc" in a seperate terminal...
-//...you can see what you are writing inside in live 
 
-static void	handle_error(char *message, char *heredoc_file)
+// with cmd "tail -f /tmp/.minishell_heredoc" in a seperate terminal...
+//...you can see what you are writing inside in live
+
+static void	handle_error(const char *message, const char *heredoc_file)
 {
 	perror(message);
 	if (heredoc_file != NULL)
@@ -27,18 +28,23 @@ static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd)
 	char	*line;
 	char	*delimiter;
 
-	while (current_cmd && current_cmd->operator == RD_HD)
+	while (current_cmd && current_cmd->operator== RD_HD)
 	{
 		delimiter = current_cmd->next->argv[0];
 		while (1)
 		{
 			line = readline("> ");
+			if (line == NULL) // This indicates EOF
+			{
+				handle_eof_in_heredoc(current_cmd);
+				break ;
+			}
 			if (str_equals(line, delimiter) == 1)
 			{
 				free(line);
 				break ;
 			}
-			if (*line)
+			if (*line) // Only write non-empty lines
 			{
 				write(heredoc_fd, line, ft_strlen(line));
 				write(heredoc_fd, "\n", 1);
@@ -49,7 +55,50 @@ static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd)
 	}
 }
 
-void	heredoc_handler(t_cmd *cmd)
+static void	print_heredoc_contents(int heredoc_fd)
+{
+	char	buffer[1024];
+	ssize_t	bytes_read;
+
+	lseek(heredoc_fd, 0, SEEK_SET); // Move file descriptor to start
+	bytes_read = read(heredoc_fd, buffer, sizeof(buffer));
+	while (bytes_read > 0)
+	{
+		write(STDOUT_FILENO, buffer, bytes_read);
+		bytes_read = read(heredoc_fd, buffer, sizeof(buffer));
+	}
+}
+
+void	heredoc_handler(t_cmd *cmd, t_data *data)
+{
+	char	*heredoc_file;
+	int		heredoc_fd;
+
+	data->mode = HEREDOCS;
+	handle_signals(data);
+	heredoc_file = "/tmp/.minishell_heredoc";
+	heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
+	if (heredoc_fd < 0)
+	{
+		handle_error("Failed to create or open temporary file", heredoc_file);
+	}
+	process_heredoc_input(heredoc_fd, cmd);
+	if (g_signal != CNTL_C)
+	{ // Only print contents if not interrupted
+		print_heredoc_contents(heredoc_fd);
+	}
+	close(heredoc_fd);
+	unlink(heredoc_file);
+	data->mode = INTERACTIVE; // Restore mode after handling
+	handle_signals(data);     // Restore original signals
+	if (g_signal == CNTL_C)
+    {
+        ft_clear_all(data);  // Clean up resources
+        exit(130);  // Exit with code 130 indicating interruption
+    }
+}
+
+/*void	heredoc_handler(t_cmd *cmd)
 {
 	char	*heredoc_file;
 	int		heredoc_fd;
@@ -62,9 +111,10 @@ void	heredoc_handler(t_cmd *cmd)
 	close(heredoc_fd);
 	unlink(heredoc_file);
 }
+*/
 
-//Think we dont need it do it to print it with cat just <<1 <<2 <<3 thats it
-//even with cat it just prints whats in the last <<?
+// Think we dont need it do it to print it with cat just <<1 <<2 <<3 thats it
+// even with cat it just prints whats in the last <<?
 /*
 static void	handle_error(char *message, char *heredoc_file)
 {
@@ -132,9 +182,11 @@ static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd)
 }
 void	heredoc_handler(t_data *data, t_cmd *cmd)
 {
-	int		heredoc_fd;
-	char	*heredoc_file;
-	int		print_flag;
+	int			heredoc_fd;
+	char		*heredoc_file;
+	int			print_flag;
+	t_heredoc	*new_node;
+	t_heredoc	*current;
 
 	print_flag = check_for_cat_command(data, cmd);
 	heredoc_file = "/tmp/.minishell_heredoc";
@@ -155,13 +207,9 @@ void	heredoc_handler(t_data *data, t_cmd *cmd)
 	}
 	unlink(heredoc_file);
 }*/
-
-//org
+// org
 /*static t_heredoc	*create_and_append_node(t_heredoc **head, char *buffer)
 {
-	t_heredoc	*new_node;
-	t_heredoc	*current;
-
 	new_node = malloc(sizeof(t_heredoc));
 	if (!new_node)
 	{
