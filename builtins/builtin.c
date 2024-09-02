@@ -52,3 +52,5 @@ int	builtin(t_cmd *cmd, t_data *data)
 		data->exit_code = store_env_var(cmd->argv[0], &data->env_lst, false);
 	else
 		return (false);
+	return (true);
+}

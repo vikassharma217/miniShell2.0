@@ -99,6 +99,7 @@ void	heredoc_handler(t_cmd *cmd, t_data *data)
 	current_cmd = cmd;
 	data->mode = HEREDOCS;
 	handle_signals(data);
+	file_index = 1;
 	while (current_cmd && current_cmd->operator== RD_HD)
 	{
 		generate_filename(heredoc_file, file_index++);
@@ -174,7 +175,7 @@ void	heredoc_handler(t_cmd *cmd, t_data *data)
 		exit(130);  // Exit with code 130 indicating interruption
 	}
 }*/
-void	heredoc_handler(t_cmd *cmd, t_data *data)
+/*void	heredoc_handler(t_cmd *cmd, t_data *data)
 {
 	(void)data;
 	heredoc_file = "/tmp/.minishell_heredoc";
@@ -184,7 +185,7 @@ void	heredoc_handler(t_cmd *cmd, t_data *data)
 	process_heredoc_input(heredoc_fd, cmd);
 	close(heredoc_fd);
 	unlink(heredoc_file);
-}
+}*/
 
 // Think we dont need it do it to print it with cat just <<1 <<2 <<3 thats it
 // even with cat it just prints whats in the last <<?
