@@ -27,7 +27,7 @@
 	return (length);
 } */
 
-void	run_command(t_cmd *node, t_data *data)
+void	run_command(t_cmd *node, t_data *data) //instead of node cmd
 {
 	if (node->operator != NONE)
 	{
