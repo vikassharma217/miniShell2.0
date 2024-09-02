@@ -114,6 +114,7 @@ void	start_execution(t_cmd *cmd_list, t_data *data)
 		run_parent_process(pid, data);
 }
 
+
 /*void	execute_util(t_cmd *node, t_data *data)
 {
 	if (builtin(node, data))
