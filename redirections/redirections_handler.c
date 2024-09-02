@@ -18,7 +18,7 @@ static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 	int		input_fd;
 
 	current_cmd = cmd->next;
-	while (current_cmd && current_cmd->operator== RD_IN)
+	while (current_cmd && current_cmd->operator == RD_IN)
 		current_cmd = current_cmd->next;
 	if (current_cmd && current_cmd->argv[0])
 	{
@@ -94,17 +94,17 @@ static void	perform_output_redirection(t_cmd *cmd)
 
 static void	execute_redirection(t_cmd *cmd, t_data *data)
 {
-	if (cmd->operator== RD_IN)
+	if (cmd->operator == RD_IN)
 		perform_input_redirection(cmd, data);
-	else if (cmd->operator== RD_HD)
+	else if (cmd->operator == RD_HD)
 	{
 		heredoc_handler(cmd, data);
 		ft_clear_all(data);
 		exit(0);
 	}
-	else if (cmd->operator== RD_OUT)
+	else if (cmd->operator == RD_OUT)
 		perform_output_redirection(cmd);
-	else if (cmd->operator== RD_APND)
+	else if (cmd->operator == RD_APND)
 		perform_output_append(cmd);
 	else
 		write(2, "Error: unsupported redirection operator\n", 40);
@@ -116,10 +116,10 @@ void	handle_redirections(t_cmd *cmd, t_data *data)
 
 	start_cmd = cmd;
 	execute_redirection(cmd, data);
-	start_cmd->operator= NONE;
-	while (cmd && cmd->operator!= NONE && cmd->operator!= PIPE)
+	start_cmd->operator = NONE;
+	while (cmd && cmd->operator != NONE && cmd->operator != PIPE)
 		cmd = cmd->next;
-	if (!cmd || cmd->operator== NONE)
+	if (!cmd || cmd->operator == NONE)
 		run_command(start_cmd, data);
 	else
 		pipe_execution(cmd, data);
