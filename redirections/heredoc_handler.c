@@ -15,6 +15,17 @@
 // with cmd "tail -f /tmp/.minishell_heredoc" in a seperate terminal...
 //...you can see what you are writing inside in live
 
+static void generate_filename(char *buffer, int index)
+{
+	int length;
+
+	/*ft_strncpy(buffer, "/home/rscherl/Rene/42_Github_Rene_privat/Projects/minishell/temp/minishell", PATH_MAX);*/
+    ft_strncpy(buffer, "/tmp/.minishell_heredoc_", PATH_MAX);
+    length = ft_strlen(buffer);
+    buffer[length++] = '0' + index;
+    buffer[length] = '\0';
+}
+
 static void	handle_error(const char *message, const char *heredoc_file)
 {
 	perror(message);
@@ -28,29 +39,119 @@ static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd)
 	char	*line;
 	char	*delimiter;
 
-	while (current_cmd && current_cmd->operator== RD_HD)
+	delimiter = current_cmd->next->argv[0];
+	while (1)
 	{
-		delimiter = current_cmd->next->argv[0];
-		while (1)
+		line = readline("> ");
+		if (line == NULL) // This indicates EOF
 		{
-			line = readline("> ");
-			if (line == NULL) // This indicates EOF
-			{
-				handle_eof_in_heredoc(current_cmd);
-				break ;
-			}
-			if (str_equals(line, delimiter) == 1)
-			{
-				free(line);
-				break ;
-			}
-			write(heredoc_fd, line, ft_strlen(line));
-			write(heredoc_fd, "\n", 1);
-			free(line);
+			handle_eof_in_heredoc(current_cmd);
+			break ;
 		}
-		current_cmd = current_cmd->next;
+		if (str_equals(line, delimiter) == 1)
+		{
+			free(line);
+			break ;
+		}
+		write(heredoc_fd, line, ft_strlen(line));
+		write(heredoc_fd, "\n", 1);
+		free(line);
 	}
 }
+
+void redirect_and_execute_command(const char *heredoc_file, t_cmd *cmd, t_data *data)
+{
+    int		fd;
+	int		status;
+	pid_t	pid;
+
+	fd = open(heredoc_file, O_RDONLY);
+    if (fd < 0)
+		handle_error("Failed to create or open temporary file", heredoc_file);
+    if (dup2(fd, STDIN_FILENO) == -1)
+    {
+        perror("Failed to redirect stdin");
+        close(fd);
+        exit(EXIT_FAILURE);
+    }
+    close(fd);
+    if ((pid = fork()) == 0)
+    {
+        system_commands(cmd, data);
+        exit(EXIT_FAILURE);
+    }
+    else if (pid > 0)
+        waitpid(pid, &status, 0);
+    else
+		handle_error("Failed to fork", heredoc_file);
+}
+
+void heredoc_handler(t_cmd *cmd, t_data *data)
+{
+    char    heredoc_file[256];
+    int     heredoc_fd;
+    int     file_index;
+    t_cmd   *current_cmd = cmd;
+
+	
+    data->mode = HEREDOCS;
+    handle_signals(data);
+    while (current_cmd && current_cmd->operator == RD_HD)
+    {
+        generate_filename(heredoc_file, file_index++);
+        heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
+        if (heredoc_fd < 0)
+        {
+            handle_error("Failed to create or open temporary file", heredoc_file);
+        }
+        process_heredoc_input(heredoc_fd, current_cmd);
+		if (current_cmd->next && current_cmd->next->operator == RD_HD)
+        {
+            close(heredoc_fd);
+            unlink(heredoc_file);
+        }
+        else
+            close(heredoc_fd);
+        current_cmd = current_cmd->next;
+    }
+	if (g_signal != CNTL_C)
+        redirect_and_execute_command(heredoc_file, cmd, data);
+	unlink(heredoc_file);
+    data->mode = INTERACTIVE; 
+    handle_signals(data);   
+    if (g_signal == CNTL_C)
+    {
+        ft_clear_all(data);
+        exit(130);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*static void	print_heredoc_contents(int heredoc_fd)
 {
@@ -64,9 +165,9 @@ static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd)
 		write(STDOUT_FILENO, buffer, bytes_read);
 		bytes_read = read(heredoc_fd, buffer, sizeof(buffer));
 	}
-}
+}*/
 
-void	heredoc_handler(t_cmd *cmd, t_data *data)
+/*void	heredoc_handler(t_cmd *cmd, t_data *data)
 {
 	char	*heredoc_file;
 	int		heredoc_fd;
@@ -91,11 +192,14 @@ void	heredoc_handler(t_cmd *cmd, t_data *data)
 	data->mode = INTERACTIVE; // Restore mode after handling
 	handle_signals(data);     // Restore original signals
 	if (g_signal == CNTL_C)
-    {
+    {unlink(last_file);
         ft_clear_all(data);  // Clean up resources
         exit(130);  // Exit with code 130 indicating interruption
     }
 }*/
+
+
+
 
 void	heredoc_handler(t_cmd *cmd, t_data *data)
 {
