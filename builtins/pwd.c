@@ -14,19 +14,21 @@
 
 int	pwd(t_cmd *cmd)
 {
-	char	cwd[PATH_MAX];
+	char	current_dir[PATH_MAX];
 
-	if (cmd->argc > 1)
+	(void)cmd;
+	//Shell does print Error, Bash not
+	/*if (cmd->argc > 1)
 	{
 		write(2, "minishell: pwd: too many arguments\n", 35);
-		return (EXIT_FAILURE);
-	}
-	else if (getcwd(cwd, PATH_MAX) != NULL)
-		printf("%s\n", cwd);
+		return (0);
+	}*/
+	if (getcwd(current_dir, PATH_MAX) != NULL)
+		printf("%s\n", current_dir);
 	else
 	{
 		perror("minishell: ");
-		return (EXIT_FAILURE);
+		return (1);
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }

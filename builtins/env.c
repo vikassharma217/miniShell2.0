@@ -26,5 +26,5 @@ int	env(t_data *data)
 		}
 		current = current->next;
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }

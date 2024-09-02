@@ -12,13 +12,6 @@
 
 #include "../minishell.h"
 
-static void	error_message_unset(char *name)
-{
-	write(2, "minishell: unset: `", 19);
-	write(2, name, ft_strlen(name));
-	write(2, "': not a valid identifier\n", 27);
-}
-
 static void	remove_current_node(t_elst **head, t_elst *current, t_elst *prev)
 {
 	if (prev == NULL)
@@ -38,25 +31,27 @@ int	unset_variable(char *name, t_elst **head)
 	t_elst	*prev;
 
 	if (!head || !*head)
-		return (EXIT_FAILURE);
+		return (1);
 	prev = NULL;
 	current = *head;
 	if (ft_strchr(name, '='))
 	{
-		error_message_unset(name);
-		return (EXIT_FAILURE);
+		write(2, "minishell: unset: `", 19);
+		write(2, name, ft_strlen(name));
+		write(2, "': not a valid identifier\n", 27);
+		return (1);
 	}
 	while (current)
 	{
 		if (str_equals(name, current->name))
 		{
 			remove_current_node(head, current, prev);
-			return (EXIT_SUCCESS);
+			return (0);
 		}
 		prev = current;
 		current = current->next;
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 int	unset(t_cmd *cmd, t_elst **head)
@@ -64,16 +59,16 @@ int	unset(t_cmd *cmd, t_elst **head)
 	int	i;
 	int	status;
 
+	status = 0;
 	if (cmd->argc == 1)
-		(EXIT_SUCCESS);
-	status = EXIT_SUCCESS;
+		return (status);
 	if (!cmd || !cmd->argv || !head)
-		return (EXIT_FAILURE);
+		return (1);
 	i = 0;
 	while (++i < cmd->argc)
 	{
-		if (unset_variable(cmd->argv[i], head) == EXIT_FAILURE)
-			status = EXIT_FAILURE;
+		if (unset_variable(cmd->argv[i], head) == 1)
+			status = 1;
 	}
 	return (status);
 }

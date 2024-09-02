@@ -12,47 +12,57 @@
 
 #include "../minishell.h"
 
+//Backslash things fixed but we need that?
 static void	check_and_print(const char *str)
 {
+	int	backslash_flag;
+
+	backslash_flag = 0;
 	if (str == NULL)
 		return ;
 	while (*str)
-	{
+	{	
+		if (*str == '\\' && backslash_flag)
+		{
+			write(1, "\\", 1);
+			backslash_flag = 0;
+		}
+		else if (*str == '\\')
+			backslash_flag = 1;
 		if (*str != '\\')
 			write(1, str, 1);
 		str++;
 	}
 }
 
-static bool	check_n_flag(const char *argv)
+static int	check_new_line_flag(const char *argv)
 {
-	int	j;
+	int	i;
 
-	j = 1;
+	i = 1;
 	if (argv[0] != '-')
-		return (false);
-	while (argv[j] == 'n')
-		j++;
-	return (argv[j] == '\0');
+		return (0);
+	while (argv[i] == 'n')
+		i++;
+	return (argv[i] == '\0');
 }
 
 int	echo(t_cmd *cmd)
 {
-	bool	flag_for_n;
+	int		print_new_line_flag;
 	int		i;
 
-	flag_for_n = false;
+	print_new_line_flag = 0;
 	i = 0;
-	while (++i < cmd->argc && check_n_flag(cmd->argv[i]))
-		flag_for_n = true;
+	while (++i < cmd->argc && check_new_line_flag(cmd->argv[i]))
+		print_new_line_flag = 1;
 	while (i < cmd->argc)
 	{
 		check_and_print(cmd->argv[i]);
-		if (i < cmd->argc - 1)
+		if (i++ < cmd->argc - 1)
 			write(1, " ", 1);
-		i++;
 	}
-	if (!flag_for_n)
+	if (!print_new_line_flag)
 		write(1, "\n", 1);
-	return (EXIT_SUCCESS);
+	return (0);
 }
