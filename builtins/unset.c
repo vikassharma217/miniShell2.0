@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:56 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/02 17:04:22 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	unset_variable(char *name, t_elst **head)
 		error_message_unset(name);
 		return (EXIT_FAILURE);
 	}
-	while (current) //updated that *head will be changed if unset to the next
+	while (current) // updated that *head will be changed if unset to the next
 	{
 		if (str_equals(name, current->name))
 		{
@@ -73,7 +73,8 @@ int	unset(t_cmd *cmd, t_elst **head)
 	while (++i < cmd->argc)
 	{
 		if (unset_variable(cmd->argv[i], head) == EXIT_FAILURE)
-			status = EXIT_FAILURE;	// if unset Variable fails status will be Failure like orginal but continue with the other cmd
+			status = EXIT_FAILURE;
+				// if unset Variable fails status will be Failure like orginal but continue with the other cmd
 	}
 	return (status);
 }

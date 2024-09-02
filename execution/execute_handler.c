@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:54:47 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/28 15:46:44 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/02 17:04:32 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@
 	return (length);
 } */
 
-void	run_command(t_cmd *node, t_data *data) //instead of node cmd
+void	run_command(t_cmd *node, t_data *data) // instead of node cmd
 {
-	if (node->operator != NONE)
+	if (node->operator!= NONE)
 	{
-		if (node->operator == PIPE)
+		if (node->operator== PIPE)
 			pipe_execution(node, data);
 		else
 			handle_redirections(node, data);
@@ -98,7 +98,8 @@ void	start_execution(t_cmd *cmd_list, t_data *data)
 {
 	pid_t	pid;
 
-	if (!cmd_list->next && builtin(cmd_list, data)) //size_of_list(cmd_list) == 1
+	if (!cmd_list->next && builtin(cmd_list, data))
+		// size_of_list(cmd_list) == 1
 		return ;
 	pid = fork();
 	if (pid == -1)

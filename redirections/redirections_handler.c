@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:41 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/30 16:44:54 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/02 17:05:58 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 	int		input_fd;
 
 	current_cmd = cmd->next;
-	while (current_cmd && current_cmd->operator == RD_IN)
+	while (current_cmd && current_cmd->operator== RD_IN)
 		current_cmd = current_cmd->next;
 	if (current_cmd && current_cmd->argv[0])
 	{

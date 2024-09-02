@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:52:53 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/02 11:41:10 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/02 17:06:29 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	sigint_handler(int signum)
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		//rl_redisplay();
+		// rl_redisplay();
 	}
 }
 
@@ -41,8 +41,8 @@ void	heredoc_sigint_handler(int signum)
 	{
 		g_signal = CNTL_C;
 		write(1, "\n", 1);
-		//ft_clear_all(data);
-		//e1xit(130); // Exit with code 130 for Ctrl+C interruption
+		// ft_clear_all(data);
+		// e1xit(130); // Exit with code 130 for Ctrl+C interruption
 	}
 }
 
