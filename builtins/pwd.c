@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rscherl <rscherl@student.42vienna.com      +#+  +:+       +#+        */
+/*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:40 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/24 17:53:43 by rscherl          ###   ########.fr       */
+/*   Updated: 2024/09/02 17:04:16 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	pwd(t_cmd *cmd)
 
 	if (cmd->argc > 1)
 	{
-		write(2, "minishell: pwd: too many arguments\n", 35); // pwd: too many arguments?
+		write(2, "minishell: pwd: too many arguments\n", 35);
+			// pwd: too many arguments?
 		return (EXIT_FAILURE);
 	}
 	else if (getcwd(cwd, PATH_MAX) != NULL)

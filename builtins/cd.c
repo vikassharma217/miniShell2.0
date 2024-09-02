@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:18 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/02 15:24:09 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/02 17:03:28 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ static void	save_old_pwd(char *current_dir, t_data *data)
 	store_env_var(old_pwd, &data->env_lst, true);
 }
 
-static int	handle_cd_to_home_or_oldpwd(char *env_var, char *current_dir, t_data *data)
+static int	handle_cd_to_home_or_oldpwd(char *env_var, char *current_dir,
+		t_data *data)
 {
 	char	*dir;
 
@@ -107,6 +108,7 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 /*int	cd(t_cmd *cmd, char *target_dir, t_data *data)
 {
 	char	current_dir[PATH_MAX];
+	char	*error;
 
 	if (cmd->argc > 2)
 		return (write(2, "cd: too many arguments\n", 23), EXIT_FAILURE);
@@ -128,12 +130,9 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 	}
 	return (print_cd_error(target_dir));
 }*/
-
 /*
 static int	print_cd_error(char *target_dir)
 {
-	char	*error;
-
 	error = ft_strjoin("minishell: cd: ", target_dir);
 	perror(error);
 	free(error);

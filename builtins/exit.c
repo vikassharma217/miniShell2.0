@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:02 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/02 17:03:53 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static bool	process_exit_args(t_cmd *cmd, t_data *data)
 		if (check_digits(cmd->argv[1]) && check_long(cmd->argv[1]))
 			data->exit_code = ft_atol(cmd->argv[1]);
 		else
-			non_numeric_args(data); //true or false return? should return? orginal exit with exit a
+			non_numeric_args(data);
+				// true or false return? should return? orginal exit with exit a
 	}
 	return (true);
 }
@@ -84,6 +85,7 @@ void	exit_shell(t_cmd *cmd, t_data *data, int status_code)
 		ft_clear_all(data);
 	exit(status_code);
 }
+
 /*
 static void	non_numeric_args(t_data *data)
 {

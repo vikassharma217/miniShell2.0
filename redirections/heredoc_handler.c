@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:27 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/02 12:02:19 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/02 17:05:06 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 // with cmd "tail -f /tmp/.minishell_heredoc" in a seperate terminal...
 //...you can see what you are writing inside in live
 
-static void generate_filename(char *buffer, int index)
+static void	generate_filename(char *buffer, int index)
 {
-	int length;
+	int	length;
 
-	/*ft_strncpy(buffer, "/home/rscherl/Rene/42_Github_Rene_privat/Projects/minishell/temp/minishell", PATH_MAX);*/
-    ft_strncpy(buffer, "/tmp/.minishell_heredoc_", PATH_MAX);
-    length = ft_strlen(buffer);
-    buffer[length++] = '0' + index;
-    buffer[length] = '\0';
+	/*ft_strncpy(buffer,
+		"/home/rscherl/Rene/42_Github_Rene_privat/Projects/minishell/temp/minishell",
+		PATH_MAX);*/
+	ft_strncpy(buffer, "/tmp/.minishell_heredoc_", PATH_MAX);
+	length = ft_strlen(buffer);
+	buffer[length++] = '0' + index;
+	buffer[length] = '\0';
 }
 
 static void	handle_error(const char *message, const char *heredoc_file)
@@ -59,104 +61,83 @@ static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd)
 	}
 }
 
-void redirect_and_execute_command(const char *heredoc_file, t_cmd *cmd, t_data *data)
+void	redirect_and_execute_command(const char *heredoc_file, t_cmd *cmd,
+		t_data *data)
 {
-    int		fd;
+	int		fd;
 	int		status;
 	pid_t	pid;
 
 	fd = open(heredoc_file, O_RDONLY);
-    if (fd < 0)
+	if (fd < 0)
 		handle_error("Failed to create or open temporary file", heredoc_file);
-    if (dup2(fd, STDIN_FILENO) == -1)
-    {
-        perror("Failed to redirect stdin");
-        close(fd);
-        exit(EXIT_FAILURE);
-    }
-    close(fd);
-    if ((pid = fork()) == 0)
-    {
-        system_commands(cmd, data);
-        exit(EXIT_FAILURE);
-    }
-    else if (pid > 0)
-        waitpid(pid, &status, 0);
-    else
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		perror("Failed to redirect stdin");
+		close(fd);
+		exit(EXIT_FAILURE);
+	}
+	close(fd);
+	if ((pid = fork()) == 0)
+	{
+		system_commands(cmd, data);
+		exit(EXIT_FAILURE);
+	}
+	else if (pid > 0)
+		waitpid(pid, &status, 0);
+	else
 		handle_error("Failed to fork", heredoc_file);
 }
 
-void heredoc_handler(t_cmd *cmd, t_data *data)
+void	heredoc_handler(t_cmd *cmd, t_data *data)
 {
-    char    heredoc_file[256];
-    int     heredoc_fd;
-    int     file_index;
-    t_cmd   *current_cmd = cmd;
+	char	heredoc_file[256];
+	int		heredoc_fd;
+	int		file_index;
+	t_cmd	*current_cmd;
 
-	
-    data->mode = HEREDOCS;
-    handle_signals(data);
-    while (current_cmd && current_cmd->operator == RD_HD)
-    {
-        generate_filename(heredoc_file, file_index++);
-        heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
-        if (heredoc_fd < 0)
-        {
-            handle_error("Failed to create or open temporary file", heredoc_file);
-        }
-        process_heredoc_input(heredoc_fd, current_cmd);
-		if (current_cmd->next && current_cmd->next->operator == RD_HD)
-        {
-            close(heredoc_fd);
-            unlink(heredoc_file);
-        }
-        else
-            close(heredoc_fd);
-        current_cmd = current_cmd->next;
-    }
+	current_cmd = cmd;
+	data->mode = HEREDOCS;
+	handle_signals(data);
+	while (current_cmd && current_cmd->operator== RD_HD)
+	{
+		generate_filename(heredoc_file, file_index++);
+		heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
+		if (heredoc_fd < 0)
+		{
+			handle_error("Failed to create or open temporary file",
+				heredoc_file);
+		}
+		process_heredoc_input(heredoc_fd, current_cmd);
+		if (current_cmd->next && current_cmd->next->operator== RD_HD)
+		{
+			close(heredoc_fd);
+			unlink(heredoc_file);
+		}
+		else
+			close(heredoc_fd);
+		current_cmd = current_cmd->next;
+	}
 	if (g_signal != CNTL_C)
-        redirect_and_execute_command(heredoc_file, cmd, data);
+		redirect_and_execute_command(heredoc_file, cmd, data);
 	unlink(heredoc_file);
-    data->mode = INTERACTIVE; 
-    handle_signals(data);   
-    if (g_signal == CNTL_C)
-    {
-        ft_clear_all(data);
-        exit(130);
-    }
+	data->mode = INTERACTIVE;
+	handle_signals(data);
+	if (g_signal == CNTL_C)
+	{
+		ft_clear_all(data);
+		exit(130);
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*static void	print_heredoc_contents(int heredoc_fd)
 {
 	char	buffer[1024];
 	ssize_t	bytes_read;
+	char	*heredoc_file;
+	int		heredoc_fd;
+	char	*heredoc_file;
+	int		heredoc_fd;
 
 	lseek(heredoc_fd, 0, SEEK_SET); // Move file descriptor to start
 	bytes_read = read(heredoc_fd, buffer, sizeof(buffer));
@@ -166,12 +147,8 @@ void heredoc_handler(t_cmd *cmd, t_data *data)
 		bytes_read = read(heredoc_fd, buffer, sizeof(buffer));
 	}
 }*/
-
 /*void	heredoc_handler(t_cmd *cmd, t_data *data)
 {
-	char	*heredoc_file;
-	int		heredoc_fd;
-
 	data->mode = HEREDOCS;
 	handle_signals(data);
 	heredoc_file = "/tmp/.minishell_heredoc";
@@ -185,28 +162,21 @@ void heredoc_handler(t_cmd *cmd, t_data *data)
 	{ // Only print contents if not interrupted
 		print_heredoc_contents(heredoc_fd);
 		close(heredoc_fd);
-		unlink(heredoc_file);		
+		unlink(heredoc_file);
 	}
 	close(heredoc_fd);
 	unlink(heredoc_file);
 	data->mode = INTERACTIVE; // Restore mode after handling
 	handle_signals(data);     // Restore original signals
 	if (g_signal == CNTL_C)
-    {unlink(last_file);
-        ft_clear_all(data);  // Clean up resources
-        exit(130);  // Exit with code 130 indicating interruption
-    }
+	{unlink(last_file);
+		ft_clear_all(data);  // Clean up resources
+		exit(130);  // Exit with code 130 indicating interruption
+	}
 }*/
-
-
-
-
 void	heredoc_handler(t_cmd *cmd, t_data *data)
 {
-	char	*heredoc_file;
-	int		heredoc_fd;
 	(void)data;
-
 	heredoc_file = "/tmp/.minishell_heredoc";
 	heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
 	if (heredoc_fd < 0)
