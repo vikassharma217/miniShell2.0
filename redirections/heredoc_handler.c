@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:27 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/30 17:10:01 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/02 12:02:19 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,15 @@ static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd)
 				free(line);
 				break ;
 			}
-			if (*line) // Only write non-empty lines
-			{
-				write(heredoc_fd, line, ft_strlen(line));
-				write(heredoc_fd, "\n", 1);
-			}
+			write(heredoc_fd, line, ft_strlen(line));
+			write(heredoc_fd, "\n", 1);
 			free(line);
 		}
 		current_cmd = current_cmd->next;
 	}
 }
 
-static void	print_heredoc_contents(int heredoc_fd)
+/*static void	print_heredoc_contents(int heredoc_fd)
 {
 	char	buffer[1024];
 	ssize_t	bytes_read;
@@ -86,6 +83,8 @@ void	heredoc_handler(t_cmd *cmd, t_data *data)
 	if (g_signal != CNTL_C)
 	{ // Only print contents if not interrupted
 		print_heredoc_contents(heredoc_fd);
+		close(heredoc_fd);
+		unlink(heredoc_file);		
 	}
 	close(heredoc_fd);
 	unlink(heredoc_file);
@@ -96,12 +95,13 @@ void	heredoc_handler(t_cmd *cmd, t_data *data)
         ft_clear_all(data);  // Clean up resources
         exit(130);  // Exit with code 130 indicating interruption
     }
-}
+}*/
 
-/*void	heredoc_handler(t_cmd *cmd)
+void	heredoc_handler(t_cmd *cmd, t_data *data)
 {
 	char	*heredoc_file;
 	int		heredoc_fd;
+	(void)data;
 
 	heredoc_file = "/tmp/.minishell_heredoc";
 	heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
@@ -111,7 +111,6 @@ void	heredoc_handler(t_cmd *cmd, t_data *data)
 	close(heredoc_fd);
 	unlink(heredoc_file);
 }
-*/
 
 // Think we dont need it do it to print it with cat just <<1 <<2 <<3 thats it
 // even with cat it just prints whats in the last <<?

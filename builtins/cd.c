@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:18 by rscherl           #+#    #+#             */
-/*   Updated: 2024/08/28 14:22:02 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/02 15:24:09 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,22 @@ static void	save_old_pwd(char *current_dir, t_data *data)
 	store_env_var(old_pwd, &data->env_lst, true);
 }
 
-static int	change_to_old_pwd(char *current_dir, t_data *data)
+static int	handle_cd_to_home_or_oldpwd(char *env_var, char *current_dir, t_data *data)
 {
-	char	*old_pwd;
+	char	*dir;
 
-	old_pwd = get_fromvlst("OLDPWD", &data->env_lst);
-	if (!old_pwd)
-		return(write(2, "minishell: cd: OLDPWD not set\n", 31), EXIT_FAILURE);
-	if (chdir(old_pwd) != 0)
-		return (print_cd_error(old_pwd));
-	ft_putendl_fd(old_pwd, STDOUT_FILENO);
+	dir = get_fromvlst(env_var, &data->env_lst);
+	if (!dir)
+	{
+		write(2, "minishell: cd: ", 15);
+		write(2, env_var, ft_strlen(env_var));
+		write(2, " not set\n", 9);
+		return (EXIT_FAILURE);
+	}
+	if (chdir(dir) != 0)
+		return (print_cd_error(dir));
+	if (str_equals(env_var, "OLDPWD"))
+		ft_putendl_fd(dir, STDOUT_FILENO);
 	save_old_pwd(current_dir, data);
 	update_pwd(data);
 	return (EXIT_SUCCESS);
@@ -86,20 +92,11 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 	if (cmd->argc > 2)
 		return (write(2, "cd: too many arguments\n", 23), EXIT_FAILURE);
 	if (!getcwd(current_dir, PATH_MAX))
-		return (write(2, "minishell: cd: getcwd()\n", 31), EXIT_FAILURE);
+		return (write(2, "minishell: cd: getcwd error\n", 29), EXIT_FAILURE);
 	if (!target_dir || str_equals(target_dir, "~"))
-	{
-		save_old_pwd(current_dir, data);
-		if (chdir(getenv("HOME")) != 0)
-		{
-			perror("minishell: cd: could not change to home directory");
-			return (EXIT_FAILURE);
-		}
-		update_pwd(data);
-		return (EXIT_SUCCESS);
-	}
+		return (handle_cd_to_home_or_oldpwd("HOME", current_dir, data));
 	if (str_equals(target_dir, "-"))
-		return (change_to_old_pwd(current_dir, data));
+		return (handle_cd_to_home_or_oldpwd("OLDPWD", current_dir, data));
 	if (chdir(target_dir) != 0)
 		return (print_cd_error(target_dir));
 	save_old_pwd(current_dir, data);
