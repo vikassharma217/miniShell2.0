@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 17:29:55 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:08 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/02 17:38:19 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	token_len(char *str)
 			return (2);
 		return (1);
 	}
-	while (str[len] && !ft_isspace(str[len]) && !char_in_str(OPERATORS, str[len]))
+	while (str[len] && !ft_isspace(str[len]) && !char_in_str(OPERATORS,
+			str[len]))
 	{
 		if (char_in_str(QUOTES, str[len]))
 		{

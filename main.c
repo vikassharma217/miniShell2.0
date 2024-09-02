@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:00:09 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/02 12:31:04 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/02 17:29:10 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **env)
 	if (argc != 1 || argv[1])
 		return (write(2, "Error: too many arguments\n", 26));
 	if (!getenv("_"))
-		return (write(2, "Error: invalid environment\n", 28));
+		return (write(2, "Error: Minishell: invalid environment\n", 39));
 	init_minishell(env, &data, &cmd_list);
 	minishell_loop(&data, &cmd_list);
 	return (EXIT_SUCCESS);
