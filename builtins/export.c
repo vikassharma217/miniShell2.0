@@ -12,11 +12,11 @@
 
 #include "../minishell.h"
 
-static int	export_error_message(char *n)
+static int	handling_export_error(char *name)
 {
-	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-	ft_putstr_fd(n, STDERR_FILENO);
-	ft_putendl_fd("': not a valid", STDERR_FILENO);
+	write(2, "minishell: export: `", 20);
+	write(2, name, ft_strlen(name));
+	write(2, "': is not a valid identifier\n", 29);
 	return (1);
 }
 
@@ -66,7 +66,7 @@ int	export(t_cmd *cmd, t_data *data)
 	while (cmd->argv[++i])
 	{
 		if (!is_valid_variable(cmd->argv[i]))
-			any_error = export_error_message(cmd->argv[i]);
+			any_error = handling_export_error(cmd->argv[i]);
 		else
 		{
 			equal_flag = char_in_str(cmd->argv[i], '=');
