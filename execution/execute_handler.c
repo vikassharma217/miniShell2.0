@@ -12,20 +12,20 @@
 
 #include "../minishell.h"
 
-static size_t	size_of_list(t_cmd *list)
+/*static size_t	size_of_list(t_cmd *list) //maybe direct down in the function
 {
-	t_cmd	*temp;
-	size_t	len;
+	t_cmd	*current;
+	size_t	length;
 
-	temp = list;
-	len = 0;
-	while (temp != NULL)
+	current = list;
+	length = 0;
+	while (current)
 	{
-		temp = temp->next;
-		len++;
+		current = current->next;
+		current++;
 	}
-	return (len);
-}
+	return (length);
+} */
 
 void	run_command(t_cmd *node, t_data *data)
 {
@@ -98,7 +98,7 @@ void	start_execution(t_cmd *cmd_list, t_data *data)
 {
 	pid_t	pid;
 
-	if (size_of_list(cmd_list) == 1 && builtin(cmd_list, data))
+	if (!cmd_list->next && builtin(cmd_list, data)) //size_of_list(cmd_list) == 1
 		return ;
 	pid = fork();
 	if (pid == -1)
@@ -106,9 +106,9 @@ void	start_execution(t_cmd *cmd_list, t_data *data)
 		perror("Error in fork()");
 		exit(EXIT_FAILURE);
 	}
-	else if (pid == 0 && size_of_list(cmd_list) == 1)
+	else if (pid == 0 && !cmd_list->next) // size_of_list(cmd_list) == 1
 		run_child_process_system_commands(cmd_list, data);
-	else if (pid == 0 && size_of_list(cmd_list) != 1)
+	else if (pid == 0 && cmd_list->next) // size_of_list(cmd_list) != 1
 		run_child_process_execute(cmd_list, data);
 	else
 		run_parent_process(pid, data);
