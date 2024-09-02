@@ -21,7 +21,7 @@ static void	error_message_unset(char *name)
 
 static void	remove_current_node(t_elst **head, t_elst *current, t_elst *prev)
 {
-	if (prev == NULL) // updated that *head will be changed if unset to the next
+	if (prev == NULL)
 		*head = current->next;
 	else
 	{
@@ -46,7 +46,7 @@ int	unset_variable(char *name, t_elst **head)
 		error_message_unset(name);
 		return (EXIT_FAILURE);
 	}
-	while (current) // updated that *head will be changed if unset to the next
+	while (current)
 	{
 		if (str_equals(name, current->name))
 		{
@@ -74,54 +74,6 @@ int	unset(t_cmd *cmd, t_elst **head)
 	{
 		if (unset_variable(cmd->argv[i], head) == EXIT_FAILURE)
 			status = EXIT_FAILURE;
-				// if unset Variable fails status will be Failure like orginal but continue with the other cmd
 	}
 	return (status);
 }
-
-/*static void	error_message_unset(char *name)
-{
-	ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
-	ft_putstr_fd(name, STDERR_FILENO);
-	ft_putendl_fd("not a valid", STDERR_FILENO);
-}
-
-int	unset_variable(char *name, t_elst **head)
-{
-	t_elst	*temp;
-	t_elst	*next_node;
-
-	temp = *head;
-	if (ft_strchr(name, '='))
-	{
-		error_message_unset(name);
-		return (EXIT_FAILURE);
-	}
-	while (temp && temp->next != NULL)
-	{
-		if (str_equals(name, temp->next->name))
-		{
-			next_node = temp->next->next;
-			free(temp->next->name);
-			free(temp->next->value);
-			free(temp->next);
-			temp->next = next_node;
-			break ;
-		}
-		temp = temp->next;
-	}
-	return (EXIT_SUCCESS);
-}
-
-int	unset(t_cmd *cmd, t_elst **head)
-{
-	int	i;
-
-	i = 1;
-	while (i < cmd->argc)
-	{
-		unset_variable(cmd->argv[i], head);
-		i++;
-	}
-	return (EXIT_SUCCESS);
-}*/

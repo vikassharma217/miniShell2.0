@@ -19,7 +19,6 @@ int	pwd(t_cmd *cmd)
 	if (cmd->argc > 1)
 	{
 		write(2, "minishell: pwd: too many arguments\n", 35);
-			// pwd: too many arguments?
 		return (EXIT_FAILURE);
 	}
 	else if (getcwd(cwd, PATH_MAX) != NULL)
@@ -31,20 +30,3 @@ int	pwd(t_cmd *cmd)
 	}
 	return (EXIT_SUCCESS);
 }
-
-/*
-int	ft_pwd(void)
-{
-	char	*cwd;
-
-	cwd = NULL;
-	cwd = getcwd(cwd, 0);
-	if (cwd == NULL)
-	{
-		perror("minishell: ");
-		return (EXIT_FAILURE);
-	}
-	ft_putendl_fd(cwd, STDOUT_FILENO);
-	free(cwd);
-	return (EXIT_SUCCESS);
-}*/

@@ -104,8 +104,7 @@ int								echo(t_cmd *cmd);
 int								env(t_data *data);
 
 /*exit.c*/
-void							exit_shell(t_cmd *cmd, t_data *data,
-									int status_code);
+void							exit_shell(t_cmd *cmd, t_data *data);
 
 /*ft_cd.c*/
 int								cd(t_cmd *cmd, t_data *data, char *target_dir);

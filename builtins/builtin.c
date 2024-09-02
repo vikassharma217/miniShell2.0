@@ -41,7 +41,7 @@ int	builtin(t_cmd *cmd, t_data *data)
 	else if (str_equals(cmd->argv[0], "env"))
 		data->exit_code = env(data);
 	else if (str_equals(cmd->argv[0], "exit"))
-		exit_shell(cmd, data, 0);
+		exit_shell(cmd, data);
 	else if (str_equals(cmd->argv[0], "export"))
 		data->exit_code = export(cmd, data);
 	else if (str_equals(cmd->argv[0], "pwd"))

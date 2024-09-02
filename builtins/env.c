@@ -28,17 +28,3 @@ int	env(t_data *data)
 	}
 	return (EXIT_SUCCESS);
 }
-
-/*int	ft_env(t_data *data)
-{
-	t_elst	*temp;
-
-	temp = data->env_lst;
-	while (temp != NULL)
-	{
-		if (temp->exported)
-			printf("%s=%s\n", temp->name, temp->value);
-		temp = temp->next;
-	}
-	return (EXIT_SUCCESS);
-}*/
