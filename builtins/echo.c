@@ -51,16 +51,21 @@ int	echo(t_cmd *cmd)
 {
 	int	print_new_line_flag;
 	int	i;
+	int	j;
 
 	print_new_line_flag = 0;
 	i = 0;
+	j = 1;
+	while (cmd->argv[j] && !char_in_str(cmd->argv[j], '|'))
+		j++;
 	while (++i < cmd->argc && check_new_line_flag(cmd->argv[i]))
 		print_new_line_flag = 1;
-	while (i < cmd->argc)
+	while (i < j)
 	{
 		check_and_print(cmd->argv[i]);
-		if (i++ < cmd->argc - 1)
+		if (i < j - 1)
 			write(1, " ", 1);
+		i++;
 	}
 	if (!print_new_line_flag)
 		write(1, "\n", 1);
