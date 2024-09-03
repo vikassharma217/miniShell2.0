@@ -54,7 +54,7 @@ static char	*find_valid_path(char *cmd, char **paths)
 	i = 0;
 	while (paths[i])
 	{
-		temp = ft_strjoin(&path[i], "/");
+		temp = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(temp, cmd);
 		free(temp);
 		if (path && access(path, F_OK | X_OK) == 0)
