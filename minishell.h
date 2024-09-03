@@ -136,7 +136,9 @@ void							handle_redirections(t_cmd *cmd, t_data *data);
 
 /*heredoc_handler.c*/
 void							heredoc_handler(t_cmd *cmd, t_data *data);
-// void							heredoc_handler(t_cmd *command);
+
+/*filename_generator.c*/
+void							generate_filename(char *buffer, int index);
 
 // validation
 /*cleaup*/

@@ -33,15 +33,6 @@ static void	exit_with_cleanup(char *cmd, t_data *data, char **paths,
 	exit(exit_code);
 }
 
-static char	*combine_and_release(char *str1, char *str2)
-{
-	char	*result;
-
-	result = ft_strjoin(str1, str2);
-	free(str1);
-	return (result);
-}
-
 static char	*get_env_variable(t_elst *env_lst, char *name)
 {
 	while (env_lst)
@@ -62,7 +53,7 @@ static char	*find_valid_path(char *cmd, char **paths)
 	i = 0;
 	while (paths[i])
 	{
-		path = combine_and_release(ft_strjoin(paths[i], "/"), cmd);
+		path = ft_strjoin(ft_strjoin(paths[i], "/"), cmd);
 		if (path && access(path, F_OK | X_OK) == 0)
 			return (path);
 		free(path);

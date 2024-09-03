@@ -15,16 +15,6 @@
 // with cmd "tail -f /tmp/.minishell_heredoc" in a seperate terminal...
 //...you can see what you are writing inside in live
 
-static void	generate_filename(char *buffer, int index)
-{
-	int	length;
-
-	ft_strncpy(buffer, "/tmp/.minishell_heredoc_", PATH_MAX);
-	length = ft_strlen(buffer);
-	buffer[length++] = '0' + index;
-	buffer[length] = '\0';
-}
-
 static void	handle_error(const char *message, const char *heredoc_file)
 {
 	perror(message);
@@ -115,7 +105,7 @@ static void	process_current_heredoc(t_cmd *current_cmd, char *heredoc_file,
 
 void	heredoc_handler(t_cmd *cmd, t_data *data)
 {
-	char	heredoc_file[256];
+	char	heredoc_file[PATH_MAX];
 	int		file_index;
 
 	data->mode = HEREDOCS;

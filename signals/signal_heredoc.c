@@ -16,7 +16,6 @@ void	heredoc_sigint_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(1, "\n", 1);
 		g_signal = CNTL_C;
 		close(STDIN_FILENO);
 	}
