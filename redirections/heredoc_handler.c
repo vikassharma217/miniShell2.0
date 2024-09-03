@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:27 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/02 17:05:06 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/03 08:56:04 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,54 @@ void	redirect_and_execute_command(const char *heredoc_file, t_cmd *cmd,
 		handle_error("Failed to fork", heredoc_file);
 }
 
+static void	process_current_heredoc(t_cmd *current_cmd, char *heredoc_file,
+		int *file_index)
+{
+	int	heredoc_fd;
+
+	while (current_cmd && current_cmd->operator == RD_HD)
+	{
+		generate_filename(heredoc_file, (*file_index)++);
+		heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
+		if (heredoc_fd < 0)
+		{
+			handle_error("Failed to create or open temporary file",
+				heredoc_file);
+		}
+		process_heredoc_input(heredoc_fd, current_cmd);
+		if (current_cmd->next && current_cmd->next->operator == RD_HD)
+		{
+			close(heredoc_fd);
+			unlink(heredoc_file);
+		}
+		else
+			close(heredoc_fd);
+		current_cmd = current_cmd->next;
+	}
+}
+
 void	heredoc_handler(t_cmd *cmd, t_data *data)
+{
+	char	heredoc_file[256];
+	int		file_index;
+
+	data->mode = HEREDOCS;
+	handle_signals(data);
+	file_index = 1;
+	process_current_heredoc(cmd, heredoc_file, &file_index);
+	if (g_signal != CNTL_C)
+		redirect_and_execute_command(heredoc_file, cmd, data);
+	unlink(heredoc_file);
+	data->mode = INTERACTIVE;
+	handle_signals(data);
+	if (g_signal == CNTL_C)
+	{
+		ft_clear_all(data);
+		exit(130);
+	}
+}
+
+/*void	heredoc_handler(t_cmd *cmd, t_data *data)
 {
 	char	heredoc_file[256];
 	int		heredoc_fd;
@@ -127,4 +174,4 @@ void	heredoc_handler(t_cmd *cmd, t_data *data)
 		ft_clear_all(data);
 		exit(130);
 	}
-}
+}*/

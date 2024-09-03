@@ -6,15 +6,15 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/30 16:44:17 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/03 08:22:49 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <fcntl.h>
 # include <errno.h> //OK to use?
+# include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -136,7 +136,7 @@ void							handle_redirections(t_cmd *cmd, t_data *data);
 
 /*heredoc_handler.c*/
 void							heredoc_handler(t_cmd *cmd, t_data *data);
-//void							heredoc_handler(t_cmd *command);
+// void							heredoc_handler(t_cmd *command);
 
 // validation
 /*cleaup*/
@@ -216,6 +216,8 @@ char							*ft_strncpy(char *dest, const char *src,
 									size_t n);
 
 // signals
+void							heredoc_sigint_handler(int signum);
+void							heredoc_sigquit_handler(int signum);
 void							handle_eof_in_heredoc(t_cmd *current_cmd);
 void							handle_signals(t_data *data);
 

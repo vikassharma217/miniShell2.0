@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:28 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/02 17:04:10 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/03 08:25:09 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static int	handling_export_error(char *name)
 
 void	export_variable_without_value(char *var_name, t_elst **env_list)
 {
-	t_elst *new_var;
+	t_elst	*new_var;
 
 	new_var = newnode_env(var_name, NULL, true);
-    if (!new_var)
+	if (!new_var)
 	{
-		perror ("Failed to create new environment variable");
+		perror("Failed to create new environment variable");
 		return ;
-    }
+	}
 	lstadd_back_env(env_list, new_var);
 }
 
@@ -41,12 +41,12 @@ static int	print_exported_vars(t_data *data)
 	while (current)
 	{
 		if (current->exported)
-        {
-            if (current->value)
-                printf("declare -x %s=\"%s\"\n", current->name, current->value);
-            else
-                printf("declare -x %s\n", current->name);
-        }
+		{
+			if (current->value)
+				printf("declare -x %s=\"%s\"\n", current->name, current->value);
+			else
+				printf("declare -x %s\n", current->name);
+		}
 		current = current->next;
 	}
 	return (0);
@@ -73,7 +73,8 @@ int	export(t_cmd *cmd, t_data *data)
 			if (equal_flag)
 				store_env_var(cmd->argv[i], &data->env_lst, true);
 			else if (!is_var_exported(cmd->argv[i], &data->env_lst))
-				export_variable_without_value(ft_strdup(cmd->argv[i]), &data->env_lst);
+				export_variable_without_value(ft_strdup(cmd->argv[i]),
+					&data->env_lst);
 		}
 	}
 	return (any_error);

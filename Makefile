@@ -6,7 +6,7 @@
 #    By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 11:43:39 by vsharma           #+#    #+#              #
-#    Updated: 2024/08/28 15:13:22 by vsharma          ###   ########.fr        #
+#    Updated: 2024/09/03 08:24:30 by vsharma          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC = main.c \
 		redirections/redirections_handler.c redirections/heredoc_handler.c \
 		parser/env_list.c  parser/expander_utils.c parser/expander.c \
 		parser/handel_quotes.c parser/parser.c  parser/tokenizer.c \
-		signals/signals.c \
+		signals/signals.c signals/signal_heredoc.c \
 		utils/cmd_list_utils.c utils/list_utils.c \
 		utils/num_utils.c utils/string_utils.c \
 		utils/var_utils.c \

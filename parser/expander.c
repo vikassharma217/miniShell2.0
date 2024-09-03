@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:49:43 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/02 17:38:00 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/03 08:28:52 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*expand_token(char *str, t_data *data, char *token)
 	return (token);
 }
 
-// Retrieves the value of a variable from the environment and inserts it into the token.
+/* Retrieves the value of a variable from the environment
+	and inserts it into the token*/
 int	get_variable(char *str, char *input, int *i, t_data *data)
 {
 	char	*value;
@@ -56,8 +57,8 @@ int	get_variable(char *str, char *input, int *i, t_data *data)
 		return (1);
 	}
 	while (input[*i + size] && input[*i + size] != ' ' && input[*i
-		+ size] != '\"' && !char_in_str(QUOTES, input[*i + size]) && input[*i
-		+ size] != '$')
+			+ size] != '\"' && !char_in_str(QUOTES, input[*i + size]) && input
+		[*i + size] != '$')
 		size++;
 	value = get_varvalue_fromvlst(ft_substr(input, *i, size), data);
 	*i += size;

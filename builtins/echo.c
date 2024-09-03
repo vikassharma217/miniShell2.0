@@ -6,13 +6,13 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:52:38 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/02 17:03:37 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/03 08:25:03 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//Backslash things fixed but we need that?
+// Backslash things fixed but we need that?
 static void	check_and_print(const char *str)
 {
 	int	backslash_flag;
@@ -21,7 +21,7 @@ static void	check_and_print(const char *str)
 	if (str == NULL)
 		return ;
 	while (*str)
-	{	
+	{
 		if (*str == '\\' && backslash_flag)
 		{
 			write(1, "\\", 1);
@@ -49,8 +49,8 @@ static int	check_new_line_flag(const char *argv)
 
 int	echo(t_cmd *cmd)
 {
-	int		print_new_line_flag;
-	int		i;
+	int	print_new_line_flag;
+	int	i;
 
 	print_new_line_flag = 0;
 	i = 0;
