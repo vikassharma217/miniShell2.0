@@ -48,12 +48,15 @@ static char	*get_env_variable(t_elst *env_lst, char *name)
 static char	*find_valid_path(char *cmd, char **paths)
 {
 	char	*path;
+	char	*temp;
 	size_t	i;
 
 	i = 0;
 	while (paths[i])
 	{
-		path = ft_strjoin(ft_strjoin(paths[i], "/"), cmd);
+		temp = ft_strjoin(&path[i], "/");
+		path = ft_strjoin(temp, cmd);
+		free(temp);
 		if (path && access(path, F_OK | X_OK) == 0)
 			return (path);
 		free(path);
