@@ -23,8 +23,11 @@ int	init_minishell(char **env, t_data *data, t_cmd **cmd_list)
 	data->env_lst = init_env_lst(env);
 	data->head = NULL;
 	data->exit_code = 0;
-	*cmd_list = NULL;
-	handle_signals(data);
+	*cmd_list = NULL; //
+	if (data->mode == INTERACTIVE)
+		init_signal_interactive();
+	else if (data->mode == NON_INTERACTIVE)
+		init_signal_non_interactive();
 	return (0);
 }
 
@@ -38,7 +41,7 @@ char	*get_cleaned_input(t_data *data)
 	{
 		ft_clear_all(data);
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
-		exit(EXIT_SUCCESS);
+		exit(EXIT_SUCCESS); //SUCCESS OR FAILURE
 	}
 	if (g_signal != 0)
 		data->exit_code = 130;

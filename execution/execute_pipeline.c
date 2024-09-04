@@ -19,50 +19,52 @@ static void	handle_pipe_error(const char *error_message, t_data *data)
 	exit(EXIT_FAILURE);
 }
 
-static void	pipe_child_process(t_cmd *node, int fd[2], t_data *data)
+static void	pipe_child_process(t_cmd *cmd, int pipe_fd[2], t_data *data)
 {
-	close(fd[0]);
-	if (dup2(fd[1], STDOUT_FILENO) == -1)
+	close(pipe_fd[0]);
+	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		handle_pipe_error("dup2 failed in child process", data);
-	close(fd[1]);
-	run_command(node, data);
+	close(pipe_fd[1]);
+	//printf("Child Process: 0= %s 1= %s\n", cmd->argv[0], cmd->argv[1]);
+	run_command(cmd, data);
 	exit(EXIT_SUCCESS);
 }
 
-static void	pipe_parent_process(t_cmd *node, int fd[2], t_data *data,
+static void	pipe_parent_process(t_cmd *cmd, int pipe_fd[2], t_data *data,
 		pid_t child_pid)
 {
 	int	status;
 
-	close(fd[1]);
-	if (dup2(fd[0], STDIN_FILENO) == -1)
+	close(pipe_fd[1]);
+	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		handle_pipe_error("dup2 failed in parent process", data);
-	close(fd[0]);
-	run_command(node->next, data);
+	close(pipe_fd[0]);
 	waitpid(child_pid, &status, 0);
+	if (cmd->next != NULL)
+		pipe_execution(cmd->next, data);
 	data->exit_code = WEXITSTATUS(status);
 }
 
-void	pipe_execution(t_cmd *node, t_data *data)
+void	pipe_execution(t_cmd *cmd, t_data *data)
 {
-	int		fd[2];
+	int		pipe_fd[2];
 	int		status;
 	pid_t	child_pid;
 
-	node->operator = NONE;
-	if (!node->next)
+	cmd->operator = NONE;
+	if (!cmd->next)
 	{
-		run_command(node, data);
+		run_command(cmd, data);
 		return ;
 	}
-	if (pipe(fd) == -1)
+	if (pipe(pipe_fd) == -1)
 		handle_pipe_error("Pipe creation failed", data);
 	status = 0;
 	child_pid = fork();
 	if (child_pid == -1)
 		handle_pipe_error("fork() failed", data);
 	else if (child_pid == 0)
-		pipe_child_process(node, fd, data);
+		pipe_child_process(cmd, pipe_fd, data);
 	else
-		pipe_parent_process(node, fd, data, child_pid);
+		pipe_parent_process(cmd, pipe_fd, data, child_pid);
 }

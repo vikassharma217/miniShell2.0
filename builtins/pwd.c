@@ -12,14 +12,7 @@
 
 #include "../minishell.h"
 
-//Shell does print Error, Bash not
-	/*if (cmd->argc > 1)
-	{
-		write(2, "minishell: pwd: too many arguments\n", 35);
-		return (0);
-	}*/
-
-int	pwd(t_cmd *cmd)
+int	pwd(t_cmd *cmd, t_data *data)
 {
 	char	current_dir[PATH_MAX];
 
@@ -28,8 +21,16 @@ int	pwd(t_cmd *cmd)
 		printf("%s\n", current_dir);
 	else
 	{
-		perror("minishell: ");
-		return (1);
+		if (data->saved_path[0] != '\0')
+		{
+			printf("%s\n", data->saved_path);
+			return (0);
+		}
+		else
+		{
+			perror("minishell: ");
+			return (1);
+		}
 	}
 	return (0);
 }

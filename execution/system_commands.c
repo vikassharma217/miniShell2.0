@@ -48,15 +48,15 @@ static char	*get_env_variable(t_elst *env_lst, char *name)
 static char	*find_valid_path(char *cmd, char **paths)
 {
 	char	*path;
-	char	*temp;
+	char	*copy;
 	size_t	i;
 
 	i = 0;
 	while (paths[i])
 	{
-		temp = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(temp, cmd);
-		free(temp);
+		copy = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(copy, cmd);
+		free(copy);
 		if (path && access(path, F_OK | X_OK) == 0)
 			return (path);
 		free(path);
@@ -93,78 +93,6 @@ static void	search_and_exec(char *cmd, t_elst *env_lst, t_cmd *cmd_struct,
 	}
 	exit_with_cleanup(cmd, data, paths, 127);
 }
-
-/*change to fix leaks */
-/*static void	search_and_exec(char *cmd, t_elst *env_lst, t_cmd *cmd_struct,
-		t_data *data)
-{
-	char	**paths;
-	char	*env_paths;
-	char	*path;
-	size_t	i;
-
-	i = 0;
-	env_paths = get_env_variable(env_lst, "PATH");
-	if (!env_paths)
-		exit_with_cleanup(cmd, data, NULL, 127);
-	paths = ft_split(env_paths, ':');
-	free(env_paths);
-	if (!paths)
-		exit_with_cleanup(cmd, data, NULL, 127);
-	while (paths[i])
-	{
-		path = combine_and_release(ft_strjoin(paths[i], "/"), cmd);
-		if (path && access(path, F_OK | X_OK) == 0)
-		{
-			if (execve(path, cmd_struct->argv, data->env) == -1)
-			{
-				perror(path);
-				free(path);
-				exit_with_cleanup(NULL, data, paths, 126);
-			}
-			free(path);
-			exit_with_cleanup(NULL, data, paths, 0);
-		}
-		free(path);
-		i++;
-	}
-	exit_with_cleanup(cmd, data, paths, 127);
-}*/
-
-/*code written by RENE*/
-/*static void	search_and_exec(char *cmd, t_elst *env_lst, t_cmd *cmd_struct,
-		t_data *data)
-{
-	char	**paths;
-	char	*env_paths;
-	char	*path;
-	size_t	i;
-
-	i = 0;
-	env_paths = get_env_variable(env_lst, "PATH");
-	if (!env_paths)
-		exit_with_cleanup(cmd, data, NULL, 127);
-	paths = ft_split(env_paths, ':');
-	free(env_paths);
-	while (paths[i])
-	{
-		path = combine_and_release(ft_strjoin(paths[i], "/"), cmd);
-		if (access(path, F_OK | X_OK) == 0)
-		{
-			if (execve(path, cmd_struct->argv, data->env) == -1)
-			{
-				perror(path);
-				free(path);
-				exit_with_cleanup(NULL, data, paths, 126);
-			}
-			free(path);
-			exit_with_cleanup(NULL, data, paths, 0);
-		}
-		free(path);
-		i++;
-	}
-	exit_with_cleanup(cmd, data, paths, 127);
-}*/
 
 void	system_commands(t_cmd *cmd, t_data *data)
 {

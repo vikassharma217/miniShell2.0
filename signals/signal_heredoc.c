@@ -18,6 +18,8 @@ void	heredoc_sigint_handler(int signum)
 	{
 		g_signal = CNTL_C;
 		close(STDIN_FILENO);
+		write(STDOUT_FILENO, "\n", 1);
+		exit(130);
 	}
 }
 

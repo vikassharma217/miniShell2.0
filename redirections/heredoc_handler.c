@@ -73,7 +73,7 @@ void	redirect_and_execute_command(const char *heredoc_file, t_cmd *cmd,
 	if (pid == 0)
 	{
 		system_commands(cmd, data);
-		exit(EXIT_FAILURE);
+		exit(EXIT_SUCCESS);
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, 0);
@@ -113,14 +113,14 @@ void	heredoc_handler(t_cmd *cmd, t_data *data)
 	int		file_index;
 
 	data->mode = HEREDOCS;
-	handle_signals(data);
+	init_signal_heredocs();
 	file_index = 1;
 	process_current_heredoc(cmd, heredoc_file, &file_index, data);
 	if (g_signal != CNTL_C)
 		redirect_and_execute_command(heredoc_file, cmd, data);
 	unlink(heredoc_file);
 	data->mode = INTERACTIVE;
-	handle_signals(data);
+	init_signal_interactive();
 	if (g_signal == CNTL_C)
 	{
 		ft_clear_all(data);
@@ -128,44 +128,3 @@ void	heredoc_handler(t_cmd *cmd, t_data *data)
 	}
 }
 
-/*void	heredoc_handler(t_cmd *cmd, t_data *data)
-{
-	char	heredoc_file[256];
-	int		heredoc_fd;
-	int		file_index;
-	t_cmd	*current_cmd;
-
-	current_cmd = cmd;
-	data->mode = HEREDOCS;
-	handle_signals(data);
-	file_index = 1;
-	while (current_cmd && current_cmd->operator == RD_HD)
-	{
-		generate_filename(heredoc_file, file_index++);
-		heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
-		if (heredoc_fd < 0)
-		{
-			handle_error("Failed to create or open temporary file",
-				heredoc_file);
-		}
-		process_heredoc_input(heredoc_fd, current_cmd);
-		if (current_cmd->next && current_cmd->next->operator == RD_HD)
-		{
-			close(heredoc_fd);
-			unlink(heredoc_file);
-		}
-		else
-			close(heredoc_fd);
-		current_cmd = current_cmd->next;
-	}
-	if (g_signal != CNTL_C)
-		redirect_and_execute_command(heredoc_file, cmd, data);
-	unlink(heredoc_file);
-	data->mode = INTERACTIVE;
-	handle_signals(data);
-	if (g_signal == CNTL_C)
-	{
-		ft_clear_all(data);
-		exit(130);
-	}
-}*/
