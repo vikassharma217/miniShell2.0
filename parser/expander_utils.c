@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:07:21 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 14:10:45 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/04 16:26:34 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,36 @@ int	token_size(char *str, int *i, t_data *data)
 	return (ft_strlen(value));
 }
 
-// Calculate the total size of the input string after variable expansion.
 int	input_size(char *str, t_data *data)
+{
+	t_var	var;
+
+	var.i = 0;
+	var.size = 0;
+	var.quotes = false;
+	var.d_quotes = false;
+	while (str[var.i])
+	{
+		if (str[var.i] == '\"' && !var.quotes)
+			var.d_quotes = !var.d_quotes;
+		if (str[var.i] == '\'' && !var.d_quotes)
+			var.quotes = !var.quotes;
+		if ((str[var.i] == '$' && str[var.i + 1] == '?') && !var.quotes)
+		{
+			var.size += exit_status_size(data) - 1;
+			var.i++;
+		}
+		else if (str[var.i] == '$' && !var.quotes)
+			var.size += token_size(&(str[var.i]), &var.i, data) - 1;
+		else
+			var.i++;
+		var.size++;
+	}
+	return (var.size);
+}
+
+// Calculate the total size of the input string after variable expansion.
+/*int	input_size(char *str, t_data *data)
 {
 	int		i;
 	int		size;
@@ -105,4 +133,4 @@ int	input_size(char *str, t_data *data)
 		size++;
 	}
 	return (size);
-}
+}*/

@@ -6,14 +6,39 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:49:43 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/04 10:16:23 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/04 16:28:27 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Expands a token by handling quotes and environment variable substitution.
 char	*expand_token(char *str, t_data *data, char *token)
+{
+	t_var var;
+
+	var.i = 0;
+	var.size = 0;
+	var.quotes = false;
+	var.d_quotes = false;
+	while (str[var.i])
+	{
+		if (str[var.i] == '\"' && !var.quotes)
+			var.d_quotes = !var.d_quotes;
+		if (str[var.i] == '\'' && !var.quotes)
+			var.quotes = !var.quotes;
+		if (str[var.i] == '$' && str[var.i + 1] == '?' && !var.quotes)
+			var.size += get_exit_status(data, &(token[var.size]), &var.i);
+		else if (str[var.i] == '$' && !var.quotes)
+			var.size += get_variable(&(token[var.size]), str, &var.i, data);
+		else
+			token[var.size++] = str[var.i++];
+	}
+	token[var.size] = '\0';
+	return (token);
+}
+
+// Expands a token by handling quotes and environment variable substitution.
+/*char	*expand_token(char *str, t_data *data, char *token)
 {
 	int		i;
 	int		j;
@@ -36,7 +61,7 @@ char	*expand_token(char *str, t_data *data, char *token)
 	}
 	token[j] = '\0';
 	return (token);
-}
+}*/
 
 /* Retrieves the value of a variable from the environment
 	and inserts it into the token*/
@@ -57,8 +82,8 @@ int	get_variable(char *str, char *input, int *i, t_data *data)
 		return (1);
 	}
 	while (input[*i + size] && input[*i + size] != ' ' && input[*i
-		+ size] != '\"' && !char_in_str(QUOTES, input[*i + size]) && input[*i
-		+ size] != '$')
+			+ size] != '\"' && !char_in_str(QUOTES, input[*i + size]) && input[*i
+			+ size] != '$')
 		size++;
 	value = get_varvalue_fromvlst(ft_substr(input, *i, size), data);
 	*i += size;

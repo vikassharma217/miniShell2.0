@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/04 10:16:44 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/04 16:24:25 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,16 @@
 # define CNTL_BACKSLASH 3
 
 extern volatile sig_atomic_t	g_signal;
+
+typedef struct s_var
+{
+	int		i;
+	int		size;
+	bool	quotes;
+	bool	d_quotes;
+}	t_var;
+
+
 
 // enum list for token type
 typedef enum e_operator
