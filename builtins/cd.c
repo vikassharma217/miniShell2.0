@@ -92,6 +92,8 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 
 	if (cmd->argc > 2)
 		return (write(2, "cd: too many arguments\n", 23), EXIT_FAILURE);
+	if (!target_dir || str_equals(target_dir, "~"))
+		return (handle_cd_to_home_or_oldpwd("HOME", current_dir, data));
 	if (!getcwd(current_dir, PATH_MAX))
 		return (write(2, "minishell: cd: getcwd error\n", 29), EXIT_FAILURE);
 	if (!target_dir || str_equals(target_dir, "~"))
@@ -100,6 +102,11 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 		return (handle_cd_to_home_or_oldpwd("OLDPWD", current_dir, data));
 	if (chdir(target_dir) != 0)
 		return (print_cd_error(target_dir));
+	getcwd(data->saved_path, PATH_MAX);
+	if (!getcwd(data->saved_path, PATH_MAX))
+	{
+        return (write(2, "minishell: cd: getcwd error\n", 29), EXIT_FAILURE);
+    }
 	save_old_pwd(current_dir, data);
 	update_pwd(data);
 	return (EXIT_SUCCESS);

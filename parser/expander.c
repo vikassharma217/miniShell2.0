@@ -57,8 +57,7 @@ int	get_variable(char *str, char *input, int *i, t_data *data)
 		return (1);
 	}
 	while (input[*i + size] && input[*i + size] != ' ' && input[*i
-		+ size] != '\"' && !char_in_str(QUOTES, input[*i + size]) && input[*i
-		+ size] != '$')
+			+ size] != '\"' && !char_in_str(QUOTES, input[*i + size]) && input[*i + size] != '$')
 		size++;
 	value = get_varvalue_fromvlst(ft_substr(input, *i, size), data);
 	*i += size;

@@ -1,15 +1,15 @@
-Important: SIGNALS is identic with someones else code we should rewrite it
+Important: SIGNALS 
 
 
 Step1: mkdir a Step2: cd a Step3: mkdir b Step4: cd b
 Step5: rm -rf ../../a Step6: pwd \ Output should be pwd like bash
 and cd .. Error message directory not here cd .. we should be back at minishell directory
-NOT SURE IF WE SHOULD HANDLE IT?
+NOT SURE IF WE SHOULD HANDLE IT? 
+!!!!!!!!!!!!Update fixed the pwd Part so it is working, still need to
+change cd .. but i have a solution 
 
-Pipes are not working as they should, maybe i have to rewrite it - 
-a lot to write but i will let you know tomorrow 
+Pipes are not working as they should, i found out because the way we are 
+using tokens and the parsing to the command it is missunderstanding it
+i will let you know tomorrow
 
-cat << $USER should not close with User name just with $USER 
 
-
-Thats all for now what he found 

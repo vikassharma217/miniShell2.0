@@ -89,6 +89,7 @@ typedef struct s_data
 	t_elst						*env_lst;
 	t_cmd						*head;
 	int							exit_code;
+	char						saved_path[PATH_MAX];
 	t_mode						mode;
 }								t_data;
 
@@ -113,7 +114,7 @@ int								cd(t_cmd *cmd, t_data *data, char *target_dir);
 int								export(t_cmd *cmd, t_data *data);
 
 /*pwd.c*/
-int								pwd(t_cmd *cmd);
+int								pwd(t_cmd *cmd, t_data *data);
 
 /*unset.c*/
 int								unset(t_cmd *cmd, t_elst **head);
@@ -218,9 +219,11 @@ char							*ft_strncpy(char *dest, const char *src,
 									size_t n);
 
 // signals
+void							init_signal_heredocs(void);
+void							init_signal_non_interactive(void);
+void							init_signal_interactive(void);
 void							heredoc_sigint_handler(int signum);
 void							heredoc_sigquit_handler(int signum);
 void							handle_eof_in_heredoc(t_cmd *current_cmd);
-void							handle_signals(t_data *data);
 
 #endif

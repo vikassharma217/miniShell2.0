@@ -25,40 +25,21 @@ void	sigint_handler(int signum)
 	}
 }
 
-void	sigquit_handler(int signum)
+void	init_signal_interactive(void)
 {
-	if (signum == SIGQUIT)
-	{
-		ft_putstr_fd("Quit (core dumped)\n", STDOUT_FILENO);
-		g_signal = CNTL_BACKSLASH;
-	}
+	signal(SIGINT, &sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-void	init_signal(t_data *data)
+void	init_signal_non_interactive(void)
 {
-	if (data->mode == INTERACTIVE)
-	{
-		signal(SIGINT, &sigint_handler);
-		signal(SIGQUIT, SIG_IGN);
-	}
-	else if (data->mode == HEREDOCS)
-	{
-		signal(SIGINT, &heredoc_sigint_handler);
-		signal(SIGQUIT, &heredoc_sigquit_handler);
-	}
-	else if (data->mode == NON_INTERACTIVE)
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-	}
-	else
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_DFL);
-	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-void	handle_signals(t_data *data)
+void	init_signal_heredocs(void)
 {
-	init_signal(data);
+	signal(SIGINT, &heredoc_sigint_handler);
+	signal(SIGQUIT, &heredoc_sigquit_handler);
 }
+
