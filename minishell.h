@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/03 08:22:49 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/04 10:16:44 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 # define QUOTES "\"\'"
 
 // STANDARD ERROR MESSAGES FROM BASH
-# define FORK_ERR "minishell: fork() failed"
-# define PIPE_ERR "minishell: pipe() failed"
+//# define FORK_ERR "minishell: fork() failed"
+//# define PIPE_ERR "minishell: pipe() failed"
 
 // ft_cd
 # define PATH_MAX 4096
