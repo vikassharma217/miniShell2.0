@@ -46,14 +46,18 @@ int	run_command_child(t_cmd **cmd, t_data *data)
 	{
 		if ((*cmd)->operator != PIPE)
 		{
-			handle_redirections(cmd, data);
+			if((*cmd)->operator == RD_HD)
+			{
+				heredoc_handler(*cmd, data);
+				ft_clear_all(data);
+				exit(0);
+			}
+			else
+				handle_redirections(cmd, data);
 			status = 1;
 		}
 		else
-		{
-			printf("we are here\n");
 			pipe_execution(*cmd, data);
-		}
 	}
 	else
 	{
@@ -98,11 +102,21 @@ static void	run_child_process_execute(t_cmd **cmd_list, t_data *data)
 	signal(SIGQUIT, SIG_DFL);
 	while (*cmd_list)
 	{
+
 		flag_redirection = run_command_child(cmd_list, data);
-		if ((*cmd_list)->next && !flag_redirection)
-			*cmd_list = (*cmd_list)->next;
+		if ((*cmd_list)->next)
+		{
+			if ((*cmd_list)->next && !flag_redirection)
+				*cmd_list = (*cmd_list)->next;
+			else
+				continue ;
+		}
 		else
+		{
+			printf("We are here\n");
+			fflush(stdout);
 			break ;
+		}
 	}
 	status = data->exit_code;
 	if (data)

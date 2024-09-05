@@ -90,10 +90,17 @@ static int	execute_redirection(t_cmd **cmd, t_data *data)
 		if ((*cmd)->operator == RD_IN)
 			perform_input_redirection(*cmd, data);
 		else if ((*cmd)->operator == RD_OUT)
+		{
 			perform_output_redirection(*cmd);
+		}
 		else if ((*cmd)->operator == RD_APND)
+		{
 			perform_output_redirection(*cmd);
-		*cmd = (*cmd)->next;
+		}
+		if ((*cmd)->next)
+			*cmd = (*cmd)->next;
+		else
+			break ;
 	}
 	run_command_rd(start_cmd, data);
 	return (1);
@@ -102,7 +109,7 @@ static int	execute_redirection(t_cmd **cmd, t_data *data)
 void handle_redirections(t_cmd **cmd, t_data *data)
 {
     int redirection_done = 0;
-    int saved_stdout = -1;
+	int saved_stdout = -1;
 
     if ((*cmd)->operator == RD_OUT || (*cmd)->operator == RD_APND
         || (*cmd)->operator == RD_IN || (*cmd)->operator == RD_HD)
@@ -119,18 +126,14 @@ void handle_redirections(t_cmd **cmd, t_data *data)
 		if ((*cmd)->next)
 			(*cmd) = (*cmd)->next;
     }
-    if (((*cmd)->operator == PIPE && redirection_done)
-			|| (!(*cmd)->next && redirection_done))
-        (*cmd) = (*cmd)->next;
-    else if (redirection_done)
+   	else if (redirection_done)
     {
         if (dup2(saved_stdout, STDOUT_FILENO) == -1)
         {
             perror("dup2 restore failed");
+			close(saved_stdout);
             exit(EXIT_FAILURE);
         }
-        close(saved_stdout);
     }
-	else
-		close(saved_stdout);
+	close(saved_stdout);
 }

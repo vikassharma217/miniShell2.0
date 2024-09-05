@@ -86,7 +86,7 @@ static void	process_current_heredoc(t_cmd *current_cmd, char *heredoc_file,
 {
 	int	heredoc_fd;
 
-	while (current_cmd && current_cmd->operator== RD_HD)
+	while (current_cmd && current_cmd->operator == RD_HD)
 	{
 		generate_filename(heredoc_file, (*file_index)++);
 		heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
@@ -96,7 +96,7 @@ static void	process_current_heredoc(t_cmd *current_cmd, char *heredoc_file,
 				heredoc_file);
 		}
 		process_heredoc_input(heredoc_fd, current_cmd, data);
-		if (current_cmd->next && current_cmd->next->operator== RD_HD)
+		if (current_cmd->next && current_cmd->next->operator == RD_HD)
 		{
 			close(heredoc_fd);
 			unlink(heredoc_file);

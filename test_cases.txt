@@ -1,15 +1,12 @@
-Important: SIGNALS 
+Good morning Vikas
 
+i fixed heredoc maybe you can check different things, im running out of time
+so i had to leave. but i fixed memory leaks already in heredocs and fount out
+that there is now a tiny problem with the pipes how i handle it after some
+redirection commands. but just small
 
-Step1: mkdir a Step2: cd a Step3: mkdir b Step4: cd b
-Step5: rm -rf ../../a Step6: pwd \ Output should be pwd like bash
-and cd .. Error message directory not here cd .. we should be back at minishell directory
-NOT SURE IF WE SHOULD HANDLE IT? 
-!!!!!!!!!!!!Update fixed the pwd Part so it is working, still need to
-change cd .. but i have a solution 
+i have to much lines in some functions i will fix that tomorrow i come arround 9
 
-Pipes are not working as they should, i found out because the way we are 
-using tokens and the parsing to the command it is missunderstanding it
-i will let you know tomorrow
-
+Thats it 
+See You 
 
