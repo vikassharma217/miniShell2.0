@@ -6,11 +6,12 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:18 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/02 17:03:28 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/05 11:39:33 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <strings.h>
 
 static int	print_cd_error(char *target_dir)
 {
@@ -40,6 +41,7 @@ static void	update_pwd(t_data *data)
 			updated_old_pwd[i++] = cwd[j++];
 		updated_old_pwd[i] = '\0';
 		store_env_var(updated_old_pwd, &data->env_lst, true);
+		ft_strncpy(data->saved_path, cwd, PATH_MAX);
 	}
 }
 
@@ -86,7 +88,51 @@ static int	handle_cd_to_home_or_oldpwd(char *env_var, char *current_dir,
 	return (EXIT_SUCCESS);
 }
 
+void	update_saved_path(char *target_dir, t_data *data)
+{
+	char	tmp_saved_path[PATH_MAX];
+	char	*last_slash;
+
+	if (str_equals(target_dir, ".."))
+	{
+		last_slash = ft_strrchr(data->saved_path, '/');
+		if (last_slash)
+			*last_slash = '\0';
+	}
+	else
+	{
+		ft_strlcpy(tmp_saved_path, data->saved_path, PATH_MAX);
+		ft_strlcat(tmp_saved_path, "/", PATH_MAX);
+		ft_strlcat(tmp_saved_path, target_dir, PATH_MAX);
+		ft_strlcpy(data->saved_path, tmp_saved_path, PATH_MAX);
+	}
+}
+
 int	cd(t_cmd *cmd, t_data *data, char *target_dir)
+{
+	char	current_dir[PATH_MAX];
+
+	if (cmd->argc > 2)
+		return (write(2, "cd: too many arguments\n", 23), EXIT_FAILURE);
+	if (!target_dir || str_equals(target_dir, "~"))
+		return (handle_cd_to_home_or_oldpwd("HOME", current_dir, data));
+	if (!getcwd(current_dir, PATH_MAX))
+	{
+		perror("minishell: cd: getcwd: cannot access parent directories");
+		ft_strncpy(current_dir, data->saved_path, PATH_MAX);
+	}
+	if (str_equals(target_dir, "-"))
+		return (handle_cd_to_home_or_oldpwd("OLDPWD", current_dir, data));
+	if (chdir(target_dir) != 0)
+		return (print_cd_error(target_dir));
+	if (!getcwd(data->saved_path, PATH_MAX))
+		update_saved_path(target_dir, data);
+	save_old_pwd(current_dir, data);
+	update_pwd(data);
+	return (EXIT_SUCCESS);
+}
+
+/*int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 {
 	char	current_dir[PATH_MAX];
 
@@ -105,9 +151,9 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 	getcwd(data->saved_path, PATH_MAX);
 	if (!getcwd(data->saved_path, PATH_MAX))
 	{
-        return (write(2, "minishell: cd: getcwd error\n", 29), EXIT_FAILURE);
-    }
+		return (write(2, "minishell: cd: getcwd error\n", 29), EXIT_FAILURE);
+	}
 	save_old_pwd(current_dir, data);
 	update_pwd(data);
 	return (EXIT_SUCCESS);
-}
+}*/

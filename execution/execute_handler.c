@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:54:47 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/03 08:33:23 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/05 10:16:16 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,15 @@ void	start_execution(t_cmd *cmd_list, t_data *data)
 
 	temp = cmd_list;
 	i = 0;
-	while (temp != NULL) //Debugging Tool for checking operator
+	/*while (temp != NULL) //Debugging Tool for checking operator
 	{
-    	printf("Operator: %u\n", temp->operator);
+    	//printf("Operator: %u\n", temp->operator);
     	for (int i = 0; temp->argv[i] != NULL; i++)
 		{
-        	printf("Command: %s\n", temp->argv[i]);
+        	//printf("Command: %s\n", temp->argv[i]);
     	}
     	temp = temp->next;
-	}
+	}*/
 	if (!cmd_list->next && builtin(cmd_list, data))
 		return ;
 	pid = fork();

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/04 16:24:25 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/05 11:36:33 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,11 @@ int								ft_isalnum(int c);
 int								ft_isdigit(int c);
 char							*ft_strncpy(char *dest, const char *src,
 									size_t n);
+size_t							ft_strlcat(char *dst, const char *src,
+									size_t size);
+size_t							ft_strlcpy(char *dst, const char *src,
+									size_t size);
+char							*ft_strrchr(const char *string, int c);
 
 // signals
 void							init_signal_heredocs(void);
