@@ -25,7 +25,6 @@ static void	pipe_child_process(t_cmd *cmd, int pipe_fd[2], t_data *data)
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		handle_pipe_error("dup2 failed in child process", data);
 	close(pipe_fd[1]);
-	//printf("Child Process: 0= %s 1= %s\n", cmd->argv[0], cmd->argv[1]);
 	run_command(cmd, data);
 	exit(EXIT_SUCCESS);
 }

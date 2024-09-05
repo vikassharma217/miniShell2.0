@@ -143,7 +143,7 @@ void							pipe_execution(t_cmd *node, t_data *data);
 
 // redirections
 /*redirections_handler.c*/
-void							handle_redirections(t_cmd *cmd, t_data *data);
+void							handle_redirections(t_cmd **cmd, t_data *data);
 
 /*heredoc_handler.c*/
 void							heredoc_handler(t_cmd *cmd, t_data *data);
