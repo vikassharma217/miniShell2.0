@@ -12,21 +12,28 @@
 
 #include "../minishell.h"
 
+static void	run_command_rd(t_cmd *cmd, t_data *data)
+{
+
+	if (!builtin(cmd, data))
+		system_commands(cmd, data);
+}
+
 static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 {
-	t_cmd	*current_cmd;
+	t_cmd	*copy_cmd;
 	int		input_fd;
 
-	current_cmd = cmd->next;
-	while (current_cmd && current_cmd->operator == RD_IN)
-		current_cmd = current_cmd->next;
-	if (current_cmd && current_cmd->argv[0])
+	copy_cmd = cmd->next;
+	while (copy_cmd && copy_cmd->operator == RD_IN)
+		copy_cmd = copy_cmd->next;
+	if (copy_cmd && copy_cmd->argv[0])
 	{
-		input_fd = open(current_cmd->argv[0], O_RDONLY);
+		input_fd = open(copy_cmd->argv[0], O_RDONLY);
 		if (input_fd < 0)
 		{
 			write(2, "minishell: ", 11);
-			perror(current_cmd->argv[0]);
+			perror(copy_cmd->argv[0]);
 			data->exit_code = 1;
 			ft_clear_all(data);
 			exit(EXIT_FAILURE);
@@ -36,91 +43,94 @@ static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 	}
 }
 
-static void	perform_output_append(t_cmd *cmd)
+static void perform_output_redirection(t_cmd *cmd)
 {
-	t_cmd	*current_cmd;
-	int		output_fd;
-	char	*filename;
+    t_cmd 	*copy_cmd;
+    int 	output_fd;
+    char	*filename;
 
-	current_cmd = cmd;
-	if (current_cmd && current_cmd->next && current_cmd->next->argv[0])
-	{
-		while (current_cmd && current_cmd->next && current_cmd->next->argv[0])
-		{
-			filename = current_cmd->next->argv[0];
-			output_fd = open(filename, O_WRONLY | O_APPEND | O_CREAT, 0644);
-			if (output_fd < 0)
-			{
-				write(2, "minishell: ", 11);
-				perror(filename);
-				exit(EXIT_FAILURE);
-			}
-			if (current_cmd->next->next != NULL)
-				close(output_fd);
-			current_cmd = current_cmd->next;
-		}
-		dup2(output_fd, STDOUT_FILENO);
-		close(output_fd);
-	}
-}
-
-static void	perform_output_redirection(t_cmd *cmd)
-{
-	t_cmd	*current_cmd;
-	int		output_fd;
-	char	*filename;
-
-	current_cmd = cmd;
-	if (current_cmd && current_cmd->next && current_cmd->next->argv[0])
-	{
-		while (current_cmd && current_cmd->next && current_cmd->next->argv[0])
-		{
-			filename = current_cmd->next->argv[0];
+    copy_cmd = cmd;
+	output_fd = 0;
+    if (copy_cmd)
+    {
+        filename = copy_cmd->next->argv[0];
+		if (copy_cmd->operator == RD_OUT)
 			output_fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-			if (output_fd < 0)
-			{
-				write(2, "minishell: ", 11);
-				perror(filename);
-				exit(EXIT_FAILURE);
-			}
-			if (current_cmd->next->next != NULL)
-				close(output_fd);
-			current_cmd = current_cmd->next;
-		}
-		dup2(output_fd, STDOUT_FILENO);
-		close(output_fd);
-	}
+		else if (copy_cmd->operator == RD_APND)
+			output_fd = open(filename, O_WRONLY | O_APPEND | O_CREAT, 0644);
+        if (output_fd < 0)
+        {
+            perror(filename);
+            exit(EXIT_FAILURE);
+        }
+        if (dup2(output_fd, STDOUT_FILENO) == -1)
+		{
+            perror("dup2 failed");
+			close(output_fd);
+            exit(EXIT_FAILURE);
+        }
+        close(output_fd);
+    }
 }
 
-static void	execute_redirection(t_cmd *cmd, t_data *data)
-{
-	if (cmd->operator == RD_IN)
-		perform_input_redirection(cmd, data);
-	else if (cmd->operator == RD_HD)
-	{
-		heredoc_handler(cmd, data);
-		ft_clear_all(data);
-		exit(0);
-	}
-	else if (cmd->operator == RD_OUT)
-		perform_output_redirection(cmd);
-	else if (cmd->operator == RD_APND)
-		perform_output_append(cmd);
-	else
-		write(2, "Error: unsupported redirection operator\n", 40);
-}
-
-void	handle_redirections(t_cmd *cmd, t_data *data)
+static int	execute_redirection(t_cmd **cmd, t_data *data)
 {
 	t_cmd	*start_cmd;
 
-	start_cmd = cmd;
-	execute_redirection(cmd, data);
-	start_cmd->operator = NONE;
-	while (cmd && cmd->operator != NONE && cmd->operator != PIPE)
-		cmd = cmd->next;
-	if (!cmd || cmd->operator == NONE)
-		run_command(start_cmd, data);
+	start_cmd = *cmd;
+	if ((*cmd)->operator == RD_HD)
+	{
+			heredoc_handler(*cmd, data);
+			ft_clear_all(data);
+			exit(0);
+	}
+	while ((*cmd) && ((*cmd)->operator == RD_IN || (*cmd)->operator == RD_OUT
+			|| (*cmd)->operator == RD_APND))
+	{
+		if ((*cmd)->operator == RD_IN)
+			perform_input_redirection(*cmd, data);
+		else if ((*cmd)->operator == RD_OUT)
+			perform_output_redirection(*cmd);
+		else if ((*cmd)->operator == RD_APND)
+			perform_output_redirection(*cmd);
+		*cmd = (*cmd)->next;
+	}
+	run_command_rd(start_cmd, data);
+	return (1);
+}
+
+void handle_redirections(t_cmd **cmd, t_data *data)
+{
+    int redirection_done = 0;
+    int saved_stdout = -1;
+
+    if ((*cmd)->operator == RD_OUT || (*cmd)->operator == RD_APND
+        || (*cmd)->operator == RD_IN || (*cmd)->operator == RD_HD)
+    {
+        saved_stdout = dup(STDOUT_FILENO);
+        if (saved_stdout == -1)
+        {
+            perror("dup failed");
+            exit(EXIT_FAILURE);
+        }
+        redirection_done = execute_redirection(cmd, data);
+        if (redirection_done)
+            (*cmd)->operator = NONE;
+		if ((*cmd)->next)
+			(*cmd) = (*cmd)->next;
+    }
+    if (((*cmd)->operator == PIPE && redirection_done)
+			|| (!(*cmd)->next && redirection_done))
+        (*cmd) = (*cmd)->next;
+    else if (redirection_done)
+    {
+        if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+        {
+            perror("dup2 restore failed");
+            exit(EXIT_FAILURE);
+        }
+        close(saved_stdout);
+    }
 	else
-		pipe_execution(cmd, data);
+		close(saved_stdout);
 }

@@ -14,10 +14,16 @@
 
 void	run_command(t_cmd *cmd, t_data *data)
 {
+	int		status;
+
+	status = 0;
 	if (cmd->operator != NONE)
 	{
 		if (cmd->operator != PIPE)
-			handle_redirections(cmd, data);
+		{
+			handle_redirections(&cmd, data);
+			status = 1;
+		}
 		else
 			pipe_execution(cmd, data);
 	}
@@ -26,9 +32,35 @@ void	run_command(t_cmd *cmd, t_data *data)
 		if (!builtin(cmd, data))
 			system_commands(cmd, data);
 	}
-	if (data)
+	/*if (data)
 		ft_clear_all(data);
-	exit(data->exit_code);
+	exit(data->exit_code);*/
+}
+
+int	run_command_child(t_cmd **cmd, t_data *data)
+{
+	int		status;
+
+	status = 0;
+	if ((*cmd)->operator != NONE)
+	{
+		if ((*cmd)->operator != PIPE)
+		{
+			handle_redirections(cmd, data);
+			status = 1;
+		}
+		else
+		{
+			printf("we are here\n");
+			pipe_execution(*cmd, data);
+		}
+	}
+	else
+	{
+		if (!builtin(*cmd, data))
+			system_commands(*cmd, data);
+	}
+	return (status);
 }
 
 static void	run_parent_process(pid_t child_pid, t_data *data)
@@ -55,15 +87,26 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 	data->exit_code = exit_status;
 }
 
-static void	run_child_process_execute(t_cmd *cmd_list, t_data *data)
+static void	run_child_process_execute(t_cmd **cmd_list, t_data *data)
 {
 	int	status;
+	int	flag_redirection;
 
+	flag_redirection = 0;
 	status = 0;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	run_command(cmd_list, data);
+	while (*cmd_list)
+	{
+		flag_redirection = run_command_child(cmd_list, data);
+		if ((*cmd_list)->next && !flag_redirection)
+			*cmd_list = (*cmd_list)->next;
+		else
+			break ;
+	}
 	status = data->exit_code;
+	if (data)
+		ft_clear_all(data);
 	exit(status);
 }
 
@@ -75,15 +118,6 @@ void	start_execution(t_cmd *cmd_list, t_data *data)
 
 	temp = cmd_list;
 	i = 0;
-	while (temp != NULL) //Debugging Tool for checking operator
-	{
-    	printf("Operator: %u\n", temp->operator);
-    	for (int i = 0; temp->argv[i] != NULL; i++)
-		{
-        	printf("Command: %s\n", temp->argv[i]);
-    	}
-    	temp = temp->next;
-	}
 	if (!cmd_list->next && builtin(cmd_list, data))
 		return ;
 	pid = fork();
@@ -93,7 +127,7 @@ void	start_execution(t_cmd *cmd_list, t_data *data)
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
-		run_child_process_execute(cmd_list, data);
+		run_child_process_execute(&cmd_list, data);
 	else
 		run_parent_process(pid, data);
 }
