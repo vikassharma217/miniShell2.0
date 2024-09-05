@@ -5,6 +5,9 @@ so i had to leave. but i fixed memory leaks already in heredocs and fount out
 that there is now a tiny problem with the pipes how i handle it after some
 redirection commands. but just small
 
+And hey some fd are open in heredoc execution, but no memory leaks i dont know
+if we have to handle that, if yes i know where to start and where the problem is
+
 i have to much lines in some functions i will fix that tomorrow i come arround 9
 
 Thats it 
