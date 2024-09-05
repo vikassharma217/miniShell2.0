@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 08:21:43 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/03 08:32:55 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/05 19:16:57 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	heredoc_sigint_handler(int signum)
 	{
 		g_signal = CNTL_C;
 		close(STDIN_FILENO);
-		write(STDOUT_FILENO, "\n", 1);
-		exit(130);
+		//write(STDOUT_FILENO, "\n", 1);
+		//exit(130);
 	}
 }
 
