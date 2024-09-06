@@ -25,7 +25,9 @@ static void	pipe_child_process(t_cmd *cmd, int pipe_fd[2], t_data *data)
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		handle_pipe_error("dup2 failed in child process", data);
 	close(pipe_fd[1]);
-	run_command(cmd, data);
+	(void)cmd;
+	run_command_child(&cmd, data);
+	ft_clear_all(data);
 	exit(EXIT_SUCCESS);
 }
 
@@ -34,13 +36,14 @@ static void	pipe_parent_process(t_cmd *cmd, int pipe_fd[2], t_data *data,
 {
 	int	status;
 
+(void)cmd; //delete
 	close(pipe_fd[1]);
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		handle_pipe_error("dup2 failed in parent process", data);
 	close(pipe_fd[0]);
 	waitpid(child_pid, &status, 0);
-	if (cmd->next != NULL)
-		pipe_execution(cmd->next, data);
+	//if (cmd->next != NULL)
+	//	pipe_execution(cmd->next, data);
 	data->exit_code = WEXITSTATUS(status);
 }
 
@@ -53,7 +56,7 @@ void	pipe_execution(t_cmd *cmd, t_data *data)
 	cmd->operator = NONE;
 	if (!cmd->next)
 	{
-		run_command(cmd, data);
+		run_command_child(&cmd, data);
 		return ;
 	}
 	if (pipe(pipe_fd) == -1)
