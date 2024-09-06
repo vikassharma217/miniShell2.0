@@ -54,11 +54,11 @@ void	pipe_execution(t_cmd *cmd, t_data *data)
 	pid_t	child_pid;
 
 	cmd->operator = NONE;
-	if (!cmd->next)
+	/*if (!cmd->next)
 	{
 		run_command_child(&cmd, data);
 		return ;
-	}
+	}*/
 	if (pipe(pipe_fd) == -1)
 		handle_pipe_error("Pipe creation failed", data);
 	status = 0;

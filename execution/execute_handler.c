@@ -37,6 +37,12 @@
 	//exit(data->exit_code); 
 }*/
 
+/*static void	run_command_rd(t_cmd *cmd, t_data *data)
+{
+	if (!builtin(cmd, data))
+		system_commands(cmd, data);
+}*/
+
 int	run_command_child(t_cmd **cmd, t_data *data)
 {
 	int		status;
@@ -103,6 +109,8 @@ static void	run_child_process_execute(t_cmd **cmd_list, t_data *data)
 				continue ;
 			}
 		}
+		if (flag_redirection && !(*cmd_list)->next)
+				run_command_child(cmd_list, data);
 		else
 			break ;
 	}
