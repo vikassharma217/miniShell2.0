@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:02 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/02 17:03:53 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/06 17:10:24 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static void	non_numeric_args(t_data *data)
 {
 	data->exit_code = 2;
 	ft_putendl_fd("minishell: exit: numeric argument required", STDERR_FILENO);
+	ft_clear_all(data);
+	printf("exit code: %d\n", data->exit_code);
 }
 
 static bool	check_long(char *str)
@@ -59,6 +61,8 @@ static bool	process_exit_args(t_cmd *cmd, t_data *data)
 {
 	if (cmd->argc > 2)
 	{
+		if (!check_digits(cmd->argv[1]))
+			non_numeric_args(data);
 		data->exit_code = EXIT_FAILURE;
 		write(2, "minishell: exit: too many arguments\n", 36);
 		return (false);

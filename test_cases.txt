@@ -1,6 +1,6 @@
 ls > outfile -l
 
-heredoc parallel minishell.
+heredoc parallel minishell.            // may be go crazy part
 
 echo "               hdaahsdgha                             tesat                                       '             helwoo             " | cat -e
 
@@ -17,20 +17,23 @@ unset should not unset         _=...    ======================DONE
 unset PWD OLDPWD -> cd . should not create them again
 
 
-exit 9223372036854775808
+exit 9223372036854775808   =============================DONE
 should exit with 2
 
-exit a b
+exit a b                          ============================DONE
 should exit 2
-errormessage:"numeric argument"
+errormessage:"numeric argument"  
 
-exit return value
+exit return value                =============================DONE
 
-exit 20 | exit 30 | exit 50
+
+
+
+exit 20 | exit 30 | exit 50            // check in pipes
 exit status should be 50
 
-cat | cat | ls
+cat | cat | ls                          // check in pipes
 
-sleep 2 | sleep 2 -> should only sleep for 2 seconds
+sleep 2 | sleep 2 -> should only sleep for 2 seconds      // check in pipes
 
-yes | head -n 10 ->waiting infinitely
+yes | head -n 10 ->waiting infinitely              // check in pipes
