@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:49:43 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/04 16:28:27 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/06 09:56:34 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,6 @@ char	*init_expander(char *str, t_data *data)
 	{
 		return (NULL);
 	}
+	//free(token);
 	return (expanded_token);
 }

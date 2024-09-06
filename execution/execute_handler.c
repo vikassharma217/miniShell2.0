@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:54:47 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/05 10:16:16 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/06 10:12:44 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	run_command(t_cmd *cmd, t_data *data)
 		if (!builtin(cmd, data))
 			system_commands(cmd, data);
 	}
-	/*if (data)
+	if (data)
 		ft_clear_all(data);
-	exit(data->exit_code);*/
+	//exit(data->exit_code);
 }
 
 int	run_command_child(t_cmd **cmd, t_data *data)
@@ -112,11 +112,7 @@ static void	run_child_process_execute(t_cmd **cmd_list, t_data *data)
 				continue ;
 		}
 		else
-		{
-			printf("We are here\n");
-			fflush(stdout);
 			break ;
-		}
 	}
 	status = data->exit_code;
 	if (data)

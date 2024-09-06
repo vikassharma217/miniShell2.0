@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:00:09 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/04 10:17:05 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/06 09:54:45 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	minishell_loop(t_data *data, t_cmd **cmd_list)
 		expanded_input = init_expander(input, data);
 		free(input);
 		input = expanded_input;
+		//free(expanded_input);
 		*cmd_list = init_parser(input);
 		data->head = *cmd_list;
 		start_execution(*cmd_list, data);
