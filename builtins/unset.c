@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:56 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/02 17:04:22 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/06 16:45:31 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	unset_variable(char *name, t_elst **head)
 	t_elst	*current;
 	t_elst	*prev;
 
-	if (!head || !*head)
-		return (1);
+	if (!head || !*head || name[0] == '_')
+		return (0);
 	prev = NULL;
 	current = *head;
 	if (ft_strchr(name, '='))

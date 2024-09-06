@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:00:09 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/06 09:54:45 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/06 15:30:05 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ char	*get_cleaned_input(t_data *data)
 	{
 		ft_clear_all(data);
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
-		exit(EXIT_SUCCESS); //SUCCESS OR FAILURE
+		exit(data->exit_code); //SUCCESS OR FAILURE
 	}
 	if (g_signal != 0)
-		data->exit_code = 130;
+		data->exit_code = 128 + SIGINT;
 	return (strip_whitespace(input));
 }
 

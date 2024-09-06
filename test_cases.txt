@@ -1,15 +1,36 @@
-Good morning Vikas
+ls > outfile -l
 
-i fixed heredoc maybe you can check different things, im running out of time
-so i had to leave. but i fixed memory leaks already in heredocs and fount out
-that there is now a tiny problem with the pipes how i handle it after some
-redirection commands. but just small
+heredoc parallel minishell.
 
-And hey some fd are open in heredoc execution, but no memory leaks i dont know
-if we have to handle that, if yes i know where to start and where the problem is
+echo "               hdaahsdgha                             tesat                                       '             helwoo             " | cat -e
 
-i have to much lines in some functions i will fix that tomorrow i come arround 9
+< outfile.txt cat > outfile
 
-Thats it 
-See You 
+export should be sorted by ASCII     ====================DONE
 
+export should not print out         _=...
+
+export wont get printed in pipe?? (export | grep SHLVL)
+
+unset should not unset         _=...    ======================DONE
+
+unset PWD OLDPWD -> cd . should not create them again
+
+
+exit 9223372036854775808
+should exit with 2
+
+exit a b
+should exit 2
+errormessage:"numeric argument"
+
+exit return value
+
+exit 20 | exit 30 | exit 50
+exit status should be 50
+
+cat | cat | ls
+
+sleep 2 | sleep 2 -> should only sleep for 2 seconds
+
+yes | head -n 10 ->waiting infinitely

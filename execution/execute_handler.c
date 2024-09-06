@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:54:47 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/06 10:12:44 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/06 15:36:47 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	run_command_child(t_cmd **cmd, t_data *data)
 	return (status);
 }
 
+// parent shud not wait for invidual child process to finish 
+//before starting the next one
 static void	run_parent_process(pid_t child_pid, t_data *data)
 {
 	int	status;

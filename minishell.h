@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/05 11:36:33 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/06 16:27:07 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,11 @@ extern volatile sig_atomic_t	g_signal;
 
 typedef struct s_var
 {
-	int		i;
-	int		size;
-	bool	quotes;
-	bool	d_quotes;
-}	t_var;
-
-
+	int							i;
+	int							size;
+	bool						quotes;
+	bool						d_quotes;
+}								t_var;
 
 // enum list for token type
 typedef enum e_operator
@@ -232,6 +230,8 @@ size_t							ft_strlcat(char *dst, const char *src,
 size_t							ft_strlcpy(char *dst, const char *src,
 									size_t size);
 char							*ft_strrchr(const char *string, int c);
+int								ft_strncmp(const char *s1, const char *s2,
+									size_t n);
 
 // signals
 void							init_signal_heredocs(void);

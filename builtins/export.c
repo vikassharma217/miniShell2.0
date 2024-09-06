@@ -6,11 +6,49 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:28 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/03 08:25:09 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/06 16:45:13 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	swap_env_vars(t_elst *a, t_elst *b)
+{
+	char	*tmp_name;
+	char	*tmp_value;
+	bool	tmp_exported;
+
+	tmp_name = a->name;
+	a->name = b->name;
+	b->name = tmp_name;
+	tmp_value = a->value;
+	a->value = b->value;
+	b->value = tmp_value;
+	tmp_exported = a->exported;
+	a->exported = b->exported;
+	b->exported = tmp_exported;
+}
+
+static void	sort_env_list(t_elst **env_list)
+{
+	t_elst	*current;
+	t_elst	*next;
+
+	if (!env_list || !*env_list)
+		return ;
+	current = *env_list;
+	while (current)
+	{
+		next = current->next;
+		while (next)
+		{
+			if (ft_strncmp(current->name, next->name, PATH_MAX) > 0)
+				swap_env_vars(current, next);
+			next = next->next;
+		}
+		current = current->next;
+	}
+}
 
 static int	handling_export_error(char *name)
 {
@@ -37,6 +75,7 @@ static int	print_exported_vars(t_data *data)
 {
 	t_elst	*current;
 
+	sort_env_list(&data->env_lst);
 	current = data->env_lst;
 	while (current)
 	{
