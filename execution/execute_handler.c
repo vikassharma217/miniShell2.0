@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	run_command(t_cmd *cmd, t_data *data)
+/*void	run_command(t_cmd *cmd, t_data *data)
 {
 	int		status;
 
@@ -32,10 +32,10 @@ void	run_command(t_cmd *cmd, t_data *data)
 		if (!builtin(cmd, data))
 			system_commands(cmd, data);
 	}
-	if (data)
-		ft_clear_all(data);
-	//exit(data->exit_code);
-}
+	//if (data)
+	//	ft_clear_all(data);
+	//exit(data->exit_code); 
+}*/
 
 int	run_command_child(t_cmd **cmd, t_data *data)
 {
@@ -46,14 +46,7 @@ int	run_command_child(t_cmd **cmd, t_data *data)
 	{
 		if ((*cmd)->operator != PIPE)
 		{
-			if((*cmd)->operator == RD_HD)
-			{
-				heredoc_handler(*cmd, data);
-				ft_clear_all(data);
-				exit(0);
-			}
-			else
-				handle_redirections(cmd, data);
+			handle_redirections(cmd, data);
 			status = 1;
 		}
 		else
@@ -93,31 +86,30 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 
 static void	run_child_process_execute(t_cmd **cmd_list, t_data *data)
 {
-	int	status;
 	int	flag_redirection;
 
 	flag_redirection = 0;
-	status = 0;
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	while (*cmd_list)
 	{
-
 		flag_redirection = run_command_child(cmd_list, data);
 		if ((*cmd_list)->next)
 		{
 			if ((*cmd_list)->next && !flag_redirection)
+			{	
 				*cmd_list = (*cmd_list)->next;
-			else
+				flag_redirection = 0;
 				continue ;
+			}
 		}
 		else
 			break ;
 	}
-	status = data->exit_code;
 	if (data)
 		ft_clear_all(data);
-	exit(status);
+	data->exit_code = 0;
+	exit(data->exit_code);
 }
 
 void	start_execution(t_cmd *cmd_list, t_data *data)
