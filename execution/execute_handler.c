@@ -91,7 +91,7 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 		exit_status = WEXITSTATUS(status);
 	data->exit_code = exit_status;
 }
-
+//If flag is set, it already points to next command without the pipe and filename
 static void	run_child_process_execute(t_cmd **cmd_list, t_data *data)
 {
 	int	flag_redirection;
@@ -105,16 +105,13 @@ static void	run_child_process_execute(t_cmd **cmd_list, t_data *data)
 		if ((*cmd_list)->next)
 		{
 			if ((*cmd_list)->next && !flag_redirection)
-			{	
 				*cmd_list = (*cmd_list)->next;
-				flag_redirection = 0;
-				continue ;
-			}
+			flag_redirection = 0;
+			continue ;
 		}
 		if (flag_redirection && !(*cmd_list)->next)
 				run_command_child(cmd_list, data);
-		else
-			break ;
+		break ;
 	}
 	if (data)
 		ft_clear_all(data);

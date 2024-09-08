@@ -17,7 +17,8 @@ static void	non_numeric_args(t_data *data)
 	data->exit_code = 2;
 	ft_putendl_fd("minishell: exit: numeric argument required", STDERR_FILENO);
 	ft_clear_all(data);
-	printf("exit code: %d\n", data->exit_code);
+	//printf("exit code: %d\n", data->exit_code);
+	exit (data->exit_code);
 }
 
 static bool	check_long(char *str)
@@ -79,9 +80,21 @@ static bool	process_exit_args(t_cmd *cmd, t_data *data)
 
 void	exit_shell(t_cmd *cmd, t_data *data)
 {
-	write(1, "exit\n", 5);
-	if (!process_exit_args(cmd, data))
+	int		i;
+
+	i = 0;
+	//printf("%d->%s->%s\n", cmd->argc, cmd->argv[1], cmd->argv[2]);
+	if (data->is_pipe)
+	{
+		while (cmd->argv[i])
+			i++;
+		cmd->argc = i;
+		process_exit_args(cmd, data);
+	}
+	else if (!process_exit_args(cmd, data))
 		return ;
+	if (!data->is_pipe)
+		write(1, "exit\n", 5);
 	if (data)
 		ft_clear_all(data);
 	exit(data->exit_code);
