@@ -23,7 +23,8 @@ int	init_minishell(char **env, t_data *data, t_cmd **cmd_list)
 	data->env_lst = init_env_lst(env);
 	data->head = NULL;
 	data->exit_code = 0;
-	*cmd_list = NULL;
+	data->is_pipe = 0;
+	*cmd_list = NULL; //
 	if (data->mode == INTERACTIVE)
 		init_signal_interactive();
 	else if (data->mode == NON_INTERACTIVE)

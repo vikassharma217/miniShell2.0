@@ -98,6 +98,7 @@ typedef struct s_data
 	t_cmd						*head;
 	int							exit_code;
 	char						saved_path[PATH_MAX];
+	int							is_pipe;
 	t_mode						mode;
 }								t_data;
 

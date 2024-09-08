@@ -50,7 +50,7 @@ static void	perform_output_redirection(t_cmd *cmd)
 
 	copy_cmd = cmd;
 	output_fd = 0;
-	if (copy_cmd)
+	if (copy_cmd) //else maybe cmd next? name of file 
 	{
 		filename = copy_cmd->next->argv[0];
 		if (copy_cmd->operator== RD_OUT)
@@ -68,7 +68,7 @@ static void	perform_output_redirection(t_cmd *cmd)
 	}
 }
 
-static int	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
+static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 {
 	t_cmd	*start_cmd;
 
@@ -80,8 +80,8 @@ static int	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 		ft_clear_all(data);
 		exit(0);
 	}
-	while ((*cmd) && ((*cmd)->operator== RD_IN ||(*cmd)->operator== RD_OUT
-			||(*cmd)->operator== RD_APND))
+	while ((*cmd) && ((*cmd)->operator == RD_IN || (*cmd)->operator == RD_OUT
+			||(*cmd)->operator == RD_APND))
 	{
 		if ((*cmd)->operator== RD_IN)
 			perform_input_redirection(*cmd, data);
@@ -93,7 +93,7 @@ static int	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 			break ;
 	}
 	run_command_rd(start_cmd, data);
-	return (1);
+	//return (1); dont need to return maybe?
 }
 
 void	handle_redirections(t_cmd **cmd, t_data *data)
@@ -101,8 +101,8 @@ void	handle_redirections(t_cmd **cmd, t_data *data)
 	int	saved_stdout;
 
 	saved_stdout = -1;
-	if ((*cmd)->operator== RD_OUT ||(*cmd)->operator== RD_APND
-		||(*cmd)->operator== RD_IN ||(*cmd)->operator== RD_HD)
+	if ((*cmd)->operator == RD_OUT ||(*cmd)->operator == RD_APND
+		||(*cmd)->operator == RD_IN ||(*cmd)->operator == RD_HD)
 	{
 		saved_stdout = dup(STDOUT_FILENO);
 		if (saved_stdout == -1)
