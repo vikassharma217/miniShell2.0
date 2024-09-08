@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:52:53 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/03 08:23:00 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/08 18:52:06 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,3 @@ void	init_signal_heredocs(void)
 	signal(SIGINT, &heredoc_sigint_handler);
 	signal(SIGQUIT, &heredoc_sigquit_handler);
 }
-

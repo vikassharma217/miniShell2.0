@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:51:38 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/06 10:02:10 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/08 18:50:54 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ bool	is_valid_variable(char *str)
 
 int	builtin(t_cmd *cmd, t_data *data)
 {
-	/*if (!cmd || !cmd->argv || !*cmd->argv || **cmd->argv == '\0')
-	{
-		return (write(2, " : command not found\n", 21), 1);
-	}*/
 	if (str_equals(cmd->argv[0], "cd"))
 		data->exit_code = cd(cmd, data, cmd->argv[1]);
 	else if (str_equals(cmd->argv[0], "echo"))

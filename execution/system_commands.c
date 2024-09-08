@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:54:20 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/06 10:09:00 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/08 18:48:47 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	exit_with_cleanup(char *cmd, t_data *data, char **paths,
 	if (cmd)
 	{
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": command not found DEBUG\n", 2);
+		ft_putstr_fd(": command not found\n", 2);
 	}
 	if (paths)
 	{
