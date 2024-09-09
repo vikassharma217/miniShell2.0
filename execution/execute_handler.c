@@ -12,49 +12,13 @@
 
 #include "../minishell.h"
 
-/*void	run_command(t_cmd *cmd, t_data *data)
+void	run_command_child(t_cmd **cmd, t_data *data)
 {
-	int		status;
 
-	status = 0;
-	if (cmd->operator != NONE)
-	{
-		if (cmd->operator != PIPE)
-		{
-			handle_redirections(&cmd, data);
-			status = 1;
-		}
-		else
-			pipe_execution(cmd, data);
-	}
-	else
-	{
-		if (!builtin(cmd, data))
-			system_commands(cmd, data);
-	}
-	//if (data)
-	//	ft_clear_all(data);
-	//exit(data->exit_code); 
-}*/
-
-/*static void	run_command_rd(t_cmd *cmd, t_data *data)
-{
-	if (!builtin(cmd, data))
-		system_commands(cmd, data);
-}*/
-
-int	run_command_child(t_cmd **cmd, t_data *data)
-{
-	int		status;
-
-	status = 0;
 	if ((*cmd)->operator != NONE)
 	{
 		if ((*cmd)->operator != PIPE)
-		{
 			handle_redirections(cmd, data);
-			status = 1;
-		}
 		else
 			pipe_execution(*cmd, data);
 	}
@@ -63,7 +27,6 @@ int	run_command_child(t_cmd **cmd, t_data *data)
 		if (!builtin(*cmd, data))
 			system_commands(*cmd, data);
 	}
-	return (status);
 }
 
 // parent shud not wait for invidual child process to finish 
@@ -91,32 +54,27 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 		exit_status = WEXITSTATUS(status);
 	data->exit_code = exit_status;
 }
-//If flag is set, it already points to next command without the pipe and filename
-static void	run_child_process_execute(t_cmd **cmd_list, t_data *data)
-{
-	int	flag_redirection;
 
-	flag_redirection = 0;
+ void	run_child_process_execute(t_cmd **cmd_list, t_data *data)
+{
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	while (*cmd_list)
 	{
-		flag_redirection = run_command_child(cmd_list, data);
+		run_command_child(cmd_list, data);
 		if ((*cmd_list)->next)
 		{
-			if ((*cmd_list)->next && !flag_redirection)
-				*cmd_list = (*cmd_list)->next;
-			flag_redirection = 0;
+			*cmd_list = (*cmd_list)->next;
 			continue ;
 		}
-		if (flag_redirection && !(*cmd_list)->next)
-				run_command_child(cmd_list, data);
 		break ;
 	}
-	if (data)
-		ft_clear_all(data);
-	data->exit_code = 0;
-	exit(data->exit_code);
+	//if (data)
+	ft_clear_all(data);
+		data->exit_code = 0;
+	printf("We are here");
+	fflush(stdout);
+	exit(EXIT_SUCCESS);
 }
 
 void	start_execution(t_cmd *cmd_list, t_data *data)

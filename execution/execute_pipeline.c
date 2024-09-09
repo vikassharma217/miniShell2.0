@@ -57,10 +57,9 @@ void	pipe_execution(t_cmd *cmd, t_data *data)
 	if (!cmd->next)
 	{
 		run_command_child(&cmd, data);
-		//close(pipe_fd[0]);
-		//close(pipe_fd[1]);
 		ft_clear_all(data);
-		exit(EXIT_SUCCESS);
+		data->exit_code = 0;
+		exit(data->exit_code);
 	}
 	if (pipe(pipe_fd) == -1)
 		handle_pipe_error("Pipe creation failed", data);

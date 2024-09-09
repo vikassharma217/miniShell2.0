@@ -135,7 +135,8 @@ void							system_commands(t_cmd *cmd, t_data *data);
 
 /*execute_handler.c*/
 void							start_execution(t_cmd *cmd_list, t_data *data);
-int								run_command_child(t_cmd **cmd, t_data *data);
+void							run_command_child(t_cmd **cmd, t_data *data);
+void							run_child_process_execute(t_cmd **cmd_list, t_data *data);
 
 /*pipe_execution.c*/
 void							pipe_execution(t_cmd *node, t_data *data);
