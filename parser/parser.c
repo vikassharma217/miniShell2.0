@@ -6,24 +6,25 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 11:32:59 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/29 17:40:30 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 11:13:34 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	get_argc(char **str)
+// Count the number of arguments in the parsed input
+static int	count_arguments(char **args)
 {
-	int	i;
+	int	count;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	count = 0;
+	while (args[count])
+		count++;
+	return (count);
 }
 
 /*assign the correct operator to parsed linked list*/
-t_op	get_operator(char *str)
+static t_op	assign_op(char *str)
 {
 	t_op	operator;
 
@@ -45,7 +46,25 @@ t_op	get_operator(char *str)
 	return (operator);
 }
 
-char	**process_input(char *str)
+// Create a new node for the linked list
+static t_cmd	*create_cmd_node(char **parsed, int *i)
+{
+	t_cmd	*temp;
+	int		j;
+
+	temp = newnode_par(count_arguments(parsed));
+	j = 0;
+	while (parsed[*i] && !char_in_str(OPERATORS, parsed[*i][0]))
+	{
+		temp->argv[j++] = handel_quotes(parsed[(*i)++]);
+	}
+	temp->argv[j] = NULL;
+	if (parsed[*i])
+		temp->operator = assign_op(parsed[(*i)++]);
+	return (temp);
+}
+
+static char	**process_input(char *str)
 {
 	char	**token;
 
@@ -57,41 +76,25 @@ char	**process_input(char *str)
 	return (token);
 }
 
-t_cmd	*create_cmd_node(char **parsed, int *i)
-{
-	t_cmd	*temp;
-	int		j;
-
-	temp = newnode_par(get_argc(parsed));
-	j = 0;
-	while (parsed[*i] && !char_in_str(OPERATORS, parsed[*i][0]))
-	{
-		temp->argv[j++] = handel_quotes(parsed[(*i)++]);
-	}
-	temp->argv[j] = NULL;
-	if (parsed[*i])
-		temp->operator = get_operator(parsed[(*i)++]);
-	return (temp);
-}
-
+// Init parser by processing the input & creating a linked lst of cmds
 t_cmd	*init_parser(char *input)
 {
-	char	**parsed;
+	char	**tokenized;
 	t_cmd	*temp;
 	t_cmd	*head;
 	int		i;
 
-	parsed = process_input(input);
+	tokenized = process_input(input);
 	free(input);
 	i = 0;
-	temp = create_cmd_node(parsed, &i);
+	temp = create_cmd_node(tokenized, &i);
 	head = temp;
-	while (parsed[i])
+	while (tokenized[i])
 	{
-		temp->next = create_cmd_node(parsed, &i);
+		temp->next = create_cmd_node(tokenized, &i);
 		temp = temp->next;
 	}
 	temp->next = NULL;
-	free(parsed);
+	free(tokenized);
 	return (head);
 }

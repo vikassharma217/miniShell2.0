@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:07:21 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/08 22:15:45 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 10:24:53 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,6 @@ int	exit_status_size(t_data *data)
 	size = ft_strlen(str);
 	free(str);
 	return (size);
-}
-
-// Initialize variables for parsing with default values.
-void	init_varaible(int *i, int *j, bool *quotes, bool *d_quotes)
-{
-	*i = 0;
-	*j = 0;
-	*quotes = false;
-	*d_quotes = false;
 }
 
 // Get the exit status and store it in the provided string.
@@ -79,6 +70,7 @@ int	token_size(char *str, int *i, t_data *data)
 	return (ft_strlen(value));
 }
 
+// Calculate the size of the input string after expansion.
 int	input_size(char *str, t_data *data)
 {
 	t_var	var;
@@ -106,32 +98,3 @@ int	input_size(char *str, t_data *data)
 	}
 	return (var.size);
 }
-
-// Calculate the total size of the input string after variable expansion.
-/*int	input_size(char *str, t_data *data)
-{
-	int		i;
-	int		size;
-	bool	quotes;
-	bool	d_quotes;
-
-	init_varaible(&i, &size, &quotes, &d_quotes);
-	while (str[i])
-	{
-		if (str[i] == '\"' && !quotes)
-			d_quotes = !d_quotes;
-		if (str[i] == '\'' && !d_quotes)
-			quotes = !quotes;
-		if ((str[i] == '$' && str[i + 1] == '?') && !quotes)
-		{
-			size += exit_status_size(data) - 1;
-			i++;
-		}
-		else if (str[i] == '$' && !quotes)
-			size += token_size(&(str[i]), &i, data) - 1;
-		else
-			i++;
-		size++;
-	}
-	return (size);
-}*/

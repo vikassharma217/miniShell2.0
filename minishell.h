@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/09 09:04:35 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 10:54:48 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,6 @@ int								get_variable(char *str, char *input, int *i,
 /*parser*/
 t_cmd							*init_parser(char *input);
 /*expander_utils*/
-void							init_varaible(int *i, int *j, bool *quotes,
-									bool *d_quotes);
 int								get_exit_status(t_data *data, char *str,
 									int *i);
 int								input_size(char *str, t_data *data);
@@ -201,7 +199,7 @@ char							*ft_lltoa(long long n);
 long long						ft_atol(const char *str);
 t_cmd							*newnode_par(int argc);
 char							*get_fromvlst(char *var_name, t_elst **head);
-char							*get_varvalue_fromvlst(char *var_name,
+char							*retrieve_env_value(char *env_name,
 									t_data *data);
 t_elst							*lstlast_env(t_elst *node);
 void							lstadd_back_env(t_elst **head, t_elst *new);

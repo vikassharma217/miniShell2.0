@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:47:03 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:53 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 10:53:32 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,18 @@ char	*get_fromvlst(char *var_name, t_elst **head)
 	return (NULL);
 }
 
-char	*get_varvalue_fromvlst(char *var_name, t_data *data)
+char	*retrieve_env_value(char *env_name, t_data *data)
 {
-	char	*var_value;
+	char	*env_value;
 
-	if (!var_name || !data)
+	if (!env_name || !data)
 		return (NULL);
-	var_value = get_fromvlst(var_name, &data->env_lst);
-	if (!var_value)
+	env_value = get_fromvlst(env_name, &data->env_lst);
+	if (!env_value)
 	{
-		free(var_name);
+		free(env_name);
 		return (NULL);
 	}
-	free(var_name);
-	return (var_value);
+	free(env_name);
+	return (env_value);
 }
