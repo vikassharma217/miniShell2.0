@@ -114,10 +114,6 @@ void	handle_redirections(t_cmd **cmd, t_data *data)
 			exit(EXIT_FAILURE);
 		}
 		execute_redirection(cmd, data, saved_stdout);
-		if ((*cmd)->next)
-		{
-			(*cmd) = (*cmd)->next;
-		}
 	}
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 	{
