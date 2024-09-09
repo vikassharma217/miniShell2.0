@@ -6,14 +6,14 @@
 #    By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 11:43:39 by vsharma           #+#    #+#              #
-#    Updated: 2024/09/06 16:29:02 by vsharma          ###   ########.fr        #
+#    Updated: 2024/09/09 09:06:21 by vsharma          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRC = main.c \
-		builtins/builtin.c \
+		builtins/builtin.c builtins/builtin_utils.c \
 		builtins/echo.c builtins/env.c builtins/exit.c \
 		builtins/cd.c builtins/export.c builtins/pwd.c \
 		builtins/unset.c \
@@ -44,7 +44,7 @@ SRC = main.c \
 OBJ = $(SRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 LDFLAG = -lreadline
 
 BLUE = \033[1;34m

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/06 16:27:07 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 09:04:35 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ typedef struct s_data
 }								t_data;
 
 // builtins
+/*builtin_utils*/
+void							sort_env_list(t_elst **env_list);
+int								print_cd_error(char *target_dir);
 /*builtin.c*/
 int								builtin(t_cmd *cmd, t_data *data);
 bool							is_valid_variable(char *str);

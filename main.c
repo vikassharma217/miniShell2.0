@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:00:09 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/08 18:50:45 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 09:20:54 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	init_minishell(char **env, t_data *data, t_cmd **cmd_list)
 	data->head = NULL;
 	data->exit_code = 0;
 	data->is_pipe = 0;
-	*cmd_list = NULL; //
+	*cmd_list = NULL;
 	if (data->mode == INTERACTIVE)
 		init_signal_interactive();
 	else if (data->mode == NON_INTERACTIVE)

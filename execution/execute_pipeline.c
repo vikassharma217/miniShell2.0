@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:03 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/02 17:04:39 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 09:17:24 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static void	handle_pipe_error(const char *error_message, t_data *data)
 	exit(EXIT_FAILURE);
 }
 
+// if (!str_equals(cmd->argv[0], "exit"))
 static void	pipe_child_process(t_cmd *cmd, int pipe_fd[2], t_data *data)
 {
 	close(pipe_fd[0]);
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		handle_pipe_error("dup2 failed in child process", data);
-	//if (!str_equals(cmd->argv[0], "exit"))
 	close(pipe_fd[1]);
 	run_command_child(&cmd, data);
 	ft_clear_all(data);
@@ -46,6 +46,9 @@ static void	pipe_parent_process(t_cmd *cmd, int pipe_fd[2], t_data *data,
 	data->exit_code = WEXITSTATUS(status);
 }
 
+// close(pipe_fd[0]);
+// close(pipe_fd[1]);
+
 void	pipe_execution(t_cmd *cmd, t_data *data)
 {
 	int		pipe_fd[2];
@@ -57,8 +60,6 @@ void	pipe_execution(t_cmd *cmd, t_data *data)
 	if (!cmd->next)
 	{
 		run_command_child(&cmd, data);
-		//close(pipe_fd[0]);
-		//close(pipe_fd[1]);
 		ft_clear_all(data);
 		exit(EXIT_SUCCESS);
 	}

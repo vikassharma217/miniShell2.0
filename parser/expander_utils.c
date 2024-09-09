@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 14:07:21 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/04 16:26:34 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/08 22:15:45 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	get_exit_status(t_data *data, char *str, int *i)
 		j++;
 	}
 	free(status);
+	g_signal = 0;
 	return (j);
 }
 

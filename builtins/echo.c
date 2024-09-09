@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:52:38 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/03 08:25:03 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/08 22:27:53 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	echo(t_cmd *cmd)
 	print_new_line_flag = 0;
 	i = 0;
 	j = 1;
-	while (cmd->argv[j] && !char_in_str(cmd->argv[j], '|'))
+	while (cmd->argv[j])
 		j++;
 	while (++i < cmd->argc && check_new_line_flag(cmd->argv[i]))
 		print_new_line_flag = 1;

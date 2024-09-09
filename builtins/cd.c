@@ -6,21 +6,11 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:18 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/05 11:39:33 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 09:04:02 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <strings.h>
-
-static int	print_cd_error(char *target_dir)
-{
-	write(2, "minishell: cd: ", 15);
-	write(2, "No such file or directory: ", 28);
-	write(2, target_dir, ft_strlen(target_dir));
-	write(2, "\n", 1);
-	return (EXIT_FAILURE);
-}
 
 static void	update_pwd(t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:02 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/08 18:47:00 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 09:04:53 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static bool	check_long(char *str)
 		str += 1;
 	while (*str)
 	{
-		if (!isdigit(*str))
+		if (!ft_isdigit(*str))
 			return (false);
 		digit = *str - '0';
 		if (result > (LLONG_MAX - digit) / 10)
@@ -80,9 +80,10 @@ static bool	process_exit_args(t_cmd *cmd, t_data *data)
 void	exit_shell(t_cmd *cmd, t_data *data)
 {
 	int		i;
+	int		exit_status;
 
 	i = 0;
-	//printf("%d->%s->%s\n", cmd->argc, cmd->argv[1], cmd->argv[2]);
+	exit_status = data->exit_code;
 	if (data->is_pipe)
 	{
 		while (cmd->argv[i])
@@ -94,7 +95,8 @@ void	exit_shell(t_cmd *cmd, t_data *data)
 		return ;
 	if (!data->is_pipe)
 		write(1, "exit\n", 5);
+	exit_status = data->exit_code;
 	if (data)
 		ft_clear_all(data);
-	exit(data->exit_code);
+	exit(exit_status);
 }

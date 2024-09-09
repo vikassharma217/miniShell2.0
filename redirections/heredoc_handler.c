@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:27 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/04 10:15:23 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 09:14:07 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,4 +127,3 @@ void	heredoc_handler(t_cmd *cmd, t_data *data)
 		exit(130);
 	}
 }
-

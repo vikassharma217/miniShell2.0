@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:41 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/02 17:05:58 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 09:18:30 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ static void	run_command_rd(t_cmd *cmd, t_data *data)
 		system_commands(cmd, data);
 }
 
+// safety statement lin40
 static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 {
 	t_cmd	*copy_cmd;
 	int		input_fd;
 
 	copy_cmd = cmd->next;
-	while (copy_cmd && copy_cmd->operator== RD_IN)
+	while (copy_cmd && copy_cmd->operator == RD_IN)
 		copy_cmd = copy_cmd->next;
 	if (copy_cmd && copy_cmd->argv[0])
 	{
@@ -37,11 +38,12 @@ static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 			ft_clear_all(data);
 			exit(EXIT_FAILURE);
 		}
-		dup2(input_fd, STDIN_FILENO); // safety statement
+		dup2(input_fd, STDIN_FILENO);
 		close(input_fd);
 	}
 }
 
+// else maybe cmd next? name of file lin53
 static void	perform_output_redirection(t_cmd *cmd)
 {
 	t_cmd	*copy_cmd;
@@ -50,30 +52,32 @@ static void	perform_output_redirection(t_cmd *cmd)
 
 	copy_cmd = cmd;
 	output_fd = 0;
-	if (copy_cmd) //else maybe cmd next? name of file 
+	if (copy_cmd)
 	{
 		filename = copy_cmd->next->argv[0];
-		if (copy_cmd->operator== RD_OUT)
+		if (copy_cmd->operator == RD_OUT)
 			output_fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		else if (copy_cmd->operator== RD_APND)
+		else if (copy_cmd->operator == RD_APND)
 			output_fd = open(filename, O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if (output_fd < 0 || dup2(output_fd, STDOUT_FILENO) == -1)
 		{
 			if (output_fd == -1)
 				close(output_fd);
 			perror("system function failed in perform output rd");
-			exit (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		}
 		close(output_fd);
 	}
 }
 
+// CAN BE DELETED lin77
+// return (1); dont need to return maybe?
 static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 {
 	t_cmd	*start_cmd;
 
 	start_cmd = *cmd;
-	if ((*cmd)->operator== RD_HD) // CAN BE DELETED
+	if ((*cmd)->operator == RD_HD)
 	{
 		close(saved_stdout);
 		heredoc_handler(*cmd, data);
@@ -81,11 +85,11 @@ static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 		exit(0);
 	}
 	while ((*cmd) && ((*cmd)->operator == RD_IN || (*cmd)->operator == RD_OUT
-			||(*cmd)->operator == RD_APND))
+			|| (*cmd)->operator == RD_APND))
 	{
-		if ((*cmd)->operator== RD_IN)
+		if ((*cmd)->operator == RD_IN)
 			perform_input_redirection(*cmd, data);
-		else if ((*cmd)->operator== RD_OUT ||(*cmd)->operator== RD_APND)
+		else if ((*cmd)->operator == RD_OUT || (*cmd)->operator == RD_APND)
 			perform_output_redirection(*cmd);
 		if ((*cmd)->next)
 			*cmd = (*cmd)->next;
@@ -93,7 +97,6 @@ static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 			break ;
 	}
 	run_command_rd(start_cmd, data);
-	//return (1); dont need to return maybe?
 }
 
 void	handle_redirections(t_cmd **cmd, t_data *data)
@@ -101,8 +104,8 @@ void	handle_redirections(t_cmd **cmd, t_data *data)
 	int	saved_stdout;
 
 	saved_stdout = -1;
-	if ((*cmd)->operator == RD_OUT ||(*cmd)->operator == RD_APND
-		||(*cmd)->operator == RD_IN ||(*cmd)->operator == RD_HD)
+	if ((*cmd)->operator == RD_OUT || (*cmd)->operator == RD_APND
+		|| (*cmd)->operator == RD_IN || (*cmd)->operator == RD_HD)
 	{
 		saved_stdout = dup(STDOUT_FILENO);
 		if (saved_stdout == -1)
