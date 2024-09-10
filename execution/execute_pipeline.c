@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:03 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/09 09:17:24 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 14:05:10 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static void	pipe_parent_process(t_cmd *cmd, int pipe_fd[2], t_data *data,
 		handle_pipe_error("dup2 failed in parent process", data);
 	close(pipe_fd[0]);
 	if (cmd->next != NULL)
-		pipe_execution(cmd->next, data);
+		//pipe_execution(cmd->next, data);
+		run_child_process_execute(&cmd->next, data);
 	waitpid(child_pid, &status, 0);
 	data->exit_code = WEXITSTATUS(status);
 }

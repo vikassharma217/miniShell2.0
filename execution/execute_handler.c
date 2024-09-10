@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:54:47 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/09 09:24:35 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/09 14:06:06 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 	//if (data)
 	ft_clear_all(data);
 		data->exit_code = 0;
-	printf("We are here");
-	fflush(stdout);
+	//printf("We are here");
+	//fflush(stdout);
 	exit(EXIT_SUCCESS);
 }
 

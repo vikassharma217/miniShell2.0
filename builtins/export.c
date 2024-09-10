@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:28 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/09 09:02:33 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 10:56:31 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	export(t_cmd *cmd, t_data *data)
 	int		equal_flag;
 	size_t	i;
 
-	if (cmd->argc == 1)
+	if (cmd->argv[1] == NULL)
 		return (print_exported_vars(data));
 	any_error = 0;
 	equal_flag = 0;

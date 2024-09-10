@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:31:01 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/03 08:27:13 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 13:37:34 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,6 @@ void	exit_minishell(int status_code, t_data *data)
 	exit(data->exit_code);
 }
 
-bool	check_operator(char *input)
-{
-	size_t	i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (char_in_str(OPERATORS, input[i]))
-			return (true);
-		i++;
-	}
-	return (false);
-}
 
 bool	input_validation(char *input, t_data *data)
 {
@@ -49,8 +36,7 @@ bool	input_validation(char *input, t_data *data)
 		data->exit_code = 2;
 		return (false);
 	}
-	else if (invalid_sequence(input) || invalid_syntax(input)
-		|| invalid_operator(input))
+	else if (invalid_sequence(input) || invalid_syntax(input))
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token\n", 2);
 		data->exit_code = 2;

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:57:35 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 13:22:08 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 13:33:10 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,28 @@ bool	mismatched_quotes(const char *str)
 	return (single_quote_open || double_quote_open);
 }
 
+#include <stdbool.h>
+
+bool	check_invalid_operator_sequence(char *str, int *i)
+{
+	char	first_op;
+
+	if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
+	{
+		first_op = str[*i];
+		(*i)++;
+		while (str[*i] && ft_isspace(str[*i]))
+			(*i)++;
+		if ((first_op == '|' && str[*i] == '|') || (first_op == '<'
+				&& str[*i] == '>') || (first_op == '>' && str[*i] == '<'))
+		{
+			return (true);
+		}
+	}
+	return (false);
+}
+
+/* handel 2 consecutive operator with and withous space in betn them*/
 bool	invalid_sequence(char *str)
 {
 	int		i;
@@ -41,66 +63,29 @@ bool	invalid_sequence(char *str)
 	{
 		if (char_in_str(QUOTES, str[i]))
 			quotes = !quotes;
-		if (((str[i] == '>' && str[i + 1] == '<') || (str[i] == '<' && str[i
-						+ 1] == '>') || (str[i] == '|' && str[i + 1] == '|'))
-			&& !quotes)
-			return (true);
+		if (!quotes)
+		{
+			if (check_invalid_operator_sequence(str, &i))
+				return (true);
+		}
 		else if ((str[i] == '(' || str[i] == ')' || str[i] == '{'
 				|| str[i] == '}' || str[i] == '[' || str[i] == ']'
 				|| str[i] == ';' || str[i] == '&' || str[i] == '*') && !quotes)
+		{
 			return (true);
+		}
 		i++;
 	}
 	return (false);
 }
 
+/* handle command start or end with operator*/
 bool	invalid_syntax(char *str)
 {
 	if (str[0] == '|' || str[ft_strlen(str) - 1] == '|' || str[ft_strlen(str)
-			- 1] == '>' || str[ft_strlen(str) - 1] == '<')
+		- 1] == '>' || str[ft_strlen(str) - 1] == '<')
 	{
 		return (true);
-	}
-	return (false);
-}
-
-bool	invalid_operator_helper(char *input)
-{
-	size_t	i;
-	bool	quotes;
-
-	i = 0;
-	quotes = false;
-	if (char_in_str(QUOTES, input[i]))
-		quotes = !quotes;
-	if (char_in_str(OPERATORS, input[i]) && !quotes)
-	{
-		if (input[i] == input[i + 1])
-			i = i + 2;
-		else
-			i++;
-		if (input[i] == ' ')
-		{
-			while (input[i] && input[i] == ' ')
-				i++;
-			if (char_in_str(OPERATORS, input[i]))
-				return (true);
-		}
-		if (char_in_str(OPERATORS, input[i]))
-			return (true);
-	}
-	return (false);
-}
-
-bool	invalid_operator(char *input)
-{
-	size_t	i;
-
-	i = 0;
-	while (check_operator(&input[i]))
-	{
-		invalid_operator_helper(input);
-		i++;
 	}
 	return (false);
 }
