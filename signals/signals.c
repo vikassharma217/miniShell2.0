@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:52:53 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/08 22:00:14 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:56:45 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,5 @@ void	init_signal_non_interactive(void)
 void	init_signal_heredocs(void)
 {
 	signal(SIGINT, &heredoc_sigint_handler);
-	signal(SIGQUIT, &heredoc_sigquit_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

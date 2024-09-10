@@ -6,11 +6,20 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 09:02:02 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/09 09:20:31 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 13:49:42 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	print_cd_error(char *target_dir)
+{
+	write(2, "minishell: cd: ", 15);
+	write(2, "No such file or directory: ", 28);
+	write(2, target_dir, ft_strlen(target_dir));
+	write(2, "\n", 1);
+	return (EXIT_FAILURE);
+}
 
 static void	swap_env_vars(t_elst *a, t_elst *b)
 {
@@ -48,13 +57,4 @@ void	sort_env_list(t_elst **env_list)
 		}
 		current = current->next;
 	}
-}
-
-int	print_cd_error(char *target_dir)
-{
-	write(2, "minishell: cd: ", 15);
-	write(2, "No such file or directory: ", 28);
-	write(2, target_dir, ft_strlen(target_dir));
-	write(2, "\n", 1);
-	return (EXIT_FAILURE);
 }

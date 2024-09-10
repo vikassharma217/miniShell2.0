@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:54:47 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/09 14:06:06 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:33:36 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 		data->exit_code = 1;
 		return ;
 	}
-	if (WIFSIGNALED(status))
+	/*if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGINT)
 			exit_status = 128 + SIGINT;
@@ -52,7 +52,7 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 	}
 	else if (WIFEXITED(status))
 		exit_status = WEXITSTATUS(status);
-	data->exit_code = exit_status;
+	data->exit_code = exit_status;*/
 }
 
  void	run_child_process_execute(t_cmd **cmd_list, t_data *data)

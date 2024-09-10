@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/09 10:54:48 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:43:08 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,6 @@ void							free_parsed_tokens(t_cmd **cmd_list,
 void							ft_clear_all(t_data *data);
 /*input_handeling*/
 bool							input_validation(char *input, t_data *data);
-bool							check_operator(char *input);
 /*validation_syntax*/
 bool							mismatched_quotes(const char *str);
 bool							invalid_sequence(char *str);
@@ -241,7 +240,7 @@ void							init_signal_heredocs(void);
 void							init_signal_non_interactive(void);
 void							init_signal_interactive(void);
 void							heredoc_sigint_handler(int signum);
-void							heredoc_sigquit_handler(int signum);
 void							handle_eof_in_heredoc(t_cmd *current_cmd);
+void	heredoc_sigquit_handler(int signum);
 
 #endif

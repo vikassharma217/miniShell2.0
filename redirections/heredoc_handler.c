@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:27 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/09 09:14:07 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:07:51 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,11 @@ static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd,
 		line = readline("> ");
 		if (line == NULL)
 		{
-			handle_eof_in_heredoc(current_cmd);
-			break ;
+			//handle_eof_in_heredoc(current_cmd);
+			//break ;c
+			printf("De %s\n", delimiter);
+			free(line);
+			break;
 		}
 		if (str_equals(line, delimiter))
 		{
@@ -55,9 +58,7 @@ static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd,
 void	redirect_and_execute_command(const char *heredoc_file, t_cmd *cmd,
 		t_data *data)
 {
-	int		fd;
-	int		status;
-	pid_t	pid;
+	int	fd;
 
 	fd = open(heredoc_file, O_RDONLY);
 	if (fd < 0)
@@ -69,16 +70,7 @@ void	redirect_and_execute_command(const char *heredoc_file, t_cmd *cmd,
 		exit(EXIT_FAILURE);
 	}
 	close(fd);
-	pid = fork();
-	if (pid == 0)
-	{
-		system_commands(cmd, data);
-		exit(EXIT_SUCCESS);
-	}
-	else if (pid > 0)
-		waitpid(pid, &status, 0);
-	else
-		handle_error("Failed to fork", heredoc_file);
+	system_commands(cmd, data);
 }
 
 static void	process_current_heredoc(t_cmd *current_cmd, char *heredoc_file,
@@ -86,7 +78,7 @@ static void	process_current_heredoc(t_cmd *current_cmd, char *heredoc_file,
 {
 	int	heredoc_fd;
 
-	while (current_cmd && current_cmd->operator == RD_HD)
+	while (current_cmd && current_cmd->operator== RD_HD)
 	{
 		generate_filename(heredoc_file, (*file_index)++);
 		heredoc_fd = open(heredoc_file, O_RDWR | O_CREAT | O_TRUNC, 0600);
@@ -96,7 +88,7 @@ static void	process_current_heredoc(t_cmd *current_cmd, char *heredoc_file,
 				heredoc_file);
 		}
 		process_heredoc_input(heredoc_fd, current_cmd, data);
-		if (current_cmd->next && current_cmd->next->operator == RD_HD)
+		if (current_cmd->next && current_cmd->next->operator== RD_HD)
 		{
 			close(heredoc_fd);
 			unlink(heredoc_file);
