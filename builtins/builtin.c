@@ -25,7 +25,7 @@ bool	is_valid_variable(char *str)
 			return (0);
 		i++;
 	}
-	return (i > 0 && !isdigit(str[0]));
+	return (i > 0 && !ft_isdigit(str[0]));
 }
 
 int	builtin(t_cmd *cmd, t_data *data)

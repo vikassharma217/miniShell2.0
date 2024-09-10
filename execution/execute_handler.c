@@ -20,7 +20,7 @@ void	run_command_child(t_cmd **cmd, t_data *data)
 		if ((*cmd)->operator != PIPE)
 			handle_redirections(cmd, data);
 		else
-			pipe_execution(*cmd, data);
+			pipe_execution(cmd, data);
 	}
 	else
 	{
@@ -69,11 +69,9 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 		}
 		break ;
 	}
-	//if (data)
-	ft_clear_all(data);
-		data->exit_code = 0;
-	printf("We are here");
-	fflush(stdout);
+	if (data)
+		ft_clear_all(data);
+	data->exit_code = 0;
 	exit(EXIT_SUCCESS);
 }
 
@@ -98,35 +96,3 @@ void	start_execution(t_cmd *cmd_list, t_data *data)
 	else
 		run_parent_process(pid, data);
 }
-
-/*void	run_command(t_cmd *cmd, t_data *data)
-{
-	int	status;
-	int	status;
-	int	status;
-
-	status = 0;
-	if (cmd->operator != NONE)
-	{
-		if (cmd->operator != PIPE)
-		{
-			handle_redirections(&cmd, data);
-			status = 1;
-		}
-		else
-			pipe_execution(cmd, data);
-	}
-	else
-	{
-		if (!builtin(cmd, data))
-			system_commands(cmd, data);
-	}
-	//if (data)
-	//	ft_clear_all(data);
-	//exit(data->exit_code);
-}*/
-/*static void	run_command_rd(t_cmd *cmd, t_data *data)
-{
-	if (!builtin(cmd, data))
-		system_commands(cmd, data);
-}*/

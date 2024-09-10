@@ -45,8 +45,8 @@ static void	process_heredoc_input(int heredoc_fd, t_cmd *current_cmd,
 			break ;
 		}
 		expanded_line = init_expander(line, data);
-		write(heredoc_fd, expanded_line, ft_strlen(expanded_line));
-		write(heredoc_fd, "\n", 1);
+		ft_putstr_fd(expanded_line, heredoc_fd);
+		ft_putstr_fd("\n", heredoc_fd);
 		free(line);
 		free(expanded_line);
 	}
