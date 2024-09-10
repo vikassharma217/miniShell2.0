@@ -31,11 +31,6 @@
 # define OPERATORS "|<>"
 # define QUOTES "\"\'"
 
-// STANDARD ERROR MESSAGES FROM BASH
-//# define FORK_ERR "minishell: fork() failed"
-//# define PIPE_ERR "minishell: pipe() failed"
-
-// ft_cd
 # define PATH_MAX 4096
 
 # define CNTL_C 1
@@ -151,6 +146,9 @@ void							handle_redirections(t_cmd **cmd, t_data *data);
 /*heredoc_handler.c*/
 void							heredoc_handler(t_cmd *cmd, t_data *data);
 
+/*heredoc_utils.c*/
+int								redirect_stdin_to_terminal(t_data *data);
+void							restore_stdin(int stdin_copy, t_data *data);
 /*filename_generator.c*/
 void							generate_filename(char *buffer, int index);
 

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+//prints an error message to stderr that target directory doesnt exist
 
 int	print_cd_error(char *target_dir)
 {
@@ -20,6 +21,7 @@ int	print_cd_error(char *target_dir)
 	write(2, "\n", 1);
 	return (EXIT_FAILURE);
 }
+//bubble-sorting env list alphabetically
 
 static void	swap_env_vars(t_elst *a, t_elst *b)
 {
@@ -37,6 +39,8 @@ static void	swap_env_vars(t_elst *a, t_elst *b)
 	a->exported = b->exported;
 	b->exported = tmp_exported;
 }
+//Sorts the environment variables list alphabetically
+//ft_strncmp returns positive value if they should be swap
 
 void	sort_env_list(t_elst **env_list)
 {

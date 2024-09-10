@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+//exit with cleaning each array from path
 
 static void	exit_with_cleanup(char *cmd, t_data *data, char **paths,
 		int exit_code)
@@ -32,6 +33,7 @@ static void	exit_with_cleanup(char *cmd, t_data *data, char **paths,
 	ft_clear_all(data);
 	exit(exit_code);
 }
+//get env variable list
 
 static char	*get_env_variable(t_elst *env_lst, char *name)
 {
@@ -44,7 +46,10 @@ static char	*get_env_variable(t_elst *env_lst, char *name)
 	return (NULL);
 }
 
-/*helper function for search_and_exec*/
+//searches each array like /bin/cat or /bin/ls
+//if access is 0 it returns that absolute path
+//F_OK if file exists, x_OK if file is executable
+
 static char	*find_valid_path(char *cmd, char **paths)
 {
 	char	*path;
@@ -64,6 +69,11 @@ static char	*find_valid_path(char *cmd, char **paths)
 	}
 	return (NULL);
 }
+//splits PATH in seperate arrays to search in each of for the system command
+//exec_path is the path
+//execve return 0 if it found it
+//126 for found but not executable
+//127 command not found
 
 static void	search_and_exec(char *cmd, t_elst *env_lst, t_cmd *cmd_struct,
 		t_data *data)
@@ -93,6 +103,8 @@ static void	search_and_exec(char *cmd, t_elst *env_lst, t_cmd *cmd_struct,
 	}
 	exit_with_cleanup(cmd, data, paths, 127);
 }
+//checks if command starts with /PATH as direct path or
+//it should search for it
 
 void	system_commands(t_cmd *cmd, t_data *data)
 {

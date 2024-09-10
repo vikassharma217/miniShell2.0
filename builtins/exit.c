@@ -19,6 +19,8 @@ static void	non_numeric_args(t_data *data)
 	ft_clear_all(data);
 	exit(data->exit_code);
 }
+//Validates if the given string represents a valid long integer.
+//Returns true if the value is valid, otherwise false
 
 static bool	check_long(char *str)
 {
@@ -42,6 +44,8 @@ static bool	check_long(char *str)
 	}
 	return (true);
 }
+//Checks if a string consists only of digits
+//returns true if string is valid(true(1)), else false(0)
 
 static bool	check_digits(char *str)
 {
@@ -56,6 +60,7 @@ static bool	check_digits(char *str)
 	}
 	return (true);
 }
+//checks if the exit status is a valid numeric value, and sets the exit code.
 
 static bool	process_exit_args(t_cmd *cmd, t_data *data)
 {
@@ -76,6 +81,8 @@ static bool	process_exit_args(t_cmd *cmd, t_data *data)
 	}
 	return (true);
 }
+//Handles the shell's exit command, processing exit arguments
+//If pipe getting argc of current node to check if valid with 1 argv
 
 void	exit_shell(t_cmd *cmd, t_data *data)
 {

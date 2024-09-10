@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+//check if valid to store in env node
 
 bool	is_valid_variable(char *str)
 {
@@ -27,6 +28,8 @@ bool	is_valid_variable(char *str)
 	}
 	return (i > 0 && !ft_isdigit(str[0]));
 }
+//directing to which built in it should go, returns 0 if none of them,
+//else returning 1 if successful
 
 int	builtin(t_cmd *cmd, t_data *data)
 {

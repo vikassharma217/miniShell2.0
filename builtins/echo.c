@@ -12,7 +12,9 @@
 
 #include "../minishell.h"
 
-// Backslash things fixed but we need that?
+//Prints the given string to stdout, handling escaped backslashes
+//Consecutive backslashes are printed as a single backslash.
+
 static void	check_and_print(const char *str)
 {
 	int	backslash_flag;
@@ -34,6 +36,7 @@ static void	check_and_print(const char *str)
 		str++;
 	}
 }
+//Returns 1 if the flag is valid, otherwise 0.
 
 static int	check_new_line_flag(const char *argv)
 {
@@ -46,6 +49,7 @@ static int	check_new_line_flag(const char *argv)
 		i++;
 	return (argv[i] == '\0');
 }
+//Implements the echo command, handling the '-n' flag, and printing the arg
 
 int	echo(t_cmd *cmd)
 {

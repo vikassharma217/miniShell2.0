@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+//generating temp filename for heredoc
+//allows because of index generating individuell filenames with _1 _2...
 
 void	generate_filename(char *buffer, int index)
 {

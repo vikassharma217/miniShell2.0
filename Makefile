@@ -20,7 +20,7 @@ SRC = main.c \
 		execution/system_commands.c \
 		execution/execute_handler.c execution/execute_pipeline.c \
 		redirections/redirections_handler.c redirections/heredoc_handler.c \
-		redirections/filename_generator.c \
+		redirections/heredoc_utils.c redirections/filename_generator.c \
 		parser/env_list.c  parser/expander_utils.c parser/expander.c \
 		parser/handel_quotes.c parser/parser.c  parser/tokenizer.c \
 		signals/signals.c signals/signal_heredoc.c \

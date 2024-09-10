@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+//Removes a node from the environment list and frees its memory
+//Updates the list head if necessary
 static void	remove_current_node(t_elst **head, t_elst *current, t_elst *prev)
 {
 	if (prev == NULL)
@@ -24,6 +25,7 @@ static void	remove_current_node(t_elst **head, t_elst *current, t_elst *prev)
 	free(current->value);
 	free(current);
 }
+//Removes an environment variable from the list if it exists
 
 int	unset_variable(char *name, t_elst **head)
 {
@@ -53,6 +55,8 @@ int	unset_variable(char *name, t_elst **head)
 	}
 	return (0);
 }
+//removing environment variables from the list
+//Returns 1 if an error occurs, otherwise 0
 
 int	unset(t_cmd *cmd, t_elst **head)
 {

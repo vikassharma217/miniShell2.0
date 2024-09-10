@@ -18,7 +18,8 @@ static void	run_command_rd(t_cmd *cmd, t_data *data)
 		system_commands(cmd, data);
 }
 
-// safety statement lin40
+//redirects file fd to stdin
+
 static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 {
 	t_cmd	*copy_cmd;
@@ -38,12 +39,19 @@ static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 			ft_clear_all(data);
 			exit(EXIT_FAILURE);
 		}
-		dup2(input_fd, STDIN_FILENO);
+		if (dup2(input_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2 in perform input redirection failed");
+			close(input_fd);
+			exit (EXIT_FAILURE);
+		}
 		close(input_fd);
 	}
 }
 
-// else maybe cmd next? name of file lin53
+//creates file to write inside file
+//redirects stdout to the file fd
+
 static void	perform_output_redirection(t_cmd *cmd)
 {
 	t_cmd	*copy_cmd;
@@ -70,8 +78,9 @@ static void	perform_output_redirection(t_cmd *cmd)
 	}
 }
 
-// CAN BE DELETED lin77
-// return (1); dont need to return maybe?
+//handles all redirection commands
+//executes start command to write inside redirection fd
+
 static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 {
 	t_cmd	*start_cmd;
@@ -98,6 +107,7 @@ static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 	}
 	run_command_rd(start_cmd, data);
 }
+//saves old stdout to redirect it after function is finsihed
 
 void	handle_redirections(t_cmd **cmd, t_data *data)
 {

@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+//printing the current working directory
+//If getcwd fails, it prints the saved path or an error message
 int	pwd(t_cmd *cmd, t_data *data)
 {
 	char	current_dir[PATH_MAX];

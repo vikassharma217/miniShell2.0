@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+//Prints the list of environment variables that are marked as exported.
+//Each variable is printed in the format 'name=value'
 int	env(t_data *data)
 {
 	t_elst	*current;

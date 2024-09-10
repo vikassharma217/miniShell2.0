@@ -11,10 +11,10 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+//checks which operator it is, and where it should direct
 
 void	run_command_child(t_cmd **cmd, t_data *data)
 {
-
 	if ((*cmd)->operator != NONE)
 	{
 		if ((*cmd)->operator != PIPE)
@@ -29,33 +29,31 @@ void	run_command_child(t_cmd **cmd, t_data *data)
 	}
 }
 
-// parent shud not wait for invidual child process to finish
-// before starting the next one
+// parent is waiting for child process
+// afterwards status is giving information, if there was signal
+// or normal exit, otherwise it is 1
+
 static void	run_parent_process(pid_t child_pid, t_data *data)
 {
 	int	status;
-	int	exit_status;
 
-	exit_status = 0;
 	if (waitpid(child_pid, &status, 0) == -1)
 	{
 		perror("waitpid()");
 		data->exit_code = 1;
 		return ;
 	}
-	/*if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-			exit_status = 128 + SIGINT;
-		else
-			exit_status = 128 + WTERMSIG(status);
-	}
-	else if (WIFEXITED(status))
-		exit_status = WEXITSTATUS(status);
-	data->exit_code = exit_status;*/
+	if (WIFEXITED(status))
+		data->exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		data->exit_code = 128 + WTERMSIG(status);
+	else
+		data->exit_code = 1;
 }
+//child process, if command is pipe, redirection or system command
+//increasing the node cmd after cmd
 
- void	run_child_process_execute(t_cmd **cmd_list, t_data *data)
+void	run_child_process_execute(t_cmd **cmd_list, t_data *data)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

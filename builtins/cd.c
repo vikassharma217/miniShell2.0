@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+//Updates the current working directory (PWD) in the environment variables 
+//and saves the new path in the data structure.
 
 static void	update_pwd(t_data *data)
 {
@@ -34,6 +36,8 @@ static void	update_pwd(t_data *data)
 		ft_strncpy(data->saved_path, cwd, PATH_MAX);
 	}
 }
+//Updates the old working directory (OLDPWD) in the environment variables 
+//and saves the old path in the data structure.
 
 static void	save_old_pwd(char *current_dir, t_data *data)
 {
@@ -55,6 +59,8 @@ static void	save_old_pwd(char *current_dir, t_data *data)
 	old_pwd[i] = '\0';
 	store_env_var(old_pwd, &data->env_lst, true);
 }
+//Handles the "cd" command for navigating to the home or OLDPWD directory,
+//updating environment variables and handling errors if not set.
 
 static int	handle_cd_to_home_or_oldpwd(char *env_var, char *current_dir,
 		t_data *data)
@@ -77,6 +83,8 @@ static int	handle_cd_to_home_or_oldpwd(char *env_var, char *current_dir,
 	update_pwd(data);
 	return (EXIT_SUCCESS);
 }
+//updates the saved path when changing directories
+//updates the saved path if directiory is deleted until last /
 
 void	update_saved_path(char *target_dir, t_data *data)
 {
@@ -97,6 +105,8 @@ void	update_saved_path(char *target_dir, t_data *data)
 		ft_strlcpy(data->saved_path, tmp_saved_path, PATH_MAX);
 	}
 }
+//Changes the current directory, handling special cases like '~' and
+//updates the environment variables PWD and OLDPWD.
 
 int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 {
@@ -121,29 +131,3 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 	update_pwd(data);
 	return (EXIT_SUCCESS);
 }
-
-/*int	cd(t_cmd *cmd, t_data *data, char *target_dir)
-{
-	char	current_dir[PATH_MAX];
-
-	if (cmd->argc > 2)
-		return (write(2, "cd: too many arguments\n", 23), EXIT_FAILURE);
-	if (!target_dir || str_equals(target_dir, "~"))
-		return (handle_cd_to_home_or_oldpwd("HOME", current_dir, data));
-	if (!getcwd(current_dir, PATH_MAX))
-		return (write(2, "minishell: cd: getcwd error\n", 29), EXIT_FAILURE);
-	if (!target_dir || str_equals(target_dir, "~"))
-		return (handle_cd_to_home_or_oldpwd("HOME", current_dir, data));
-	if (str_equals(target_dir, "-"))
-		return (handle_cd_to_home_or_oldpwd("OLDPWD", current_dir, data));
-	if (chdir(target_dir) != 0)
-		return (print_cd_error(target_dir));
-	getcwd(data->saved_path, PATH_MAX);
-	if (!getcwd(data->saved_path, PATH_MAX))
-	{
-		return (write(2, "minishell: cd: getcwd error\n", 29), EXIT_FAILURE);
-	}
-	save_old_pwd(current_dir, data);
-	update_pwd(data);
-	return (EXIT_SUCCESS);
-}*/

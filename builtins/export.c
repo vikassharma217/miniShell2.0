@@ -19,6 +19,7 @@ static int	handling_export_error(char *name)
 	write(2, "': is not a valid identifier\n", 29);
 	return (1);
 }
+//Exports an environment variable without a value, creating a new entry
 
 void	export_variable_without_value(char *var_name, t_elst **env_list)
 {
@@ -32,11 +33,15 @@ void	export_variable_without_value(char *var_name, t_elst **env_list)
 	}
 	lstadd_back_env(env_list, new_var);
 }
+//Prints all exported environment variables
+//If a variable has no value, it prints 'declare -x name
 
 static int	print_exported_vars(t_data *data)
 {
 	t_elst	*current;
 
+	if (!data->env_lst)
+		return (0);
 	sort_env_list(&data->env_lst);
 	current = data->env_lst;
 	while (current)
@@ -52,6 +57,8 @@ static int	print_exported_vars(t_data *data)
 	}
 	return (0);
 }
+//Handles the export command, adding or updating environment variables
+//Validates variable names, stores variables with values, marks them as exported
 
 int	export(t_cmd *cmd, t_data *data)
 {
