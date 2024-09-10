@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:57:35 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/10 13:33:10 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 20:37:50 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ bool	mismatched_quotes(const char *str)
 	}
 	return (single_quote_open || double_quote_open);
 }
-
-#include <stdbool.h>
 
 bool	check_invalid_operator_sequence(char *str, int *i)
 {
@@ -83,7 +81,7 @@ bool	invalid_sequence(char *str)
 bool	invalid_syntax(char *str)
 {
 	if (str[0] == '|' || str[ft_strlen(str) - 1] == '|' || str[ft_strlen(str)
-		- 1] == '>' || str[ft_strlen(str) - 1] == '<')
+			- 1] == '>' || str[ft_strlen(str) - 1] == '<')
 	{
 		return (true);
 	}

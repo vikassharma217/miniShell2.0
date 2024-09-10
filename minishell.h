@@ -6,14 +6,14 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/10 14:43:08 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 20:44:38 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <errno.h> //OK to use?
+# include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
@@ -134,7 +134,8 @@ void							system_commands(t_cmd *cmd, t_data *data);
 /*execute_handler.c*/
 void							start_execution(t_cmd *cmd_list, t_data *data);
 void							run_command_child(t_cmd **cmd, t_data *data);
-void							run_child_process_execute(t_cmd **cmd_list, t_data *data);
+void							run_child_process_execute(t_cmd **cmd_list,
+									t_data *data);
 
 /*pipe_execution.c*/
 void							pipe_execution(t_cmd **cmd, t_data *data);
@@ -162,7 +163,6 @@ bool							input_validation(char *input, t_data *data);
 /*validation_syntax*/
 bool							mismatched_quotes(const char *str);
 bool							invalid_sequence(char *str);
-bool							invalid_operator(char *input);
 bool							invalid_syntax(char *str);
 
 // Parser
@@ -185,9 +185,6 @@ void							fill_tokens(char **token, char *str);
 void							allocate_tokens_memory(char **token, char *str);
 /*handel_quotes*/
 char							*handel_quotes(char *str);
-
-// Signals
-void							handel_signals(t_data *data);
 
 // utils
 /*var_utils*/
@@ -239,6 +236,6 @@ void							init_signal_non_interactive(void);
 void							init_signal_interactive(void);
 void							heredoc_sigint_handler(int signum);
 void							handle_eof_in_heredoc(t_cmd *current_cmd);
-void	heredoc_sigquit_handler(int signum);
+void							heredoc_sigquit_handler(int signum);
 
 #endif

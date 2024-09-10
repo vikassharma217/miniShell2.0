@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:31:01 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/10 13:37:34 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 20:37:33 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	exit_minishell(int status_code, t_data *data)
 		ft_clear_all(data);
 	exit(data->exit_code);
 }
-
 
 bool	input_validation(char *input, t_data *data)
 {

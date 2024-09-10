@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 08:21:43 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/10 14:42:05 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 20:36:34 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ void	heredoc_sigquit_handler(int signum)
 {
 	if (signum == SIGQUIT)
 	{
-		//write(1, "Quit (core dumped)\n", 19);
 		close(STDIN_FILENO);
-		//exit(131);
 	}
 }
 

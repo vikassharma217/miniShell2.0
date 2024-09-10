@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 12:18:20 by vsharma           #+#    #+#             */
-/*   Updated: 2024/08/28 14:23:03 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 20:42:05 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,6 @@ void	init_oldpwd(t_elst **head)
 	temp = ft_strjoin("OLDPWD=", getenv("HOME"));
 	store_env_var(temp, head, true);
 	free(temp);
-}
-
-void	free_line(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
 }
 
 // Splits an environment variable string into a name and value pair.
