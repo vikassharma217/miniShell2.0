@@ -12,6 +12,18 @@
 
 #include "../minishell.h"
 
+void shift_argv_left(char **argv)
+{
+    int i = 0;
+
+    while (argv[i + 1])
+    {
+        argv[i] = argv[i + 1];
+        i++;
+    }
+    argv[i] = NULL;
+}
+
 static void	run_command_rd(t_cmd *cmd, t_data *data)
 {
 	if (!builtin(cmd, data))
@@ -25,7 +37,7 @@ static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 	t_cmd	*copy_cmd;
 	int		input_fd;
 
-	copy_cmd = cmd->next;
+	copy_cmd = cmd->next; //Safety thing
 	while (copy_cmd && copy_cmd->operator == RD_IN)
 		copy_cmd = copy_cmd->next;
 	if (copy_cmd && copy_cmd->argv[0])
@@ -62,7 +74,7 @@ static void	perform_output_redirection(t_cmd *cmd)
 	output_fd = 0;
 	if (copy_cmd)
 	{
-		filename = copy_cmd->next->argv[0];
+		filename = copy_cmd->next->argv[0]; //safety thing
 		if (copy_cmd->operator == RD_OUT)
 			output_fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		else if (copy_cmd->operator == RD_APND)
@@ -84,8 +96,15 @@ static void	perform_output_redirection(t_cmd *cmd)
 static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 {
 	t_cmd	*start_cmd;
+	int		flag;
 
-	start_cmd = *cmd;
+	start_cmd = NULL;
+	flag = 0;
+	if ((*cmd)->argv[0])
+	{
+		start_cmd = *cmd;
+		flag = 1;
+	}
 	if ((*cmd)->operator == RD_HD)
 	{
 		close(saved_stdout);
@@ -105,15 +124,26 @@ static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 		else
 			break ;
 	}
-	run_command_rd(start_cmd, data);
+	if ((*cmd) && (*cmd)->argv[0] && !flag)
+	{
+        shift_argv_left((*cmd)->argv);
+        start_cmd = (*cmd);
+    }
+	if (flag)
+		run_command_rd(start_cmd, data);
+	else
+		*cmd = start_cmd;
+	//	run_child_process_execute(cmd, data);
 }
 //saves old stdout to redirect it after function is finsihed
 
 void	handle_redirections(t_cmd **cmd, t_data *data)
 {
 	int	saved_stdout;
+	//int	saved_stdin;
 
 	saved_stdout = -1;
+	//saved_stdin = -1;
 	if ((*cmd)->operator == RD_OUT || (*cmd)->operator == RD_APND
 		|| (*cmd)->operator == RD_IN || (*cmd)->operator == RD_HD)
 	{
@@ -131,5 +161,14 @@ void	handle_redirections(t_cmd **cmd, t_data *data)
 		close(saved_stdout);
 		exit(EXIT_FAILURE);
 	}
-	close(saved_stdout);
+	if (saved_stdout != -1)
+		close(saved_stdout);
+	/*if (saved_stdin != -1 && dup2(saved_stdin, STDIN_FILENO) == -1)
+	{
+		perror("dup2 restore failed for stdin");
+		close(saved_stdin);
+		exit(EXIT_FAILURE);
+	}
+	if (saved_stdin != -1)
+		close(saved_stdin);*/
 }
