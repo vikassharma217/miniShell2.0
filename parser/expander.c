@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 14:49:43 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/10 20:19:29 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/11 14:30:10 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*init_expander(char *input_str, t_data *data)
 
 	if (!input_str || !data)
 		return (NULL);
-	token = malloc(sizeof(char) * (input_size(input_str, data) + 1));
+	token = malloc(sizeof(char) * (input_size(input_str, data) + 2));
 	if (!token)
 		return (NULL);
 	result = expand_token(input_str, data, token);
