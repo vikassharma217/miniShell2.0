@@ -16,6 +16,8 @@ void shift_argv_left(char **argv)
 {
     int i = 0;
 
+	if (argv[i])
+        free(argv[i]);
     while (argv[i + 1])
     {
         argv[i] = argv[i + 1];
@@ -132,8 +134,8 @@ static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 	if (flag)
 		run_command_rd(start_cmd, data);
 	else
-		*cmd = start_cmd;
-	//	run_child_process_execute(cmd, data);
+		//*cmd = start_cmd;
+		run_child_process_execute(cmd, data);
 }
 //saves old stdout to redirect it after function is finsihed
 
@@ -145,7 +147,7 @@ void	handle_redirections(t_cmd **cmd, t_data *data)
 	saved_stdout = -1;
 	//saved_stdin = -1;
 	if ((*cmd)->operator == RD_OUT || (*cmd)->operator == RD_APND
-		|| (*cmd)->operator == RD_IN || (*cmd)->operator == RD_HD)
+		|| (*cmd)->operator == RD_HD)
 	{
 		saved_stdout = dup(STDOUT_FILENO);
 		if (saved_stdout == -1)
@@ -154,15 +156,25 @@ void	handle_redirections(t_cmd **cmd, t_data *data)
 			exit(EXIT_FAILURE);
 		}
 		execute_redirection(cmd, data, saved_stdout);
+		if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+		{
+			perror("dup2 restore failed");
+			close(saved_stdout);
+			exit(EXIT_FAILURE);
+		}
+		if (saved_stdout != -1)
+			close(saved_stdout);
 	}
-	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+	else
+		execute_redirection(cmd, data, saved_stdout);
+	/*if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 	{
 		perror("dup2 restore failed");
 		close(saved_stdout);
 		exit(EXIT_FAILURE);
 	}
 	if (saved_stdout != -1)
-		close(saved_stdout);
+		close(saved_stdout);*/
 	/*if (saved_stdin != -1 && dup2(saved_stdin, STDIN_FILENO) == -1)
 	{
 		perror("dup2 restore failed for stdin");
