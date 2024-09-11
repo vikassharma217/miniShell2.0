@@ -30,7 +30,7 @@ static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 		copy_cmd = copy_cmd->next;
 	if (copy_cmd && copy_cmd->argv[0])
 	{
-		input_fd = open(copy_cmd->argv[0], O_RDONLY, O_TRUNC, 0644);
+		input_fd = open(copy_cmd->argv[0], O_RDONLY, 0644);
 		if (input_fd < 0)
 		{
 			write(2, "minishell: ", 11);
