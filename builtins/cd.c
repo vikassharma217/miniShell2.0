@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:18 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/09 09:04:02 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/11 13:41:12 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 {
 	char	current_dir[PATH_MAX];
 
+	ft_bzero(current_dir, PATH_MAX);
+
 	if (cmd->argc > 2)
 		return (write(2, "cd: too many arguments\n", 23), EXIT_FAILURE);
 	if (!target_dir || str_equals(target_dir, "~"))
@@ -119,7 +121,10 @@ int	cd(t_cmd *cmd, t_data *data, char *target_dir)
 	if (!getcwd(current_dir, PATH_MAX))
 	{
 		perror("minishell: cd: getcwd: cannot access parent directories");
-		ft_strncpy(current_dir, data->saved_path, PATH_MAX);
+		if (data->saved_path[0] == '\0')
+			ft_strncpy(current_dir, data->saved_path, PATH_MAX);
+		else
+			ft_strncpy(current_dir, "/", PATH_MAX);
 	}
 	if (str_equals(target_dir, "-"))
 		return (handle_cd_to_home_or_oldpwd("OLDPWD", current_dir, data));

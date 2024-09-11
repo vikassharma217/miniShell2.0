@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/10 20:44:38 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/11 13:43:42 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,7 @@ size_t							ft_strlcpy(char *dst, const char *src,
 char							*ft_strrchr(const char *string, int c);
 int								ft_strncmp(const char *s1, const char *s2,
 									size_t n);
+void							ft_bzero(void *string, size_t n);
 
 // signals
 void							init_signal_heredocs(void);

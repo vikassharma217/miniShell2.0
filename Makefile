@@ -6,7 +6,7 @@
 #    By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 11:43:39 by vsharma           #+#    #+#              #
-#    Updated: 2024/09/09 09:06:21 by vsharma          ###   ########.fr        #
+#    Updated: 2024/09/11 13:43:06 by vsharma          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC = main.c \
 		utils_libft/ft_isalnum.c utils_libft/ft_isdigit.c \
 		utils_libft/ft_strrchr.c utils_libft/ft_strlcpy.c \
 		utils_libft/ft_strlcat.c utils_libft/ft_strncmp.c \
+		utils_libft/ft_bzero.c \
 		validation/input_handeling.c validation/cleanup.c \
 		validation/validation_syntax.c 
 
