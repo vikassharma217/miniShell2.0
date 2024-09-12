@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:57:35 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/10 20:37:50 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/12 11:24:44 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ bool	check_invalid_operator_sequence(char *str, int *i)
 		(*i)++;
 		while (str[*i] && ft_isspace(str[*i]))
 			(*i)++;
+		if (str[*i] == '\0')
+			return (true);
 		if ((first_op == '|' && str[*i] == '|') || (first_op == '<'
 				&& str[*i] == '>') || (first_op == '>' && str[*i] == '<'))
 		{
@@ -57,6 +59,8 @@ bool	invalid_sequence(char *str)
 
 	i = 0;
 	quotes = false;
+	if (*str == '\0')
+		return (true);
 	while (str[i])
 	{
 		if (char_in_str(QUOTES, str[i]))
@@ -80,6 +84,8 @@ bool	invalid_sequence(char *str)
 /* handle command start or end with operator*/
 bool	invalid_syntax(char *str)
 {
+	if (*str == '\0')
+		return (true);
 	if (str[0] == '|' || str[ft_strlen(str) - 1] == '|' || str[ft_strlen(str)
 			- 1] == '>' || str[ft_strlen(str) - 1] == '<')
 	{

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:53:02 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/10 13:54:56 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/11 16:43:00 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static bool	process_exit_args(t_cmd *cmd, t_data *data)
 	}
 	if (cmd->argc == 2)
 	{
+		if (cmd->argv[1][0] == '\0')
+			non_numeric_args(data);
 		if (check_digits(cmd->argv[1]) && check_long(cmd->argv[1]))
 			data->exit_code = ft_atol(cmd->argv[1]);
 		else
