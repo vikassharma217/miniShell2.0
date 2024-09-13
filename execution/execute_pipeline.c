@@ -27,7 +27,6 @@ static void	pipe_child_process(t_cmd **cmd, int pipe_fd[2], t_data *data)
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		handle_pipe_error("dup2 failed in child process", data);
 	close(pipe_fd[1]);
-	//run_command_child(cmd, data);
 	run_child_process_execute(cmd, data);
 	//ft_clear_all(data);
 	exit(EXIT_SUCCESS);
@@ -40,6 +39,7 @@ static void	pipe_parent_process(t_cmd **cmd, int pipe_fd[2], t_data *data,
 {
 	int	status;
 
+	status = 0;
 	close(pipe_fd[1]);
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		handle_pipe_error("dup2 failed in parent process", data);
@@ -50,10 +50,7 @@ static void	pipe_parent_process(t_cmd **cmd, int pipe_fd[2], t_data *data,
 	{
 		*cmd = (*cmd)->next;
 		run_child_process_execute(cmd, data);
-		//pipe_execution(cmd, data);
-		//run_command_child(cmd, data);
 	}
-	waitpid(child_pid, &status, 0);
 	data->exit_code = WEXITSTATUS(status);
 	ft_clear_all(data);
 }
@@ -68,13 +65,6 @@ void	pipe_execution(t_cmd **cmd, t_data *data)
 
 	(*cmd)->operator = NONE;
 	data->is_pipe = 1;
-	/*if (!(*cmd)->next)
-	{
-		run_child_process_execute(cmd, data);
-		ft_clear_all(data);
-		data->exit_code = 0;
-		exit(data->exit_code);
-	}*/
 	if (pipe(pipe_fd) == -1)
 		handle_pipe_error("Pipe creation failed", data);
 	status = 0;

@@ -42,8 +42,6 @@ static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 	t_cmd	*copy_cmd;
 	int		input_fd;
 
-	//copy_cmd = NULL;
-	//if (cmd->next)
 	copy_cmd = cmd->next; //Safety thing
 	while (copy_cmd && copy_cmd->operator == RD_IN)
 		copy_cmd = copy_cmd->next;
@@ -137,9 +135,7 @@ static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
         start_cmd = (*cmd);
     }
 	if (flag)
-	{
 		run_command_rd(start_cmd, data);
-	}
 	else if (!flag)
 	{
 		if (saved_stdout != -1)
@@ -154,10 +150,8 @@ static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 void	handle_redirections(t_cmd **cmd, t_data *data)
 {
 	int	saved_stdout;
-	//int	saved_stdin;
 
 	saved_stdout = -1;
-	//saved_stdin = -1;
 	if ((*cmd)->operator == RD_OUT || (*cmd)->operator == RD_APND
 		|| (*cmd)->operator == RD_HD)
 	{
@@ -179,20 +173,4 @@ void	handle_redirections(t_cmd **cmd, t_data *data)
 	}
 	else
 		execute_redirection(cmd, data, saved_stdout);
-	/*if (dup2(saved_stdout, STDOUT_FILENO) == -1)
-	{
-		perror("dup2 restore failed");
-		close(saved_stdout);
-		exit(EXIT_FAILURE);
-	}
-	if (saved_stdout != -1)
-		close(saved_stdout);*/
-	/*if (saved_stdin != -1 && dup2(saved_stdin, STDIN_FILENO) == -1)
-	{
-		perror("dup2 restore failed for stdin");
-		close(saved_stdin);
-		exit(EXIT_FAILURE);
-	}
-	if (saved_stdin != -1)
-		close(saved_stdin);*/
 }
