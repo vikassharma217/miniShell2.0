@@ -12,6 +12,9 @@
 
 #include "../minishell.h"
 
+//if RD_IN sorting our cmd list in right way order
+//free is for deleting argv[0] -> filename 
+//so after filename command is getting set to [0] for right execution
 void shift_argv_left(char **argv)
 {
     int i = 0;
@@ -39,6 +42,8 @@ static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 	t_cmd	*copy_cmd;
 	int		input_fd;
 
+	//copy_cmd = NULL;
+	//if (cmd->next)
 	copy_cmd = cmd->next; //Safety thing
 	while (copy_cmd && copy_cmd->operator == RD_IN)
 		copy_cmd = copy_cmd->next;
@@ -132,10 +137,17 @@ static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
         start_cmd = (*cmd);
     }
 	if (flag)
+	{
 		run_command_rd(start_cmd, data);
-	else
-		//*cmd = start_cmd;
+	}
+	else if (!flag)
+	{
+		if (saved_stdout != -1)
+		{
+			close(saved_stdout);
+		}
 		run_child_process_execute(cmd, data);
+	}
 }
 //saves old stdout to redirect it after function is finsihed
 
