@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:54:47 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/14 12:09:03 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:33:36 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 		data->exit_code = 128 + WTERMSIG(status);
 	else
 		data->exit_code = 1;
+	//ft_clear_all(data);
 }
 //child process, if command is pipe, redirection or system command
 //increasing the node cmd after cmd
