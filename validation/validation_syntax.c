@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:57:35 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/14 13:07:34 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/14 13:56:40 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ bool	invalid_syntax(char *str)
 	{
 		return (true);
 	}
-	while(*str)
+	while (*str)
 	{
 		if (*str == '\n')
 			return (true);
