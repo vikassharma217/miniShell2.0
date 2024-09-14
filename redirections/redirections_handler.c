@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:41 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/14 11:40:47 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/14 12:00:58 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	perform_input_redirection(t_cmd *cmd, t_data *data)
 //creates file to write inside file
 //redirects stdout to the file fd
 
-static void	perform_output_redirection(t_cmd *cmd)
+static void	perform_output_redirection(t_cmd *cmd, t_data *data, int saved_stdout)
 {
 	t_cmd	*copy_cmd;
 	int		output_fd;
@@ -89,7 +89,9 @@ static void	perform_output_redirection(t_cmd *cmd)
 			if (output_fd == -1)
 				close(output_fd);
 			perror("system function failed in perform output rd");
-			//exit(EXIT_FAILURE);
+			close(saved_stdout);
+			ft_clear_all(data);
+			exit(EXIT_FAILURE);
 		}
 		close(output_fd);
 	}
@@ -123,7 +125,7 @@ static void	execute_redirection(t_cmd **cmd, t_data *data, int saved_stdout)
 		if ((*cmd)->operator == RD_IN)
 			perform_input_redirection(*cmd, data);
 		else if ((*cmd)->operator == RD_OUT || (*cmd)->operator == RD_APND)
-			perform_output_redirection(*cmd);
+			perform_output_redirection(*cmd, data, saved_stdout);
 		if ((*cmd)->next)
 			*cmd = (*cmd)->next;
 		else

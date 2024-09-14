@@ -6,7 +6,7 @@
 #    By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 11:43:39 by vsharma           #+#    #+#              #
-#    Updated: 2024/09/11 13:43:06 by vsharma          ###   ########.fr        #
+#    Updated: 2024/09/14 12:37:39 by vsharma          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ SRC = main.c \
 OBJ = $(SRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 LDFLAG = -lreadline
 
 BLUE = \033[1;34m

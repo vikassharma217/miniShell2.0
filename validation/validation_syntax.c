@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:57:35 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/12 11:24:44 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/14 13:07:34 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,12 @@ bool	invalid_syntax(char *str)
 			- 1] == '>' || str[ft_strlen(str) - 1] == '<')
 	{
 		return (true);
+	}
+	while(*str)
+	{
+		if (*str == '\n')
+			return (true);
+		str++;
 	}
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:03 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/09 14:05:10 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/14 12:15:21 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	pipe_child_process(t_cmd **cmd, int pipe_fd[2], t_data *data)
 		handle_pipe_error("dup2 failed in child process", data);
 	close(pipe_fd[1]);
 	run_child_process_execute(cmd, data);
-	//ft_clear_all(data);
+	ft_clear_all(data);
 	exit(EXIT_SUCCESS);
 }
 /*static void pipe_child_process(t_cmd **cmd, int pipe_fd[2], t_data *data)
@@ -61,8 +61,8 @@ static void	pipe_parent_process(t_cmd **cmd, int pipe_fd[2], t_data *data,
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		handle_pipe_error("dup2 failed in parent process", data);
 	close(pipe_fd[0]);
-	/*if (!str_equals((*cmd)->argv[0], "sleep"))
-		waitpid(child_pid, &status, 0);*/
+	if (!str_equals((*cmd)->argv[0], "sleep"))
+		waitpid(child_pid, &status, 0);
 	if ((*cmd)->next != NULL)
 	{
 		*cmd = (*cmd)->next;
