@@ -18,7 +18,19 @@ void	run_command_child(t_cmd **cmd, t_data *data)
 	if ((*cmd)->operator != NONE)
 	{
 		if ((*cmd)->operator != PIPE)
-			handle_redirections(cmd, data);
+		{
+			if ((*cmd)->operator != RD_HD)
+				handle_redirections(cmd, data);
+			else
+			{
+				if ((*cmd)->operator == RD_HD)
+				{
+					heredoc_handler(*cmd, data);
+					ft_clear_all(data);
+					exit(0);
+				}
+			}
+		}
 		else
 			pipe_execution(cmd, data);
 	}
@@ -49,7 +61,6 @@ static void	run_parent_process(pid_t child_pid, t_data *data)
 		data->exit_code = 128 + WTERMSIG(status);
 	else
 		data->exit_code = 1;
-	//ft_clear_all(data);
 }
 //child process, if command is pipe, redirection or system command
 //increasing the node cmd after cmd
