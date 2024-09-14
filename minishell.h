@@ -144,6 +144,10 @@ void							pipe_execution(t_cmd **cmd, t_data *data);
 /*redirections_handler.c*/
 void							handle_redirections(t_cmd **cmd, t_data *data);
 
+/*redirections_input_output.c*/
+void							perform_output_redirection(t_cmd *cmd);
+void							perform_input_redirection(t_cmd *cmd, t_data *data);
+
 /*heredoc_handler.c*/
 void							heredoc_handler(t_cmd *cmd, t_data *data);
 
