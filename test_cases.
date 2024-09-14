@@ -1,9 +1,0 @@
-echo hello | <file1 cat    -- still reachable leaks
-
-echo hello | cat file1      ---waits for enter to give back prompt
-
-echo hello | <file1 cat     -- still reachable leaks
-
-echo hello | cat file1      -- waits for enter to give back prompt
-
-<  or <  or |               -- invalid read size of 1      ========FIXED

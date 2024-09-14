@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:06:51 by vsharma           #+#    #+#             */
-/*   Updated: 2024/09/14 12:48:34 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/14 14:08:57 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,8 @@ void							handle_redirections(t_cmd **cmd, t_data *data);
 
 /*redirections_input_output.c*/
 void							perform_output_redirection(t_cmd *cmd);
-void							perform_input_redirection(t_cmd *cmd, t_data *data);
+void							perform_input_redirection(t_cmd *cmd,
+									t_data *data);
 
 /*heredoc_handler.c*/
 void							heredoc_handler(t_cmd *cmd, t_data *data);
