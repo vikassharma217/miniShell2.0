@@ -6,7 +6,7 @@
 /*   By: vsharma <vsharma@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 17:55:41 by rscherl           #+#    #+#             */
-/*   Updated: 2024/09/09 09:18:30 by vsharma          ###   ########.fr       */
+/*   Updated: 2024/09/14 11:40:47 by vsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	perform_output_redirection(t_cmd *cmd)
 			if (output_fd == -1)
 				close(output_fd);
 			perror("system function failed in perform output rd");
-			exit(EXIT_FAILURE);
+			//exit(EXIT_FAILURE);
 		}
 		close(output_fd);
 	}
