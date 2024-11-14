@@ -82,4 +82,5 @@ Extend support for more complex Bash features and syntaxes.
 
 Authors
 Vikas Sharma - Parsing and signal handeling
+
 Rene Scherl  - Excution and Redirection handeling
