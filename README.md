@@ -75,9 +75,12 @@ It does not handle advanced shell scripting or complex pipes/redirection combina
 Lack of support for job control (e.g., bg, fg commands).
 No support for wildcards (*) and other complex pattern matching.
 
-Future Improvements
+Future Improvements:
+
 Add job control features.
+
 Improve memory management and efficiency.
+
 Extend support for more complex Bash features and syntaxes.
 
 Authors
