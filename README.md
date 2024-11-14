@@ -1,4 +1,5 @@
-Minishell
+Minishell:
+
 Minishell is a simple command-line shell that emulates the functionality of Bash.
 Written in C, this project aims to replicate fundamental shell behaviors, including 
 handling environment variables, input/output redirections, command execution, and other shell built-ins.
@@ -78,6 +79,7 @@ Future Improvements
 Add job control features.
 Improve memory management and efficiency.
 Extend support for more complex Bash features and syntaxes.
+
 Authors
 Vikas Sharma - Parsing and signal handeling
 Rene Scherl  - Excution and Redirection handeling
